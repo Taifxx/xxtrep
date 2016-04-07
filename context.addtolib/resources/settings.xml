@@ -1,0 +1,29 @@
+<settings>
+    <category label="30080">
+        <setting id="callurl"    type="bool"      label="30060" default="true"/>
+        <setting id="updafter"   type="bool"      label="30052" default="true"/>
+        <setting id="bgupd"      type="bool"      label="30056" default="false"/>
+        <setting id="lnktimeout" type="slider"    label="30059" default="10" range="1,60" option="int"/>
+        <setting                 type="sep"       label=""/>
+        <setting id="fldrmov"    type="text"      label="30054" default="Movies"/>
+        <setting id="fldrtvs"    type="text"      label="30055" default="TV Shows"/>
+    </category>
+    <category label="30081">
+        <setting id="colorize"   type="bool"      label="30051" default="true"/>
+        <setting id="addupd"     type="bool"      label="30053" default="false"/>
+        <setting                 type="sep"       label=""/>
+        <setting id="mnuitmnum"  type="select"    label="30057" default="7" values="5|6|7|8|9|10|11|12"/>
+        <setting id="setpage"    type="select"    label="30058" default="1" values="1|2"/>
+    </category>
+    <category label="30082">
+        <setting id="playbcont"    type="bool"      label="30061" default="true"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="posupd"       type="number"    label="30062" default="10"    enable="eq(-2,true)"/>
+        <setting id="possleep"     type="number"    label="30063" default="60"    enable="eq(-3,true)"/>
+        <setting id="wchf"         type="bool"      label="30067" default="true"  enable="eq(-4,true)"/>
+        <setting id="wperc"        type="slider"    label="30064" default="92"    enable="eq(-5,true)+eq(-1,true)" range="1,100" option="int"/>
+        <setting id="autores"      type="bool"      label="30065" default="false" enable="eq(-6,true)"/>
+        <setting id="resdlg"       type="bool"      label="30066" default="true"  enable="eq(-7,true)+eq(-1,false)"/>
+        <setting id="seekafterbuf" type="bool"      label="30068" default="true"  enable="eq(-8,true)"/>
+    </category>
+</settings>
