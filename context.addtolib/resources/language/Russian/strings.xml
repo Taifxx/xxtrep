@@ -100,7 +100,7 @@
     <string id="30103">Введите [COLOR darkorange]название сериала[/COLOR]</string>
     <string id="30104">Введите [COLOR darkorange]номер[/COLOR] сезона</string>
     <!-- Titles -->
-    <string id="30150"> - [COLOR darkorange]%s[/COLOR]</string>
+    <string id="30150">[COLOR darkorange]%s[/COLOR]</string>
     <string id="30151">Введите название сериала:</string>
     <string id="30152">Выберите название сериала:</string>
     <string id="30153">Добавление сериала</string>
@@ -113,6 +113,7 @@
     <string id="30160">Восстановление</string>
     <string id="30161">Полная проверка</string>
     <string id="30162">Стр.: %s из [COLOR darkorange]%s[/COLOR]</string>
+    <string id="30163"> - [COLOR darkorange]%s[/COLOR]</string>
     <!-- Errors messages -->
     <string id="30201">[COLOR darkred]Элемент не является файлом[/COLOR]</string>
     <string id="30202">Введены неверные данные.</string>

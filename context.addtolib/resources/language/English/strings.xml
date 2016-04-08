@@ -113,6 +113,7 @@
     <string id="30160">Restoring</string>
     <string id="30161">Global cheking</string>
     <string id="30162">Pos.: %s of [COLOR darkorange]%s[/COLOR]</string>
+    <string id="30163"> - [COLOR darkorange]%s[/COLOR]</string>
     <!-- Errors messages -->
     <string id="30201">[COLOR darkred]Item is not a file[/COLOR]</string>
     <string id="30202">Entered incorrect data.</string>

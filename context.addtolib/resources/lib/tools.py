@@ -23,8 +23,6 @@ import time
 from resources.lib.deecode import *
 from resources.lib.const   import *
 
-#import resources.lib.gui as GUI
-
 ### Tools ...
 setLower       = lambda text : e(de(text).lower())
 setCap         = lambda text : e(de(text).capitalize())
@@ -69,85 +67,7 @@ def getUniqname(item, seq):
     for idx in range(len(seq)): 
         if uniqname not in seq : return uniqname  
         uniqname = '%s - %d' % (item, idx+1)
-    return uniqname
-
-# def setBoxed (text, strMaxLen, ignoreTagQ = Empty):
-#     if len(ignoreTagQ) == 2 :
-#         iTagS = ignoreTagQ[0]
-#         iTagE = ignoreTagQ[1]
-#         ignoreTags = True
-#     else:
-#         iTagS = Empty
-#         iTagE = Empty
-#         ignoreTags = False
-#     
-#     editText = text
-#     editText = editText.replace(NewLine, Space+NewLine)
-#     if ignoreTags :
-#         editText = editText.replace(iTagS, Space+iTagS+Space)
-#         editText = editText.replace(iTagE, Space+iTagE+Space)
-#         
-#     wordList = editText.split(Space)
-#     newwordList = []
-#     stopLen     = False
-#     curLineLen  = 0
-#     for word in wordList:
-#         if ignoreTags :  
-#             if word == iTagS : stopLen = True
-#             
-#         if stopLen : wordLen = 0  
-#         else       : wordLen = len(word) + 1
-#         
-#         if ignoreTags :  
-#             if word == iTagE : stopLen = False
-#              
-#         if curLineLen + wordLen > strMaxLen :
-#             curLineLen = wordLen
-#             newwordList.append(NewLine + word)
-#         else:
-#             curLineLen += wordLen
-#             newwordList.append(word)
-#             
-#         if word.startswith(NewLine): 
-#             curLineLen = 0
-#         
-#     editText = Space.join(newwordList)
-#     if ignoreTags :
-#         editText = editText.replace(Space+iTagS+Space, iTagS)
-#         editText = editText.replace(Space+iTagE+Space, iTagE)
-#     editText = editText.replace(Space+NewLine, NewLine)
-#                          
-#     return editText  
-#     
-# def setPaged(text, lineLimit):
-#     
-#     startpos  = 0
-#     endpos    = 0
-#     lineCount = 0
-#     pageNum   = 0
-#     pageList  = []
-#     
-#     #GUI.dlgOk(str( lineLimit ))
-#     while True:
-#     
-#         endpos = text.find(NewLine, endpos+1)
-#         if endpos != -1: 
-#             lineCount += 1
-#             if lineCount > lineLimit:
-#                 pageList.append(text[startpos:endpos+1])
-#                 pageNum += 1
-#                 startpos  = endpos+1
-#                 lineCount = 0
-#             
-#         else :
-#              
-#             pageList.append(text[startpos:len(text)])
-#             break
-#     
-#     return pageList
-#     
-         
-    
+    return uniqname  
      
     
     

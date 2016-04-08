@@ -40,23 +40,6 @@ __language__     = addon.localize
 def Main(): 
     if parseArgs() : plgMain()
     
-    
-    # GUI.dlgOk('Curr ' + str( LI.getTitle() ))
-    # GUI.dlgOk('Path ' + str( LI.getPath() ))
-    # GUI.dlgOk('isFolder ' + str( LI.isFolder() ))
-    # GUI.dlgOk('FPath ' + str( LI.getFolpath() ))
-    # GUI.dlgOk('Link ' + str( LI.getLink() ))
-    # GUI.dlgOk('CPath ' + str( LI.getCpath() ))
-    # GUI.dlgOk('CName ' + str( LI.getCname() ))
-    # GUI.dlgOk('CPlug ' + str( LI.getCplug() ))
-    # GUI.dlgOk('itmCount ' + str( LI.itemsCount() ))
-    # pth = LI.getCpath()
-    # lst = DOS.listdir(pth)[1]
-    
-    # GUI.dlgOk(str( lst ))
-    # DOS.file('test.strm', 'c:\\!!!\\', pth + lst[0], FWrite, True)
-       
-    
 
 ##### Main ...
 class plgMain():        
@@ -127,7 +110,6 @@ class plgMain():
                               TAG_CND_LISTEMPTY if self.items.vidIsEmpty   else Empty,
                               TAG_CND_NOUPD     if not addon.ADDUPD        else Empty}
         
-        #GUI.dlgOk(str( curVisCond ))
                               
         ## Define Main Menue ...
         self.MainMenue = tagMenue({'pos':0, 'tag':TAG_MNU_MOV,      'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_TYP_FOLDER}},
@@ -139,8 +121,8 @@ class plgMain():
                                   {'pos':5, 'tag':TAG_MNU_CHKNEWGL, 'hideCond':{}},
                                   {'pos':6, 'tag':TAG_MNU_VIDLIBU,  'hideCond':{TAG_CND_NOUPD}},
                                   {'pos':7, 'tag':TAG_MNU_VIDLIBCLN,'hideCond':{TAG_CND_NOUPD}},
-                                  #{'pos':8, 'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
-                                  {'pos':8, 'tag':TAG_MNU_SRCMAN,   'hideCond':{}},
+                                  {'pos':8, 'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
+                                  #{'pos':8, 'tag':TAG_MNU_SRCMAN,   'hideCond':{}},
                                   {'pos':9, 'tag':TAG_MNU_UPDMAN,   'hideCond':{TAG_CND_NOTFOUND}},
                                   {'pos':10,'tag':TAG_MNU_TVSMAN,   'hideCond':{}},         
                                   {'pos':1, 'tag':TAG_MNU_HELP,     'hideCond':{}, 'refPage':addon.SETPAGE-1},
@@ -338,7 +320,8 @@ class plgMain():
        oldName = self.TVS.lib_name 
        newName = GUI.dlgIn(tl(TAG_MNU_TVSREN), oldName)
        
-       if not errord(renameTVS(newName, self.TVS), TAG_ERR_OK_TVSREN, normName(oldName)):
+       prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
+       if not errord(renameTVS(newName, self.TVS, prefix), TAG_ERR_OK_TVSREN, normName(oldName)):
            self.linkTable.chpath(newPath, self.TVS.lib_path)
            self.libClean()
            self.libUpdate() 
@@ -449,15 +432,9 @@ class plgMain():
         
         if oldCont != self.usrc.link and not isWait(oldCont, LI.getCpath, addon.LNKTIMEOUT) : errord(TAG_ERR_DEDLINK); return TAG_MNU_CHKNEW 
         
-        # self.updtPage, result = self.updtMenue.show(self.updtPage)
-        # 
-        # if   result == TAG_MNU_SHDIR    : del self.usrc; return TAG_MNU_CANCEL 
-        # elif result == TAG_MNU_BACKMAIN : self.back();   return TAG_MNU_CHKNEW 
-        # elif result == TAG_MNU_TVSU     :
-        
         self.setLI()
          
-        if self.usrc.isf : self.mnu_updfol()
+        if self.usrc.isf : return rd #self.mnu_updfol()
         else             : self.mnu_tvsu(False)
         
         self.back()
@@ -608,7 +585,6 @@ class plgMain():
         
         rd = TAG_MNU_BACKMAIN
         
-        #resType = subMenue([TAG_MNU_DEFNMMOV, TAG_MNU_NEWNMMOV], title=titName(TAG_TTL_ADDMOV))
         resType = subMenue([TAG_MNU_DEFNMMOV, TAG_MNU_NEWNMMOV], title=self.items.vidCurr)
         
         newName = Empty
@@ -627,7 +603,6 @@ class plgMain():
     
         rd = TAG_MNU_BACKMAIN
                                                                   
-        #if not self.isFound : resType = subMenue([TAG_MNU_ADDNEW, TAG_MNU_ADDEXIST], title=titName(TAG_TTL_ADDTVS))
         if not self.isFound : resType = subMenue([TAG_MNU_ADDNEW, TAG_MNU_ADDEXIST, TAG_MNU_ADVADD], title=normName(self.TVS.lib_defname) if self.TVS.lib_defname else titName(TAG_TTL_ADDTVS))
         else                : resType = TAG_MNU_ADDNEW
         
@@ -785,10 +760,7 @@ class plgMain():
     def mnu_help(self): 
         help.showHelp()
         
-        #convEEEEE()
-        #rebuildLinkTable()
-        
-        return Empty           
+        return TAG_MNU_BACKMAIN           
         
         
     def mnu_set(self):

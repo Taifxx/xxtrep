@@ -22,22 +22,6 @@
 from resources.lib.ext import *
 from resources.lib.progress import *
 
-
-def convEEEEE():
-    
-    fname = TAG_PAR_TVSPACK_FILE 
-    
-    tvss = DOS.listdir(LIB.tvsf)[0]
-    
-    for deftvs in tvss:
-        #tvs = CTVS.TVS(fname, DOS.join(LIB.tvsf, deftvs), True, EEEEE=True)
-        #tvs.dexport()
-        tvs = CTVS.TVS(fname, DOS.join(LIB.tvsf, deftvs), True)
-        tvs.os_create(TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty, overwrite=True)
-        
-        del tvs             
-
-
 def confirm (tag, tvsName=Empty, srcName=Empty):
     if   tag == TAG_MNU_RESCAN     : text = tl(TAG_CFR_RESCAN) % (srcName)
     elif tag == TAG_MNU_REMSRC     : text = tl(TAG_CFR_REMSRC) % (srcName)
@@ -147,10 +131,11 @@ def rebuildLinkTable():
     return TAG_ERR_OK
 
 
-def renameTVS(newName, TVS):
+def renameTVS(newName, TVS, prefix):
     newFormName = CMP.create_name_once(newName, TAG_TYP_FOLDER)
     if not newFormName : return TAG_ERR_INCINPUT
     TVS.os_rename(newFormName)
+    TVS.os_create(prefix, overwrite=True)
     
     return TAG_ERR_OK
    

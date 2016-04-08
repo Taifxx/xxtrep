@@ -24,8 +24,6 @@ from resources.lib.const   import *
 from resources.lib.tools   import *
 
 ### Items ...
-#currentItemPos = int(xbmc.getInfoLabel('Container.CurrentItem'))
-#itemsCount     = int(xbmc.getInfoLabel('Container.NumItems'))
 currentItemPos = lambda : inte(xbmc.getInfoLabel('Container.CurrentItem'))
 itemsCount     = lambda : int(xbmc.getInfoLabel('Container.NumItems'))
 

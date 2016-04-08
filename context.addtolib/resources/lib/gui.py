@@ -28,9 +28,7 @@ from resources.lib.tags    import *
 
 ### Defaults ...
 defCaption = addon.name
-#defCaption = Empty
 defScript  = TAG_PAR_SCRIPT_ID
-#defScript  = Empty
 
 ### Message ...
 notInfo    = xbmcgui.NOTIFICATION_INFO

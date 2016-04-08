@@ -25,14 +25,12 @@ from resources.lib.tools    import *
 from resources.lib.const    import *
 from resources.lib.tags     import *
 
-import resources.lib.gui as GUI
-
 BGPROCESS = True
 
 ##### TVS Object ...
 class TVS:
        
-    def __init__(self, def_file_name, def_file_path=Empty, Import=False, EEEEE=False):
+    def __init__(self, def_file_name, def_file_path=Empty, Import=False):
         ## Pack file separators ...
         self._sepLST = TAG_PAR_TVSPACK_LSEP
         self._sepSRC = TAG_PAR_TVSPACK_SSEP + NewLine
@@ -40,22 +38,9 @@ class TVS:
         self._sepEPS = TAG_PAR_TVSPACK_ESEP + NewLine
         self._sepPRT = TAG_PAR_TVSPACK_PSEP + NewLine
         
-        if EEEEE:
-            self.clear()
-            self._file_name  = def_file_name
-            self.lib_path    = def_file_path
-            self.lib_name    = DOS.getdir(def_file_path) if def_file_path and Import else Empty 
-            self.lib_defname = DOS.getdir(def_file_path) if def_file_path else Empty
-            self.dimportEEEEE()
-            return
-        
         ## Define TVS ...
         self._define(def_file_name, def_file_path, Import)
-
-
-    # def __call__(self, def_file_name, def_file_path=Empty, Import=False):
-    #     ## Define TVS ...
-    #     self._define(def_file_name, def_file_path, Import)
+        
     
     def _define(self, def_file_name, def_file_path, Import):
         ## Set default param ...
@@ -102,11 +87,7 @@ class TVS:
     
     
     ### Exclude ...
-    def _exclude(self, value, mark, var):
-        # resList = []
-        # for itm in var :
-        #     if value != itm[mark] : resList.append(itm)
-        # return resList  
+    def _exclude(self, value, mark, var):  
         return [itm for itm in var if value != itm[mark]]
     
     def exclude_source(self, src_id):
@@ -164,11 +145,6 @@ class TVS:
             if itm['src_link'] == link : return itm['src_season'], itm['src_numb']
         return Empty, 0
     
-    # def get_frc_inum_by_name(self, frc_name):
-    #     for itm in self._folsources:
-    #         if itm['fsrc_name'] == frc_name : return itm['fsrc_inum']
-    #     return 0
-    
     ### Add target TVS to current TVS ...
     def join_tvs(self, TVS):
         srcId = dict()
@@ -205,37 +181,11 @@ class TVS:
         for frc in self._folsources:
             if frc['fsrc_link'] == frcLink : frc['fsrc_inum'] = frcInum; break    
     
-    ### Import and export tvs.pack
-    # def dimport(self):
-    #     self.packed_data = DOS.file(self._file_name, self.lib_path, fType=FRead)
-    #     self._unpack()
-    
-    ### + ONCE FOR HOME: 
+    ### Import and export tvs.pack 
     def dimport(self):
         self.packed_data = DOS.file(self._file_name, self.lib_path, fType=FRead)
         if self.packed_data == -1: self.packed_data = Empty
         self._unpack()
-    
-    def dimportEEEEE(self):
-        self.packed_data = DOS.file(self._file_name, self.lib_path, fType=FRead)
-        if self.packed_data == -1: self.packed_data = Empty 
-        self._unpackEEEEE()
-                
-    def _unpackEEEEE(self):
-        src, eps     = (self.packed_data.split(self._sepPRT))
-        self._episodes = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4)} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
-        
-        unE = dict(); c = 0; cid = 1
-        ll = len(self._episodes)
-        for i,epp in enumerate(self._episodes, 1):
-            if epp['src_id'] == cid : c+=1; 
-            else : unE.update({str(cid): c}); c = 1; cid = epp['src_id']
-            if ll == i : unE.update({str(cid): c})
-            
-        #GUI.dlgOk(str(unE))     
-        self._sources  = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':True, 'src_season':Empty, 'src_numb':unE[str(itm3)]} for itm in src.split(self._sepSRC) for itm1, itm2, itm3 in [itm.split(self._sepLST)]]
-        self.packed_data = Empty
-    ### - END ONCE
     
     def dexport(self):
         self._pack()

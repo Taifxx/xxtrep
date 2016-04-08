@@ -30,19 +30,11 @@ from resources.lib.tools   import *
 from resources.lib.tags    import *
 
 
-
 ### Set ...
-#addon = getinfo.addonInfo(TAG_PAR_SCRIPT_ID)
-#SET   = getinfo.setInfo(addon.addon)
 LIB   = lib.libPaths(addon.profile, TAG_PAR_LIB_FOLDER, addon.movFolder, addon.tvsFolder)
 
 resetfol = lambda : LIB.setlib(addon.profile, TAG_PAR_LIB_FOLDER, *addon.getlib())
    
-#GUI.defCaption = addon.name
-#GUI.defScript  = addon.id
-
-
 ### Remove tags in text ...
-#def tl (textTag) : return compsRemtag(addon.tlraw(textTag)) if not SET.COLORIZE else addon.tlraw(textTag)
 tl  = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) if not addon.COLORIZE else addon.tlraw(textTag)
 tla = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) 

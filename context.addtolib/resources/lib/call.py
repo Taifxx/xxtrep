@@ -224,7 +224,7 @@ class CMedInfo:
             
             for itm in cast: 
                 self.cast.append(itm['name'])
-                self.castandrole.append(itm['name'] + tl(TAG_TTL_NM) % (itm['role']))
+                if itm['role'] : self.castandrole.append(itm['name'] + tl(TAG_TTL_CAST) % (itm['role']))
             
             break
             
@@ -270,7 +270,7 @@ class CMedInfo:
             
             for itm in cast: 
                 self.cast.append(itm['name'])
-                self.castandrole.append(itm['name'] + tl(TAG_TTL_NM) % (itm['role']))
+                if itm['role'] : self.castandrole.append(itm['name'] + tl(TAG_TTL_CAST) % (itm['role']))
             
             break
              

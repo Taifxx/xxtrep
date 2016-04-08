@@ -25,7 +25,6 @@ from resources.lib.deecode import *
 from resources.lib.const   import *  
 from resources.lib.tools   import *
 
-
 ### OS funtions ... 
 copyf   = lambda  fpSrc, fpDest: xbmcvfs.copy (fpSrc, fpDest)
 delf    = lambda  path: xbmcvfs.delete  (path)
@@ -39,7 +38,7 @@ join    = lambda *args: os.path.join    (*jede(*args))
 rename  = lambda  path, newPath : xbmcvfs.rename (path, newPath)
 
 def mkdirs (path):
-    try    : os.makedirs(path)
+    try    : os.makedirs(esys(de(path)))
     except : pass
 
 def copyfls (pathSrc, pathDst, move=False):
@@ -75,6 +74,7 @@ def file(fName, fPath, fContent=Empty, fType=FWrite, fRew = True):
         if fType ==  FRead                         : return -1
     
     data = Empty
+    
     ofile = open(esys(de(path)), fType)
     if   fType in (FWrite, FAppend) : ofile.write(fContent)
     elif fType ==  FRead            : data = ofile.read()

@@ -184,6 +184,7 @@ TAG_TTL_ADVADD          = 30159
 TAG_TTL_RESTOREALL      = 30160
 TAG_TTL_CHKUPDGL        = 30161
 TAG_TTL_POSHLP          = 30162
+TAG_TTL_CAST            = 30163
 
 ### Ok messages ...
 TAG_ERR_OK              = 30301 

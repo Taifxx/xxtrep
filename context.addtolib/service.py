@@ -5,7 +5,7 @@
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 2 of the License, or
+#    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
@@ -32,10 +32,6 @@ __addonname__    = lib.common.__addonname__
 __version__      = lib.common.__version__
 __addonprofile__ = lib.common.__addonprofile__
 
-#import libraries
-#from lib.settings import get
-#from lib.utils import log
-#setting = get()
 
 # starts update/sync
 def autostart(): pass             
