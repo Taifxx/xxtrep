@@ -1,6 +1,6 @@
 {
   "name": "XXTREP",
   "tagline": "KODI Add-ons repository",
-  "body": "### About repository:\r\n***\r\nInstall Add-ons from XXTREP KODI Add-on Repository by _Taifxx_.\r\n\r\n**Available add-ons:** Add to Lib\r\n\r\n**DOWNLOAD repository (only):**  [xxtrep.repository](https://github.com/Taifxx/xxtrep/blob/master/repository.xxtrep.zip?raw=true)\r\n***\r\n\r\n### ADD-ONS:\r\n***\r\n`ADD TO LIB`",
+  "body": "### About repository:\r\n***\r\nInstall Add-ons from XXTREP KODI Add-on Repository by _Taifxx_.\r\n\r\n**Available add-ons:** Add to Lib\r\n\r\n**DOWNLOAD repository (only):**  [xxtrep.repository](https://github.com/Taifxx/xxtrep/blob/master/repository.xxtrep.zip?raw=true)\r\n***\r\n\r\n### Add-ons:\r\n***\r\n> **ADD TO LIB**\r\n>\r\n> Context menu item to add links to TV shows and movies from other add-ons in Kodi library, as .strm files. The addition allows you to check for new episodes and seasons, manage added content, and to receive full information from the library to playable .strm files. ",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
