@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -39,7 +39,6 @@ __language__     = addon.localize
 ##### Call ...
 def Main(): 
     if parseArgs() : plgMain()
-    
 
 ##### Main ...
 class plgMain():        
@@ -119,12 +118,13 @@ class plgMain():
                                   {'pos':3, 'tag':TAG_MNU_CHKNEW,   'hideCond':{TAG_CND_NOTFOUND}},
                                   {'pos':4, 'tag':TAG_MNU_OPEN,     'hideCond':{TAG_CND_NOTFOUND}},
                                   {'pos':5, 'tag':TAG_MNU_CHKNEWGL, 'hideCond':{}},
-                                  {'pos':6, 'tag':TAG_MNU_VIDLIBU,  'hideCond':{TAG_CND_NOUPD}},
-                                  {'pos':7, 'tag':TAG_MNU_VIDLIBCLN,'hideCond':{TAG_CND_NOUPD}},
-                                  {'pos':8, 'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
-                                  #{'pos':8, 'tag':TAG_MNU_SRCMAN,   'hideCond':{}},
-                                  {'pos':9, 'tag':TAG_MNU_UPDMAN,   'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':10,'tag':TAG_MNU_TVSMAN,   'hideCond':{}},         
+                                  {'pos':6, 'tag':TAG_MNU_RAWADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID}},
+                                  {'pos':7, 'tag':TAG_MNU_VIDLIBU,  'hideCond':{TAG_CND_NOUPD}},
+                                  {'pos':8, 'tag':TAG_MNU_VIDLIBCLN,'hideCond':{TAG_CND_NOUPD}},
+                                  {'pos':9, 'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
+                                  #{'pos':9, 'tag':TAG_MNU_SRCMAN,   'hideCond':{}},
+                                  {'pos':10,'tag':TAG_MNU_UPDMAN,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':11,'tag':TAG_MNU_TVSMAN,   'hideCond':{}},         
                                   {'pos':1, 'tag':TAG_MNU_HELP,     'hideCond':{}, 'refPage':addon.SETPAGE-1},
                                   {'pos':2, 'tag':TAG_MNU_SET,      'hideCond':{}, 'refPage':addon.SETPAGE-1},
                                   pageLimit = addon.MNUITMNUM,
@@ -198,6 +198,7 @@ class plgMain():
         elif self.result == TAG_MNU_RESTOREALL  : self.result = self.mnu_restoreall()
         elif self.result == TAG_MNU_RESCAN      : self.result = self.mnu_rescan()
         elif self.result == TAG_MNU_REBSTL      : self.result = self.mnu_rebstl()
+        elif self.result == TAG_MNU_RAWADD      : self.result = self.mnu_rawadd()
         elif self.result == TAG_MNU_MOV         : self.result = self.mnu_mov()
         elif self.result == TAG_MNU_TVS         : self.result = self.mnu_tvs()
         elif self.result == TAG_MNU_TVSU        : self.result = self.mnu_tvsu()
@@ -214,6 +215,7 @@ class plgMain():
         DOS.mkdirs(addon.profile)
         
         CTVS.BGPROCESS = addon.BGUPD
+        LI.DETVIDEXT   = addon.DETVIDEXT
     
         ## Define empty objects ...
         self.linkTable = None
@@ -302,6 +304,7 @@ class plgMain():
         
         if not errord(errn, TAG_ERR_OK_JOIN, normName(name)):  
             self.setTVS(path, True)
+            self.libClean()
             self.libUpdate()
                 
         return  rd
@@ -435,7 +438,10 @@ class plgMain():
         self.setLI()
          
         if self.usrc.isf : return rd #self.mnu_updfol()
-        else             : self.mnu_tvsu(False)
+        else             :
+            self.TVS.os_getraw()
+            if self.usrc.link not in self.TVS.get_raw_link_list() : self.mnu_tvsu  (False)
+            else                                                  : self.mnu_rawadd(True)
         
         self.back()
         self.setLI() 
@@ -580,8 +586,43 @@ class plgMain():
             
         return rd
                 
+                
+    def mnu_rawadd(self, update=False):
         
-    def mnu_mov(self):
+        rd = TAG_MNU_BACKMAIN
+        
+        ares = Empty
+        
+        if not update : resType = subMenue([TAG_MNU_MOV, TAG_MNU_TVS])
+        else          : resType = TAG_MNU_TVS
+        
+        if   resType == TAG_MNU_MOV:
+        
+            self.mnu_mov(rawadd=True)
+            
+        elif resType == TAG_MNU_TVS:
+            
+            eplist = [itm[0] for itm in self.items.vidListItemsRaw]
+            idxs   = range(len(eplist))
+            
+            selitems = subMenue(eplist, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, title=normName(self.TVS.lib_name),
+                                selMarkm=tl(TAG_MNU_SMM), multiSelDefList=idxs)
+            
+            if not selitems : return rd
+            
+            self.items.setmanually(selitems)
+              
+            if update : ares = self.mnu_tvsu(False)
+            else      : ares = self.mnu_tvs()
+            
+            if ares == TAG_MNU_CANCEL:
+                rawlist = [itm[0] for itm in self.items.vidListItemsRaw]
+                self.TVS.os_addraw(self.items.vidCPath, rawlist)
+        
+        return rd
+    
+        
+    def mnu_mov(self, rawadd=False):
         
         rd = TAG_MNU_BACKMAIN
         
@@ -592,7 +633,7 @@ class plgMain():
         elif resType == TAG_MNU_NEWNMMOV : newName = GUI.dlgIn(tl(TAG_TTL_ENTNAMEM)) 
         
         prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_MOV, TAG_PAR_REPFN) if addon.CALLURL else Empty
-        if not errord(addMOV(self.items, newName, prefix), TAG_ERR_OK_MOVADD):
+        if not errord(addMOV(self.items, newName, prefix, rawadd), TAG_ERR_OK_MOVADD):
             self.libUpdate()
             return TAG_MNU_CANCEL
             
@@ -607,7 +648,7 @@ class plgMain():
         else                : resType = TAG_MNU_ADDNEW
         
         if   resType == TAG_MNU_BACKMAIN : return rd
-        elif resType == TAG_MNU_ADVADD   : self.mnu_advadd() 
+        elif resType == TAG_MNU_ADVADD   : return self.mnu_advadd() 
         elif resType == TAG_MNU_ADDEXIST :
         
                 tvsNames, tvsPaths = getAllTVS()
@@ -654,7 +695,7 @@ class plgMain():
         result  = 0
         newPath = TAG_MNU_NEW if aTVS == newtvs else Empty
         
-        while result != -1:
+        while int(result) != -1:
         
             if not aSeason : aSeason = TAG_PAR_TVSDEFSEASON   
             aName2 = tl(TAG_MNU_DEFNM) if aName == defname else aName 
@@ -675,7 +716,6 @@ class plgMain():
             mList += [tl(TAG_MNU_STARTADD)]                      ; mVals += [5]
         
             result = subMenue(mList, mVals, cancelVal=-1, title=tl(TAG_TTL_ADVADD))
-        
         
             if   result == 0:
                 tvsNames, tvsPaths = getAllTVS()
@@ -705,7 +745,6 @@ class plgMain():
                     if aSeason : break
                 
             elif result == 5: 
-            
                 if aName2 == tl(TAG_MNU_DEFNM) and newPath == TAG_MNU_NEW and not confirm(TAG_MNU_DEFNM, aName) : continue
                 
                 if aSeqT  == TAG_MNU_SEQNUM :

@@ -1,1 +1,12 @@
-v1.0.1
+﻿v1.0.2
+
+BugFix:
+    - Fixed problem with russian language in menu
+    - Fixed problem with russian help
+    - Fixed 'remove special chars in name' filter (when add .strm)
+    - Fixed playback error when play not determined movie/tv show
+    - Other small bugfix 
+    
+New:
+    - Added 'Determine the file according extension in header' option 
+    - Added 'forced adding' mode (*testing)

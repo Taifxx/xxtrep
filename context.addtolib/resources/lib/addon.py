@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -60,7 +60,9 @@ WPERC          = int(addon.getSetting('wperc'))
 AUTORES        = _sbool(addon.getSetting('autores'))  
 RESDLG         = _sbool(addon.getSetting('resdlg'))
 
-SEEKAFTERBUF   = _sbool(addon.getSetting('seekafterbuf'))   
+SEEKAFTERBUF   = _sbool(addon.getSetting('seekafterbuf')) 
+
+DETVIDEXT      = _sbool(addon.getSetting('detvidext'))  
 
 movFolder      = addon.getSetting('fldrmov')
 tvsFolder      = addon.getSetting('fldrtvs')

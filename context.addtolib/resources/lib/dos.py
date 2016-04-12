@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -30,6 +30,7 @@ copyf   = lambda  fpSrc, fpDest: xbmcvfs.copy (fpSrc, fpDest)
 delf    = lambda  path: xbmcvfs.delete  (path)
 rmdir   = lambda  path: xbmcvfs.rmdir   (path)
 listdir = lambda  path: xbmcvfs.listdir (path)
+#listdir = lambda  path: os.listdir      (path)
 split   = lambda  path: os.path.split   (path)
 unsl    = lambda  path: os.path.normpath(path)
 getdir  = lambda  path: os.path.split   (unsl(path))[1]

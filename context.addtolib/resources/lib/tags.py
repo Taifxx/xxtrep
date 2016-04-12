@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2011-2014 Martijn Kaijser
 #
@@ -25,8 +25,10 @@ TAG_PAR_DEFAULT_DEBUG_EXT   = '.debf'
 
 TAG_PAR_SCRIPT_ID           = 'context.addtolib'
 TAG_PAR_TVSPACK_FILE        = 'tvs.pack'
+TAG_PAR_TVSRAWFILE          = 'tvs.eraw'
 TAG_PAR_STL_FILE            = 'linktable'
 TAG_PAR_TVSDEFSEASON        = '01' 
+TAG_PAR_VIDEOSEXT           = ['.avi', '.mpeg', '.wmv', 'asf', '.flv', '.mkv', '.mka', '.mp4', '.m4a', '.aac', '.ogg', '.ogm', '.ram', '.rm', '.rv', '.ra', '.rmvb', '.3gp']
 
 ### Help ...
 TAG_PAR_RESFOLDER           = 'resources'
@@ -143,6 +145,7 @@ TAG_MNU_ADVADD          = 30046
 TAG_MNU_CHKNEWGL        = 30047
 TAG_MNU_RESTOREALL      = 30048
 TAG_MNU_SMM             = 30049
+TAG_MNU_RAWADD          = 30050
 
 TAG_MNU_MORE            = 30090
 TAG_MNU_BACKMAIN        = 30091

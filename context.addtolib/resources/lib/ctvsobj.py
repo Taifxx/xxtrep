@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -61,6 +61,7 @@ class TVS:
         self._episodes   = []
         self._sources    = []
         self._folsources = []
+        self._rawlist    = []
         self.seq         = 0
     
     ### Inside append ... 
@@ -144,6 +145,9 @@ class TVS:
         for itm in self._sources:
             if itm['src_link'] == link : return itm['src_season'], itm['src_numb']
         return Empty, 0
+        
+    def get_raw_link_list(self):
+        return [itm[0] for itm in self._rawlist]
     
     ### Add target TVS to current TVS ...
     def join_tvs(self, TVS):
@@ -224,13 +228,22 @@ class TVS:
             slen = len(self._sources)+len(self._folsources)
             stepv = 100.0 / slen if slen else 100
         
+        self.os_getraw()
+        
         srcListNames  = []
         srcListLinks  = []
+        rawlinklist   = self.get_raw_link_list()
         for src in self._sources:
             progress.step(src['src_name'] if not globmsg else globmsg, stepv)
             if not src['src_upd']: continue
-            srcItmNum = len(DOS.listdir(src['src_link'])[1])
-            locEpsNum = len([eps['original_name'] for eps in self._episodes if eps['src_id'] == src['src_id']])
+            if src['src_link'] in rawlinklist: 
+                ld = DOS.listdir(src['src_link'])
+                srcItmNum = len(ld[0] + ld[1])
+                locEpsNum = len([itm[1] for itm in self._rawlist if itm[0] == src['src_link']])
+            else:
+                srcItmNum = len(DOS.listdir(src['src_link'])[1])
+                locEpsNum = len([eps['original_name'] for eps in self._episodes if eps['src_id'] == src['src_id']])
+                
             if srcItmNum != locEpsNum and srcItmNum != 0: 
                 srcListNames.append(src['src_name'])
                 srcListLinks.append(src['src_link'])
@@ -248,7 +261,8 @@ class TVS:
         
         if globp is None : del progress
                 
-        return srcListNames, srcListLinks, frcListNames, frcListLinks   
+        return srcListNames, srcListLinks, frcListNames, frcListLinks  
+         
     
     ### OS ...
     def os_clear(self):
@@ -277,6 +291,24 @@ class TVS:
     def _os_create_strm(self, fName, fPath, Link, Overwrite, prefix):
         svLink = prefix % (DOS.join(DOS.getdir(fPath), fName + STRM)) + Link if prefix else Link      
         DOS.file(fName + STRM, fPath, svLink, fRew = Overwrite)
+        
+    def os_addraw(self, link, itmlist):
+        rawepslist = [itm[1] for itm in self._rawlist] 
+        for itm in itmlist : 
+            if itm not in rawepslist : self._rawlist.append([link, itm])
+        
+        lined   = []
+        for itm in self._rawlist : lined.append(itm[0] + self._sepLST + itm[1])
+        rawdata = self._sepEPS.join(lined)
+        DOS.file(TAG_PAR_TVSRAWFILE, self.lib_path, rawdata, fRew = True)
+        del rawepslist, lined 
+        
+    def os_getraw (self):
+        unpraw = DOS.file(TAG_PAR_TVSRAWFILE, self.lib_path, self.lib_path, fType=FRead)
+        if unpraw == -1 : return 
+        lined  = unpraw.split(self._sepEPS)
+        self._rawlist = []
+        for itm in lined : self._rawlist.append(itm.split(self._sepLST))     
 
 
 class CLinkTable:

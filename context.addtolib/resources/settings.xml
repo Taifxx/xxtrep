@@ -1,6 +1,7 @@
-<settings>
+﻿<settings>
     <category label="30080">
         <setting id="callurl"    type="bool"      label="30060" default="true"/>
+        <setting id="detvidext"  type="bool"      label="30069" default="true"/>
         <setting id="updafter"   type="bool"      label="30052" default="true"/>
         <setting id="bgupd"      type="bool"      label="30056" default="false"/>
         <setting id="lnktimeout" type="slider"    label="30059" default="10" range="1,60" option="int"/>

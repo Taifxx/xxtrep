@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -47,6 +47,12 @@ class CPlayer(xbmc.Player):
         if addon.SEEKAFTERBUF : self.wait_buffering()
         self.seekTime(pos) 
         
+def simplerun(strmurl):
+    listitem = xbmcgui.ListItem (path=strmurl)
+    listitem.setProperty('IsPlayable', 'true')
+    xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
+    GUI.msg(tl(TAG_ERR_DEFEPS))
+
 
 def callSTRM(strmtype, strmurl, strmfile):
 
@@ -56,47 +62,48 @@ def callSTRM(strmtype, strmurl, strmfile):
     
     if not DOS.exists(DOS.join(prePath, strmfile)):
     
-        listitem = xbmcgui.ListItem (path=strmurl)
-        listitem.setProperty('IsPlayable', 'true')
-        xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
-        GUI.msg(tl(TAG_ERR_DEFEPS))
+        simplerun(strmurl)
     
     else:
     
         strmfileS = DOS.getdir(strmfile)
         strmfldrS = DOS.getdir(DOS.gettail(strmfile))
         
-        medinfo = CMedInfo(strmfldrS, strmfileS, strmtype)
+        try:
+         
+            medinfo = CMedInfo(strmfldrS, strmfileS, strmtype)
+            
+            #GUI.dlgOk(str( medinfo.art ))
+            #GUI.dlgOk(str( LI.getLi('artist') ))
+            #return
+            
+            listitem = xbmcgui.ListItem (path=strmurl)
+            listitem.setProperty('IsPlayable', 'true')
+            listitem.setArt(medinfo.art)
+            listitem.setIconImage(medinfo.img)
+            listitem.setThumbnailImage(medinfo.img)
+            
+            if strmtype == str(TAG_TYP_TVS):
+                infpar = {'Title': medinfo.title, 'Genre': medinfo.genre, 'Year': medinfo.year, 'Rating': medinfo.rating, 'Plot': medinfo.plot, 
+                          'Country': medinfo.country, 'tvshowtitle': medinfo.showtitle, 'director': medinfo.director,
+                          'votes': medinfo.votes, 'mpaa': medinfo.mpaa, 'studio': medinfo.studio, 'writer': medinfo.writer, 'season': medinfo.season, 
+                          'episode': medinfo.episode, 'originaltitle': medinfo.originaltitle, 'premiered': medinfo.date, 'aired': medinfo.date,
+                          'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
+            else:
+                infpar = {'Title': medinfo.title, 'Genre': medinfo.genre, 'Year': medinfo.year, 'Rating': medinfo.rating, 'Plot': medinfo.plot, 
+                          'Country': medinfo.country, 'director': medinfo.director,
+                          'votes': medinfo.votes, 'mpaa': medinfo.mpaa, 'studio': medinfo.studio, 'writer': medinfo.writer, 
+                          'originaltitle': medinfo.originaltitle, 'premiered': medinfo.date, 'aired': medinfo.date,
+                          'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
+            
+            listitem.setInfo('video', infpar)
+            
+            if addon.PLAYBCONT:
+                fargs = timefromsec(medinfo.pos, TAG_PAR_TIMENUMFORMAT, TAG_PAR_TIMESEP)
+                if addon.RESDLG and medinfo.pos and \
+                GUI.dlgSel([tl(TAG_MNU_RFROM) % (fargs[0],fargs[1],fargs[2],fargs[3],fargs[4]), tl(TAG_MNU_SFRBEGIN)], title=medinfo.title) == 1 : medinfo.resetpos()
         
-        #GUI.dlgOk(str( medinfo.art ))
-        #GUI.dlgOk(str( LI.getLi('artist') ))
-        #return
-        
-        listitem = xbmcgui.ListItem (path=strmurl)
-        listitem.setProperty('IsPlayable', 'true')
-        listitem.setArt(medinfo.art)
-        listitem.setIconImage(medinfo.img)
-        listitem.setThumbnailImage(medinfo.img)
-        
-        if strmtype == str(TAG_TYP_TVS):
-            infpar = {'Title': medinfo.title, 'Genre': medinfo.genre, 'Year': medinfo.year, 'Rating': medinfo.rating, 'Plot': medinfo.plot, 
-                      'Country': medinfo.country, 'tvshowtitle': medinfo.showtitle, 'director': medinfo.director,
-                      'votes': medinfo.votes, 'mpaa': medinfo.mpaa, 'studio': medinfo.studio, 'writer': medinfo.writer, 'season': medinfo.season, 
-                      'episode': medinfo.episode, 'originaltitle': medinfo.originaltitle, 'premiered': medinfo.date, 'aired': medinfo.date,
-                      'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
-        else:
-            infpar = {'Title': medinfo.title, 'Genre': medinfo.genre, 'Year': medinfo.year, 'Rating': medinfo.rating, 'Plot': medinfo.plot, 
-                      'Country': medinfo.country, 'director': medinfo.director,
-                      'votes': medinfo.votes, 'mpaa': medinfo.mpaa, 'studio': medinfo.studio, 'writer': medinfo.writer, 
-                      'originaltitle': medinfo.originaltitle, 'premiered': medinfo.date, 'aired': medinfo.date,
-                      'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
-        
-        listitem.setInfo('video', infpar)
-        
-        if addon.PLAYBCONT:
-            fargs = timefromsec(medinfo.pos, TAG_PAR_TIMENUMFORMAT, TAG_PAR_TIMESEP)
-            if addon.RESDLG and medinfo.pos and \
-            GUI.dlgSel([tl(TAG_MNU_RFROM) % (fargs[0],fargs[1],fargs[2],fargs[3],fargs[4]), tl(TAG_MNU_SFRBEGIN)], title=medinfo.title) == 1 : medinfo.resetpos() 
+        except : simplerun(strmurl); return 
         
         xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
         

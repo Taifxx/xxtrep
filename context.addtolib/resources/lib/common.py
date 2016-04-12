@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
@@ -216,9 +216,9 @@ def setupdSRC(fnames, snames, TVS):
     return TAG_ERR_OK
 
 
-def addMOV(items, newName, prefix):
+def addMOV(items, newName, prefix, rawadd=False):
 
-    if items.vidIsFolder : return TAG_ERR_NOTFILE  
+    if not rawadd and items.vidIsFolder : return TAG_ERR_NOTFILE  
     
     mov_name = CMP.create_name_once(newName if newName else items.vidCurr, TAG_TYP_PREFILE, TAG_TYP_FILE)
     svLink = prefix % (mov_name + STRM) + items.vidLink if prefix else items.vidLink
@@ -255,14 +255,17 @@ def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty):
         TVS.append_episode(item[0], file_name(), item[1], src_id)
         
     del file_name
+         
     TVS.os_create(prefix)
                         
     return TAG_ERR_OK
     
 
 def createName(name):
-    if not name    : return Empty
-    return CMP.create_name_once (name, TAG_TYP_FOLDER)
+    if not name : return Empty
+    ndir = CMP.create_name_once (name, TAG_TYP_FOLDER)
+    ntvs = CMP.create_name_once (name, TAG_TYP_FOLDER, TAG_TYP_TVS)
+    return ntvs if ntvs else ndir  
     
     
 def checkfile(items, linkTable, recurse=False):

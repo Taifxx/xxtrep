@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
@@ -94,7 +94,7 @@ def create_name (comps_item, *args, **kwargs):
                 if kwargs:
                         if   kwargs['Seq']    == True  : comps_item.add(PATTERN.add_seq   (kwargs['Episode']))
                         elif kwargs['Season'] != Empty : comps_item.add(PATTERN.add_season(kwargs['Season'], kwargs['Episode'])) 
-                comps_item.sub_compiled(Dot)
+                comps_item.sub_compiled(Dot, toself=True)
 
 
 def create_name_once (notFormatedName, *args, **kwargs):
@@ -125,8 +125,9 @@ class comps:
     def sub (self, pattern, rep_text=Empty):
         self.class_data = re.compile(pattern).sub(rep_text, self.class_data)
         
-    def sub_compiled  (self, rep_text=Empty):
-        return self.class_compile.sub(rep_text, self.class_data)
+    def sub_compiled  (self, rep_text=Empty, toself=False):
+        if toself : self.class_data = self.class_compile.sub(rep_text, self.class_data)
+        else : return self.class_compile.sub(rep_text, self.class_data)
     
     def add (self, data):
         self.class_data = data + self.class_data
