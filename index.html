@@ -52,9 +52,13 @@
 
 <blockquote>
 <p>Context menu item to add links to TV shows and movies from other add-ons in Kodi library, as .strm files. The addition allows you to check for new episodes and seasons, manage added content, and to receive full information from the library to playable .strm files. </p>
+
+<hr>
 </blockquote>
 
 <p><strong>FAQ: Problem with posters on Aeon MQ6:</strong></p>
+
+<hr>
 
 <p><em><strong>EN:</strong></em>
 The problem is that Aeon MQ6 is taken poster exclusively from FanArt. In add-on FanArt is transferring to the listitem element, which plays setResolvedUrl function. In Kodi there is a small bug, regarding setResolvedUrl function. Bug ignores ListItem.setArt(...) . Thus, make Aeon MQ6 to see the posters only by making adjustments in skin code.</p>
@@ -69,13 +73,15 @@ The problem is that Aeon MQ6 is taken poster exclusively from FanArt. In add-on 
 
 <p><code>...</code></p>
 
-<p><code>**&lt;value condition="!IsEmpty(Player.Art(thumb))"&gt;$INFO[Player.Art(thumb)]&lt;/value&gt;**</code></p>
+<p><code>&lt;value condition="!IsEmpty(Player.Art(thumb))"&gt;$INFO[Player.Art(thumb)]&lt;/value&gt;</code></p>
 
 <p><code>&lt;/variable&gt;</code></p>
 
 <p><strong>(!)</strong> Add it after other value condition, before closing the block <code>&lt;/variable&gt;</code></p>
 
 <p>To lazy to do it now fixed IncludesVariables.xml from version 3.3.0 : <a href="https://github.com/Taifxx/OtherFix/blob/master/AeonMQ6/IncludesVariables.xml">IncludesVariables.xml</a></p>
+
+<hr>
 
 <p><em><strong>RU:</strong></em>
 Проблема заключается в том, что в Aeon MQ6 постер берется исключительно из FanArt'а. В дополнении FanArt передается элементу listitem, который проигрывается функцией setResolvedUrl. в Kodi есть небольшой баг, относительно функции setResolvedUrl, который игнорирует инструкцию ListItem.setArt(...). Таким образом, заставить Aeon MQ6 видеть постеры можно только внеся коррективу в код самого скина.</p>
@@ -90,7 +96,7 @@ The problem is that Aeon MQ6 is taken poster exclusively from FanArt. In add-on 
 
 <p><code>...</code></p>
 
-<p><code>**&lt;value condition="!IsEmpty(Player.Art(thumb))"&gt;$INFO[Player.Art(thumb)]&lt;/value&gt;**</code></p>
+<p><code>&lt;value condition="!IsEmpty(Player.Art(thumb))"&gt;$INFO[Player.Art(thumb)]&lt;/value&gt;</code></p>
 
 <p><code>&lt;/variable&gt;</code></p>
 
