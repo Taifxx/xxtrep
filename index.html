@@ -53,6 +53,29 @@
 <blockquote>
 <p>Context menu item to add links to TV shows and movies from other add-ons in Kodi library, as .strm files. The addition allows you to check for new episodes and seasons, manage added content, and to receive full information from the library to playable .strm files. </p>
 </blockquote>
+
+<p><strong>FAQ: Problem with posters on Aeon MQ6:</strong></p>
+
+<p><em><strong>RU:</strong></em>
+Проблема заключается в том, что в Aeon MQ6 постер берется исключительно из FanArt'а. В дополнении FanArt передается элементу listitem, который проигрывается функцией setResolvedUrl. в Kodi есть небольшой баг, относительно функции setResolvedUrl, который игнорирует инструкцию ListItem.setArt(...). Таким образом, заставить Aeon MQ6 видеть постеры можно только внеся коррективу в код самого скина.</p>
+
+<p><em>Строка для добавления:</em></p>
+
+<p>Файл: Kodi\addons\skin.aeonmq6\720p\IncludesVariables.xml</p>
+
+<p>Блок: </p>
+
+<p><code>&lt;variable name="value_thumbfullscreen"&gt;</code></p>
+
+<p><code>...</code></p>
+
+<p><code>**&lt;value condition="!IsEmpty(Player.Art(thumb))"&gt;$INFO[Player.Art(thumb)]&lt;/value&gt;**</code></p>
+
+<p><code>&lt;/variable&gt;</code></p>
+
+<p><strong>(!)</strong> Добавить ее нужно после других value condition, перед закрытием блока </p>
+
+<p>Кому лень копаться вот исправленный файл IncludesVariables.xml из версии 3.3.0 : <a href="https://github.com/Taifxx/OtherFix/blob/master/AeonMQ6/IncludesVariables.xml">IncludesVariables.xml</a></p>
       </section>
     </div>
 
