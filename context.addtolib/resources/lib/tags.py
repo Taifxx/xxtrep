@@ -27,8 +27,11 @@ TAG_PAR_SCRIPT_ID           = 'context.addtolib'
 TAG_PAR_TVSPACK_FILE        = 'tvs.pack'
 TAG_PAR_TVSRAWFILE          = 'tvs.eraw'
 TAG_PAR_STL_FILE            = 'linktable'
+TAG_PAR_TVSUPD_FILE         = '.tvsupd'
+TAG_PAR_TVSUPDNOW_FILE      = '.updnow'
 TAG_PAR_TVSDEFSEASON        = '01' 
 TAG_PAR_VIDEOSEXT           = ['.avi', '.mpeg', '.wmv', 'asf', '.flv', '.mkv', '.mka', '.mp4', '.m4a', '.aac', '.ogg', '.ogm', '.ram', '.rm', '.rv', '.ra', '.rmvb', '.3gp']
+TAG_PAR_SETDEF              = 'Default'
 
 ### Help ...
 TAG_PAR_RESFOLDER           = 'resources'
@@ -51,6 +54,7 @@ TAG_PAR_TIMESEP             = ':'
 ### URL ...
 TAG_PAR_CALLURLTMPL         = 'plugin://%s//?#strmtype=#%s&#strmfile=#%s&#strmurl=#'
 TAG_PAR_REPFN               = '%s'
+TAG_PAR_ACTION              = 'action='
 
 ### tvs.pack separators ...
 TAG_PAR_TVSPACK_LSEP        = '<**LSTSEP**>'
@@ -91,6 +95,14 @@ TAG_CND_OLDSRC          = 10079
 TAG_CND_NOUPD           = 10080
 TAG_CND_NEWFRC          = 10081
 TAG_CND_OLDFRC          = 10082
+TAG_CND_UPDPRC          = 10083
+TAG_CND_NOUPDPRC        = 10084
+TAG_CND_NOGL            = 10085
+TAG_CND_NOACTION        = 10086
+TAG_CND_PLAY            = 10087
+
+### Free actions ...
+TAG_ACT_LPRESET         = 10200
 
 ### Language ...
 TAG_LNG_ID              = 30000
@@ -146,6 +158,8 @@ TAG_MNU_CHKNEWGL        = 30047
 TAG_MNU_RESTOREALL      = 30048
 TAG_MNU_SMM             = 30049
 TAG_MNU_RAWADD          = 30050
+TAG_MNU_BRWSREN         = 30051
+TAG_MNU_CONTUPD         = 30052
 
 TAG_MNU_MORE            = 30090
 TAG_MNU_BACKMAIN        = 30091
@@ -188,6 +202,8 @@ TAG_TTL_RESTOREALL      = 30160
 TAG_TTL_CHKUPDGL        = 30161
 TAG_TTL_POSHLP          = 30162
 TAG_TTL_CAST            = 30163
+TAG_TTL_BRWSREN         = 30164
+TAG_TTL_BRWSRENEP       = 30165
 
 ### Ok messages ...
 TAG_ERR_OK              = 30301 
@@ -208,6 +224,7 @@ TAG_ERR_OK_SETUPD       = 30315
 TAG_ERR_OK_VIDLIBU      = 30316
 TAG_ERR_OK_REBSTL       = 30317
 TAG_ERR_OK_RESTOREALL   = 30318
+TAG_ERR_OK_BRWSREN      = 30319
 
 ### Errors ...
 TAG_ERR_NOTFILE         = 30201
@@ -219,3 +236,4 @@ TAG_ERR_DEDLINK         = 30206
 TAG_ERR_NONAME          = 30207
 TAG_ERR_NONAME2         = 30208
 TAG_ERR_DEFEPS          = 30209
+

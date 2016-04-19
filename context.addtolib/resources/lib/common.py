@@ -42,7 +42,7 @@ def confirm (tag, tvsName=Empty, srcName=Empty):
 def errord (error, error_ok=Empty, tvsName=Empty):
 
     if tvsName : txtTTL = tl(TAG_TTL_NM) % (tvsName) 
-    else       : txtTTL = addon.name
+    else       : txtTTL = tl(TAG_TTL_NM) % (addon.name)
    
     if error == TAG_ERR_OK: GUI.msg (txtTTL, tl(error_ok)); return False
         
@@ -130,6 +130,100 @@ def rebuildLinkTable():
     
     return TAG_ERR_OK
 
+def saveTVSupd(sList, fList):
+    
+    fname = TAG_PAR_TVSUPD_FILE
+    
+    lSep = TAG_PAR_TVSPACK_LSEP
+    sSep = TAG_PAR_TVSPACK_SSEP
+    fSep = TAG_PAR_TVSPACK_FSEP 
+    eSep = TAG_PAR_TVSPACK_ESEP + NewLine
+    pSep = TAG_PAR_TVSPACK_PSEP + NewLine
+    
+    sList_packed = Empty
+    fList_packed = Empty
+        
+    if sList : sList_packed = eSep.join([fSep.join([itm['name'], itm['path'], itm['pack'], lSep.join(itm['ups'][0])+sSep+lSep.join(itm['ups'][1])]) for itm in sList])
+    if fList : fList_packed = eSep.join([fSep.join([itm['name'], itm['path'], itm['pack'], lSep.join(itm['ups'][0])+sSep+lSep.join(itm['ups'][1])]) for itm in fList]) 
+    pack = sList_packed+pSep+fList_packed  
+    
+    DOS.file(fname, LIB.lib, pack, fRew = True)
+
+
+def loadTVSupd():
+
+    fname = TAG_PAR_TVSUPD_FILE
+
+    pack = DOS.file(fname, LIB.lib, fType=FRead)
+    
+    fList = []
+    sList = []    
+    
+    if pack == -1 : return sList, fList
+    
+    lSep = TAG_PAR_TVSPACK_LSEP
+    sSep = TAG_PAR_TVSPACK_SSEP
+    fSep = TAG_PAR_TVSPACK_FSEP 
+    eSep = TAG_PAR_TVSPACK_ESEP + NewLine
+    pSep = TAG_PAR_TVSPACK_PSEP + NewLine
+    
+    sListPacked, fListPacked = pack.split(pSep)
+    
+    if sListPacked : sList = [{'name':itm2, 'path':itm3, 'pack':itm4, 'ups':[itm6.split(lSep), itm7.split(lSep)]} for itm in sListPacked.split(eSep) for itm2, itm3, itm4, itm5  in [itm.split(fSep)] for itm6, itm7 in [itm5.split(sSep)]]
+    if fListPacked : fList = [{'name':itm2, 'path':itm3, 'pack':itm4, 'ups':[itm6.split(lSep), itm7.split(lSep)]} for itm in fListPacked.split(eSep) for itm2, itm3, itm4, itm5  in [itm.split(fSep)] for itm6, itm7 in [itm5.split(sSep)]]   
+    
+    return sList, fList
+    
+    
+def clearTVSupd():
+    fname  = TAG_PAR_TVSUPD_FILE
+    fname2 = TAG_PAR_TVSUPDNOW_FILE
+    DOS.delf(DOS.join(LIB.lib, fname))    
+    DOS.delf(DOS.join(LIB.lib, fname2))
+   
+    
+def isGlUpProcess():
+    fname  = TAG_PAR_TVSUPD_FILE
+    fname2 = TAG_PAR_TVSUPDNOW_FILE
+    if DOS.exists(DOS.join(LIB.lib, fname)) and DOS.exists(DOS.join(LIB.lib, fname2)) : return True
+    else                                                                              : return False 
+    
+
+def updnow(updflag):
+    fname2 = TAG_PAR_TVSUPDNOW_FILE
+    if updflag : DOS.file(fname2, LIB.lib, Empty, fRew = True)
+    else       : DOS.delf(DOS.join(LIB.lib, fname2))
+
+def isUpdnow():
+    fname2 = TAG_PAR_TVSUPDNOW_FILE
+    if DOS.exists(DOS.join(LIB.lib, fname2)) : return True
+    else                                     : return False
+        
+
+def isNoGlUp():
+    fname  = TAG_PAR_TVSUPD_FILE
+    if DOS.exists(DOS.join(LIB.lib, fname)) : return False
+    else                                    : return True
+    
+
+def remLinkTVSupd(path, link):
+    sList, fList = loadTVSupd()
+    lfind = False
+    for itm in fList:
+        if itm['path'] == path: 
+            for idx, itm2 in enumerate(itm['ups'][1]): 
+                if itm2 == link: 
+                    itm['ups'][0].pop(idx)
+                    itm['ups'][1].pop(idx)
+                    lfind = True
+                    break        
+              
+        if not itm['ups'][0] : fList.remove(itm)
+        if lfind : break
+    
+    if sList or fList : saveTVSupd(sList, fList)
+    else              : clearTVSupd()
+
 
 def renameTVS(newName, TVS, prefix):
     newFormName = CMP.create_name_once(newName, TAG_TYP_FOLDER)
@@ -205,6 +299,8 @@ def addFolSRC(items, TVS):
 def updFolSRC(items, TVS):
     TVS.reset_inum(items.vidCPath, items.vidFolCount)
     TVS.dexport()
+    
+    remLinkTVSupd(TVS.lib_path, items.vidCPath)
 
     return TAG_ERR_OK
     
@@ -212,6 +308,12 @@ def updFolSRC(items, TVS):
 def setupdSRC(fnames, snames, TVS):
     TVS.set_upd(fnames, snames)
     TVS.dexport()
+    
+    return TAG_ERR_OK
+    
+
+def renEPS(TVS, reslink, newName, oldname, prefix):
+    TVS.os_rename_eps(reslink, newName, oldname, prefix)
     
     return TAG_ERR_OK
 
@@ -443,5 +545,13 @@ class CSRC:
     
     def getsrc(self):
         return self.names[self.frclen:], self.links[self.frclen:] 
+    
+    def clone(self, nofrc=False):
+        tsrc_names, tsrc_links = self.getsrc()
+        
+        if nofrc : tfrc_names = []; tfrc_links = []
+        else     : tfrc_names, tfrc_links = self.getfrc() 
+        
+        return CSRC(tsrc_names, tsrc_links, tfrc_names, tfrc_links)
         
     

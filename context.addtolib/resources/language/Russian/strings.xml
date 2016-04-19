@@ -53,30 +53,8 @@
     <string id="30048">[COLOR darkorange]Восстановить все[/COLOR] сериалы</string>
     <string id="30049">[COLOR darkorange](+)[/COLOR] </string>
     <string id="30050">[COLOR darkorange]Принудительное[/COLOR] добавление</string>
-    <!-- Settings -->
-    <string id="30051">Делать цветными элементы в меню и сообщениях</string>
-    <string id="30052">Обновить (Очистить) видео библиотеку после некоторых действий</string>
-    <string id="30053">Добавить в меню пункты 'Обновить' и 'Очистить' видео библиотеку</string>
-    <string id="30054">Название папки фильмов</string>
-    <string id="30055">Название папки сериалов</string>
-    <string id="30056">Проверять наличие новых эпизодов в фоне</string>
-    <string id="30057">Число пунктов меню дополнения на странице</string>
-    <string id="30058">Номер страницы содержащей пункты Настройки и Помощи</string>
-    <string id="30059">Время ожидания открытия ссылки</string>
-    <string id="30060">Вызываемые URL в .strm</string>
-    <string id="30061">Контроль воспроизведения</string>
-    <string id="30062">Обновлять информацию о позиции каждые (сек.)</string>
-    <string id="30063">Не изменять информацию о позиции первые (сек.)</string>
-    <string id="30064">Считать просмотренным после просмотра (%)</string>
-    <string id="30065">Автоматически продолжать с места последней остановки</string>
-    <string id="30066">Показывать диалог 'Продолжить с' (не заменяет стандартный диалог)</string>
-    <string id="30067">Статус 'Просмотрено' в соответствии с процентом просмотра</string>
-    <string id="30068">Ожидать окончания буферизации перед возобновлением позиции</string>
-    <string id="30069">Определять файл по расширению в заголовке</string>
-    <!-- Settings categories -->
-    <string id="30080">Основные</string>
-    <string id="30081">Меню</string>
-    <string id="30082">Воспроизведение</string>
+    <string id="30051">[COLOR darkorange]Обзор и переименование[/COLOR] эпизодов</string>
+    <string id="30052">[COLOR darkorange]Продолжить[/COLOR] последнее обновление</string>
     <!-- Static Menue Items -->
     <string id="30090">...</string>
     <string id="30091">[COLOR darkorange]*[/COLOR] Назад</string>
@@ -116,6 +94,8 @@
     <string id="30161">Полная проверка</string>
     <string id="30162">Стр.: %s из [COLOR darkorange]%s[/COLOR]</string>
     <string id="30163"> - [COLOR darkorange]%s[/COLOR]</string>
+    <string id="30164">%s ( %s: %s )</string>
+    <string id="30165">Введите новое название эпизода:</string>
     <!-- Errors messages -->
     <string id="30201">[COLOR darkred]Элемент не является файлом[/COLOR]</string>
     <string id="30202">Введены неверные данные.</string>
@@ -145,4 +125,35 @@
     <string id="30316">[COLOR darkorange]Видио Библиотека[/COLOR] обновлена</string>
     <string id="30317">Сериалы [COLOR darkorange]переиндексированы[/COLOR]</string>
     <string id="30318">Сериалы [COLOR darkorange]восстановлены[/COLOR]</string>
+    <string id="30319">Название эпизода [COLOR darkorange]измененно[/COLOR]</string>
+    <!-- Settings -->
+    <string id="30401">Делать цветными элементы в меню и сообщениях</string>
+    <string id="30402">Обновить (Очистить) видео библиотеку после некоторых действий</string>
+    <string id="30403">Добавить в меню пункты 'Обновить' и 'Очистить' видео библиотеку</string>
+    <string id="30404">Название папки фильмов</string>
+    <string id="30405">Название папки сериалов</string>
+    <string id="30406">Проверять наличие новых эпизодов в фоне</string>
+    <string id="30407">Число пунктов меню дополнения на странице</string>
+    <string id="30408">Номер страницы содержащей пункты Настройки и Помощи</string>
+    <string id="30409">Время ожидания открытия ссылки</string>
+    <string id="30410">Вызываемые URL в .strm</string>
+    <string id="30411">Контроль воспроизведения</string>
+    <string id="30412">Обновлять информацию о позиции каждые (сек.)</string>
+    <string id="30413">Не изменять информацию о позиции первые (сек.)</string>
+    <string id="30414">Считать просмотренным после просмотра (%)</string>
+    <string id="30415">Автоматически продолжать с места последней остановки</string>
+    <string id="30416">Показывать диалог 'Продолжить с' (не заменяет стандартный диалог)</string>
+    <string id="30417">Статус 'Просмотрено' в соответствии с процентом просмотра</string>
+    <string id="30418">Ожидать окончания буферизации перед возобновлением позиции</string>
+    <string id="30419">Определять файл по расширению в заголовке</string>
+    <string id="30420">Расположение библиотеки дополнения</string>
+    <string id="30421">По умолчанию</string>
+    <string id="30422">> Установить расположение библиотеки дополнения по умолчанию</string>
+    <string id="30423">> Обновить видео библиотеку</string>
+    <string id="30424">> Очистить видео библиотеку</string>
+    <!-- Settings categories -->
+    <string id="30480">Основные</string>
+    <string id="30481">Меню</string>
+    <string id="30482">Воспроизведение</string>
+    <string id="30483">Библиотека</string>
 </strings>

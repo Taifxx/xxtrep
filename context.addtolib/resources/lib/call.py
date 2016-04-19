@@ -45,7 +45,8 @@ class CPlayer(xbmc.Player):
         
     def seek(self, pos):
         if addon.SEEKAFTERBUF : self.wait_buffering()
-        self.seekTime(pos) 
+        #self.seekTime(pos)
+        GUI.seekPlay(pos) 
         
 def simplerun(strmurl):
     listitem = xbmcgui.ListItem (path=strmurl)
@@ -124,12 +125,14 @@ def callSTRM(strmtype, strmurl, strmfile):
                 if wtime1 > addon.POSSLEEP : possleep = False
              
 
-
 def parseArgs():
-    kwargs=get_params()
-    if not kwargs : return True
-    callSTRM(**kwargs) 
-    return False 
+    try    : argv1 = sys.argv[1]
+    except : argv1 = Empty
+    if argv1 and argv1.startswith(TAG_PAR_ACTION) : return int(argv1.replace(TAG_PAR_ACTION, Empty))
+    kwargs = get_params()
+    if not kwargs : return TAG_CND_NOACTION
+    callSTRM(**kwargs)
+    return TAG_CND_PLAY 
     
     
 def get_params():

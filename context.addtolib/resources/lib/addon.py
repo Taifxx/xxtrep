@@ -66,6 +66,9 @@ DETVIDEXT      = _sbool(addon.getSetting('detvidext'))
 
 movFolder      = addon.getSetting('fldrmov')
 tvsFolder      = addon.getSetting('fldrtvs')
+_libpath       = addon.getSetting('libpath')
+
+libpath        = _libpath if _libpath != TAG_PAR_SETDEF else profile 
 
 def getlib() : return addon.getSetting('fldrmov'), addon.getSetting('fldrtvs')
     

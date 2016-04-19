@@ -1,30 +1,37 @@
 ﻿<settings>
-    <category label="30080">
-        <setting id="callurl"    type="bool"      label="30060" default="true"/>
-        <setting id="detvidext"  type="bool"      label="30069" default="true"/>
-        <setting id="updafter"   type="bool"      label="30052" default="true"/>
-        <setting id="bgupd"      type="bool"      label="30056" default="false"/>
-        <setting id="lnktimeout" type="slider"    label="30059" default="10" range="1,60" option="int"/>
+    <category label="30480">
+        <setting id="callurl"    type="bool"      label="30410" default="true"/>
+        <setting id="detvidext"  type="bool"      label="30419" default="true"/>
+        <setting id="bgupd"      type="bool"      label="30406" default="false"/>
+        <setting id="lnktimeout" type="slider"    label="30409" default="10" range="1,60" option="int"/>
         <setting                 type="sep"       label=""/>
-        <setting id="fldrmov"    type="text"      label="30054" default="Movies"/>
-        <setting id="fldrtvs"    type="text"      label="30055" default="TV Shows"/>
+        <setting id="actupdvl"   type="action"    label="30423" action="RunScript(special://home/addons/context.addtolib/context.py, action=30009)" option="close"/>
+        <setting id="actclnvl"   type="action"    label="30424" action="RunScript(special://home/addons/context.addtolib/context.py, action=30027)" option="close"/>
     </category>
-    <category label="30081">
-        <setting id="colorize"   type="bool"      label="30051" default="true"/>
-        <setting id="addupd"     type="bool"      label="30053" default="false"/>
+    <category label="30481">
+        <setting id="colorize"   type="bool"      label="30401" default="true"/>
+        <setting id="addupd"     type="bool"      label="30403" default="false"/>
         <setting                 type="sep"       label=""/>
-        <setting id="mnuitmnum"  type="select"    label="30057" default="7" values="5|6|7|8|9|10|11|12"/>
-        <setting id="setpage"    type="select"    label="30058" default="1" values="1|2"/>
+        <setting id="mnuitmnum"  type="select"    label="30407" default="7" values="5|6|7|8|9|10|11|12"/>
+        <setting id="setpage"    type="select"    label="30408" default="1" values="1|2"/>
     </category>
-    <category label="30082">
-        <setting id="playbcont"    type="bool"      label="30061" default="true"/>
+    <category label="30483">
+        <setting id="updafter"   type="bool"      label="30402" default="true"/>
+        <setting id="libpath"    type="folder"    label="30420" default="Default" option="writeable"/>
+        <setting id="fldrmov"    type="text"      label="30404" default="Movies"/>
+        <setting id="fldrtvs"    type="text"      label="30405" default="TV Shows"/>
+        <setting                 type="sep"       label=""/>
+        <setting id="actreslibp" type="action"    label="30422" action="RunScript(special://home/addons/context.addtolib/context.py, action=10200)" option="close"/>
+    </category>
+    <category label="30482">
+        <setting id="playbcont"    type="bool"      label="30411" default="true"/>
         <setting                   type="sep"       label=""/>
-        <setting id="posupd"       type="number"    label="30062" default="10"    enable="eq(-2,true)"/>
-        <setting id="possleep"     type="number"    label="30063" default="60"    enable="eq(-3,true)"/>
-        <setting id="wchf"         type="bool"      label="30067" default="true"  enable="eq(-4,true)"/>
-        <setting id="wperc"        type="slider"    label="30064" default="92"    enable="eq(-5,true)+eq(-1,true)" range="1,100" option="int"/>
-        <setting id="autores"      type="bool"      label="30065" default="false" enable="eq(-6,true)"/>
-        <setting id="resdlg"       type="bool"      label="30066" default="true"  enable="eq(-7,true)+eq(-1,false)"/>
-        <setting id="seekafterbuf" type="bool"      label="30068" default="true"  enable="eq(-8,true)"/>
+        <setting id="posupd"       type="number"    label="30412" default="10"    enable="eq(-2,true)"/>
+        <setting id="possleep"     type="number"    label="30413" default="60"    enable="eq(-3,true)"/>
+        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-4,true)"/>
+        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-5,true)+eq(-1,true)" range="1,100" option="int"/>
+        <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-6,true)"/>
+        <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-7,true)+eq(-1,false)"/>
+        <setting id="seekafterbuf" type="bool"      label="30418" default="true"  enable="eq(-8,true)"/>
     </category>
 </settings>

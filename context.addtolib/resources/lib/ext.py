@@ -31,9 +31,9 @@ from resources.lib.tags    import *
 
 
 ### Set ...
-LIB   = lib.libPaths(addon.profile, TAG_PAR_LIB_FOLDER, addon.movFolder, addon.tvsFolder)
+LIB   = lib.libPaths(addon.libpath, TAG_PAR_LIB_FOLDER, addon.movFolder, addon.tvsFolder)
 
-resetfol = lambda : LIB.setlib(addon.profile, TAG_PAR_LIB_FOLDER, *addon.getlib())
+resetfol = lambda : LIB.setlib(addon.libpath, TAG_PAR_LIB_FOLDER, *addon.getlib())
    
 ### Remove tags in text ...
 tl  = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) if not addon.COLORIZE else addon.tlraw(textTag)

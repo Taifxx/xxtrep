@@ -109,6 +109,10 @@ class TVS:
     ### Get ...    
     def get_eps_names_and_links(self):
         return {eps['new_name']: eps['link'] for eps in self._episodes}
+    
+    def get_eps_names_and_links_forsrc(self, src_link):
+        src_id = self.get_src_id(src_link)
+        return [eps['new_name'] for eps in self._episodes if eps['src_id'] == src_id], [eps['link'] for eps in self._episodes if eps['src_id'] == src_id] 
         
     def get_names_and_links(self):
         return [src['src_name'] for src in self._sources], [src['src_link'] for src in self._sources], \
@@ -128,6 +132,11 @@ class TVS:
     def get_src_name_by_link(self, link):
         for itm in self._sources:
             if itm['src_link'] == link : return itm['src_name']
+        return Empty
+        
+    def get_eps_name_by_link(self, link):
+        for itm in self._episodes:
+            if itm['link'] == link : return itm['new_name']
         return Empty 
     
     def get_direct(self):
@@ -164,7 +173,7 @@ class TVS:
         for eps in epsExt:
             self.append_episode(eps['original_name'], eps['new_name'], eps['link'], srcId[eps['src_id']])
     
-    ### Rename source ... 
+    ### Rename ... 
     def rensource(self, srcOldName, srcNewName):
         for src in self._sources:
             if src['src_name'] == srcOldName : src['src_name'] = srcNewName   
@@ -172,6 +181,10 @@ class TVS:
     def renfsource(self, frcOldName, frcNewName):
         for frc in self._folsources:
             if frc['fsrc_name'] == frcOldName : frc['fsrc_name'] = frcNewName
+    
+    def ren_eps(self, link, newname):
+        for itm in self._episodes:
+            if itm['link'] == link : itm['new_name'] = newname; break   
     
     ### Set updateble flags ...
     def set_upd(self, fcrNames, scrNames):
@@ -308,7 +321,13 @@ class TVS:
         if unpraw == -1 : return 
         lined  = unpraw.split(self._sepEPS)
         self._rawlist = []
-        for itm in lined : self._rawlist.append(itm.split(self._sepLST))     
+        for itm in lined : self._rawlist.append(itm.split(self._sepLST))  
+        
+    def os_rename_eps(self, link, newname, oldname, prefix):
+        DOS.delf(DOS.join(self.lib_path, oldname) + STRM)
+        self._os_create_strm(newname, self.lib_path, link, True, prefix)
+        self.ren_eps(link, newname)
+        self.dexport()   
 
 
 class CLinkTable:

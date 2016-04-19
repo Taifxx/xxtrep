@@ -70,9 +70,11 @@ def dlgSelmul (sargs, selMark, title=defCaption, selDef=None):
     return resList
 
 ### Actions ...
+conok     = lambda      : xbmc.executebuiltin('Action(Ok)', True)
 back      = lambda      : xbmc.executebuiltin('Action(Back)', True)
 refresh   = lambda      : xbmc.executebuiltin('Container.Refresh')
 libUpdate = lambda      : xbmc.executebuiltin('UpdateLibrary(video)', True)
 libClean  = lambda      : xbmc.executebuiltin('CleanLibrary(video)', True)
 openSet   = lambda      : xbmc.executebuiltin('Addon.OpenSettings(%s)' % (defScript), True)
 goTarget  = lambda link : xbmc.executebuiltin('container.update(%s)' % (link))
+seekPlay  = lambda pos  : xbmc.executebuiltin('seek(%s)' % (pos), True)

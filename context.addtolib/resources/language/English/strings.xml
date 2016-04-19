@@ -53,30 +53,8 @@
     <string id="30048">[COLOR darkorange]Restore all[/COLOR] TV Shows</string>
     <string id="30049">[COLOR darkorange](+)[/COLOR] </string>
     <string id="30050">[COLOR darkorange]Forced[/COLOR] add</string>
-    <!-- Settings -->
-    <string id="30051">Colorize menue and messages</string>
-    <string id="30052">Update (Clean) video library after action</string>
-    <string id="30053">Add Update and Clean video library items to main menue</string>
-    <string id="30054">Movies folder name</string>
-    <string id="30055">TV Shows folder name</string>
-    <string id="30056">Checking for new episodes in background</string>
-    <string id="30057">Number of main menue items on page</string>
-    <string id="30058">Page main menu contains the items Settings and Help</string>
-    <string id="30059">Waiting time for opening link</string>
-    <string id="30060">Callable URL in .strm</string>
-    <string id="30061">To contol playback</string>
-    <string id="30062">Update information about the position (sec.)</string>
-    <string id="30063">Do not change information about the position within (sec.)</string>
-    <string id="30064">The percentage of watched status definition</string>
-    <string id="30065">Automatically resume from the last position at the start of playback</string>
-    <string id="30066">Show 'Resume from' plugin dialog (does not replace the standard dialog)</string>
-    <string id="30067">Change watched status by the percentage of playback progress</string>
-    <string id="30068">Wait buffering end before resume</string>
-    <string id="30069">Determine the file according extension in header</string>
-    <!-- Settings categories -->
-    <string id="30080">General</string>
-    <string id="30081">Main menue</string>
-    <string id="30082">Playback</string>
+    <string id="30051">[COLOR darkorange]Episodes[/COLOR] browsing and renaming</string>
+    <string id="30052">[COLOR darkorange]Continue[/COLOR] last update</string>
     <!-- Static Menue Items -->
     <string id="30090">...</string>
     <string id="30091">[COLOR darkorange]*[/COLOR] Back</string>
@@ -102,7 +80,7 @@
     <string id="30103">Enter the [COLOR darkorange]TV Show name[/COLOR]</string>
     <string id="30104">Enter the [COLOR darkorange]number[/COLOR] of the season</string>
     <!-- Titles -->
-    <string id="30150"> - [COLOR darkorange]%s[/COLOR]</string>
+    <string id="30150">[COLOR darkorange]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
     <string id="30152">Choose TV Show name:</string>
     <string id="30153">Add TV Show</string>
@@ -116,6 +94,8 @@
     <string id="30161">Global cheking</string>
     <string id="30162">Pos.: %s of [COLOR darkorange]%s[/COLOR]</string>
     <string id="30163"> - [COLOR darkorange]%s[/COLOR]</string>
+    <string id="30164">%s ( %s: %s )</string>
+    <string id="30165">Enter new episode name:</string>
     <!-- Errors messages -->
     <string id="30201">[COLOR darkred]Item is not a file[/COLOR]</string>
     <string id="30202">Entered incorrect data.</string>
@@ -145,4 +125,35 @@
     <string id="30316">[COLOR darkorange]Video Library[/COLOR] updated</string>
     <string id="30317">TV Shows [COLOR darkorange]re-indexed[/COLOR]</string>
     <string id="30318">TV Shows [COLOR darkorange]restored[/COLOR]</string>
+    <string id="30319">Episode name [COLOR darkorange]changed[/COLOR]</string>
+    <!-- Settings -->
+    <string id="30401">Colorize menue and messages</string>
+    <string id="30402">Update (Clean) video library after action</string>
+    <string id="30403">Add Update and Clean video library items to main menue</string>
+    <string id="30404">Movies folder name</string>
+    <string id="30405">TV Shows folder name</string>
+    <string id="30406">Checking for new episodes in background</string>
+    <string id="30407">Number of main menue items on page</string>
+    <string id="30408">Page main menu contains the items Settings and Help</string>
+    <string id="30409">Waiting time for opening link</string>
+    <string id="30410">Callable URL in .strm</string>
+    <string id="30411">To contol playback</string>
+    <string id="30412">Update information about the position (sec.)</string>
+    <string id="30413">Do not change information about the position within (sec.)</string>
+    <string id="30414">The percentage of watched status definition</string>
+    <string id="30415">Automatically resume from the last position at the start of playback</string>
+    <string id="30416">Show 'Resume from' plugin dialog (does not replace the standard dialog)</string>
+    <string id="30417">Change watched status by the percentage of playback progress</string>
+    <string id="30418">Wait buffering end before resume</string>
+    <string id="30419">Determine the file according extension in header</string>
+    <string id="30420">Add-on library path</string>
+    <string id="30421">Default</string>
+    <string id="30422">> Set add-on library path as default</string>
+    <string id="30423">> Update video library</string>
+    <string id="30424">> Clean video library</string>
+    <!-- Settings categories -->
+    <string id="30480">General</string>
+    <string id="30481">Main menue</string>
+    <string id="30482">Playback</string>
+    <string id="30483">Library</string>
 </strings>

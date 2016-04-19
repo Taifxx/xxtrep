@@ -1,4 +1,5 @@
-﻿# -*- coding: utf-8 -*-
+﻿#!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -36,9 +37,12 @@ __addonpath__    = addon.path
 __icon__         = addon.icon
 __language__     = addon.localize
 
+
 ##### Call ...
-def Main(): 
-    if parseArgs() : plgMain()
+def Main():
+    arg = parseArgs()
+    if   arg == TAG_CND_NOACTION : plgMain()
+    elif arg != TAG_CND_PLAY     : plgMain(arg)
 
 ##### Main ...
 class plgMain():        
@@ -90,7 +94,7 @@ class plgMain():
         GUI.back()
      
         
-    def doAction(self):
+    def doAction(self, action=Empty):
         ## Redefine values ... 
         self.setSRC() 
         self.isNewSource    = self.src.isnewsrc(self.items.vidCPath)
@@ -99,32 +103,35 @@ class plgMain():
         ## Delete existing menues ...
         try    : del self.MainMenue, self.tvsmMenue, self.srcmMenue, self.updtMenue 
         except : pass
-         
+        
         ## Define Visible conditions ...
-        curVisCond         = {self.container, 
+        curVisCond         = {self.container,
                               TAG_CND_NOTFOUND  if not self.isFound        else TAG_CND_FOUND,
                               TAG_CND_NEWSRC    if self.isNewSource        else TAG_CND_OLDSRC,
                               TAG_CND_NEWFRC    if self.isNewFolSource     else TAG_CND_OLDFRC,
                               TAG_TYP_FOLDER    if self.items.vidIsFolder  else TAG_TYP_FILE,
                               TAG_CND_LISTEMPTY if self.items.vidIsEmpty   else Empty,
-                              TAG_CND_NOUPD     if not addon.ADDUPD        else Empty}
+                              TAG_CND_NOUPD     if not addon.ADDUPD        else Empty,
+                              TAG_CND_UPDPRC    if isGlUpProcess()         else TAG_CND_NOUPDPRC,
+                              TAG_CND_NOGL      if isNoGlUp()              else Empty}
         
                               
         ## Define Main Menue ...
         self.MainMenue = tagMenue({'pos':0, 'tag':TAG_MNU_MOV,      'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_TYP_FOLDER}},
                                   {'pos':1, 'tag':TAG_MNU_TVS,      'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY, TAG_CND_OLDSRC}},
-                                  {'pos':1, 'tag':TAG_MNU_TVSU,     'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY, TAG_CND_NEWSRC}},
-                                  {'pos':2, 'tag':TAG_MNU_UPDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NEWFRC}},
-                                  {'pos':3, 'tag':TAG_MNU_CHKNEW,   'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':4, 'tag':TAG_MNU_OPEN,     'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':5, 'tag':TAG_MNU_CHKNEWGL, 'hideCond':{}},
-                                  {'pos':6, 'tag':TAG_MNU_RAWADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID}},
-                                  {'pos':7, 'tag':TAG_MNU_VIDLIBU,  'hideCond':{TAG_CND_NOUPD}},
-                                  {'pos':8, 'tag':TAG_MNU_VIDLIBCLN,'hideCond':{TAG_CND_NOUPD}},
-                                  {'pos':9, 'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
-                                  #{'pos':9, 'tag':TAG_MNU_SRCMAN,   'hideCond':{}},
-                                  {'pos':10,'tag':TAG_MNU_UPDMAN,   'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':11,'tag':TAG_MNU_TVSMAN,   'hideCond':{}},         
+                                  {'pos':2, 'tag':TAG_MNU_TVSU,     'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY, TAG_CND_NEWSRC}},
+                                  {'pos':3, 'tag':TAG_MNU_UPDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NEWFRC}},
+                                  {'pos':4, 'tag':TAG_MNU_CONTUPD,  'hideCond':{TAG_CND_NOUPDPRC}},
+                                  {'pos':5, 'tag':TAG_MNU_CHKNEW,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':6, 'tag':TAG_MNU_OPEN,     'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':7, 'tag':TAG_MNU_CHKNEWGL, 'hideCond':{}},
+                                  {'pos':8, 'tag':TAG_MNU_CONTUPD,  'hideCond':{TAG_CND_UPDPRC, TAG_CND_NOGL}},
+                                  {'pos':9, 'tag':TAG_MNU_RAWADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID}},
+                                  {'pos':10,'tag':TAG_MNU_VIDLIBU,  'hideCond':{TAG_CND_NOUPD}},
+                                  {'pos':11,'tag':TAG_MNU_VIDLIBCLN,'hideCond':{TAG_CND_NOUPD}},
+                                  {'pos':12,'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
+                                  {'pos':13,'tag':TAG_MNU_UPDMAN,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':14,'tag':TAG_MNU_TVSMAN,   'hideCond':{}},         
                                   {'pos':1, 'tag':TAG_MNU_HELP,     'hideCond':{}, 'refPage':addon.SETPAGE-1},
                                   {'pos':2, 'tag':TAG_MNU_SET,      'hideCond':{}, 'refPage':addon.SETPAGE-1},
                                   pageLimit = addon.MNUITMNUM,
@@ -152,10 +159,11 @@ class plgMain():
         
         self.srcmMenue = tagMenue({'pos':0, 'tag':TAG_MNU_ADDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_OLDFRC}},
                                   #{'pos':0, 'tag':TAG_MNU_UPDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NEWFRC}},
-                                  {'pos':1, 'tag':TAG_MNU_ADVADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY}},   
-                                  {'pos':2, 'tag':TAG_MNU_REMSRC,   'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':3, 'tag':TAG_MNU_RESCAN,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NOTFOUND, TAG_CND_NEWSRC}},
-                                  {'pos':4, 'tag':TAG_MNU_SRCREN,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':1, 'tag':TAG_MNU_ADVADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY}},
+                                  {'pos':2, 'tag':TAG_MNU_BRWSREN,  'hideCond':{TAG_CND_NOTFOUND}},   
+                                  {'pos':3, 'tag':TAG_MNU_REMSRC,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':4, 'tag':TAG_MNU_RESCAN,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NOTFOUND, TAG_CND_NEWSRC}},
+                                  {'pos':5, 'tag':TAG_MNU_SRCREN,   'hideCond':{TAG_CND_NOTFOUND}},
                                   pageLimit = addon.MNUITMNUM,
                                   cancelTag = TAG_MNU_BACKMAIN, 
                                   backTag   = TAG_MNU_BACK, 
@@ -174,9 +182,12 @@ class plgMain():
     
         ## Show Main menue ...
         if self.result not in [TAG_MNU_TVS,     TAG_MNU_TVSU,   TAG_MNU_TVSMAN, TAG_MNU_SRCMAN, TAG_MNU_DELETE, 
-                               TAG_MNU_RESTORE, TAG_MNU_TVSREN, TAG_MNU_REMSRC, TAG_MNU_SRCREN, TAG_MNU_CHKNEW]:
+                               TAG_MNU_RESTORE, TAG_MNU_TVSREN, TAG_MNU_REMSRC, TAG_MNU_SRCREN, TAG_MNU_CHKNEW,
+                               TAG_MNU_BRWSREN] and not action:
                                              
-                                             self.pageNum,  self.result = self.MainMenue.show(self.pageNum)                  
+                                             self.pageNum,  self.result = self.MainMenue.show(self.pageNum)
+        elif action : self.result = action 
+                          
         ## Show Sub menues ...   
         if   self.result == TAG_MNU_SRCMAN : self.srcmPage, self.result = self.srcmMenue.show(self.srcmPage)  
         elif self.result == TAG_MNU_TVSMAN : self.tvsmPage, self.result = self.tvsmMenue.show(self.tvsmPage) 
@@ -185,6 +196,7 @@ class plgMain():
         if   self.result == TAG_MNU_CANCEL      : pass
         elif self.result == TAG_MNU_ADDFOL      : self.result = self.mnu_addfol()
         elif self.result == TAG_MNU_UPDFOL      : self.result = self.mnu_updfol()
+        elif self.result == TAG_MNU_BRWSREN     : self.result = self.mnu_brwsren()
         elif self.result == TAG_MNU_JOIN        : self.result = self.mnu_join()
         elif self.result == TAG_MNU_TVSREN      : self.result = self.mnu_tvsren()
         elif self.result == TAG_MNU_SRCREN      : self.result = self.mnu_scrren()
@@ -193,6 +205,7 @@ class plgMain():
         elif self.result == TAG_MNU_SHOWALL     : self.result = self.mnu_showall()
         elif self.result == TAG_MNU_CHKNEW      : self.result = self.mnu_chknew()
         elif self.result == TAG_MNU_CHKNEWGL    : self.result = self.mnu_chknewgl()
+        elif self.result == TAG_MNU_CONTUPD     : self.result = self.mnu_chknewgl(True)
         elif self.result == TAG_MNU_DELETE      : self.result = self.mnu_delete()
         elif self.result == TAG_MNU_RESTORE     : self.result = self.mnu_restore()
         elif self.result == TAG_MNU_RESTOREALL  : self.result = self.mnu_restoreall()
@@ -208,11 +221,12 @@ class plgMain():
         elif self.result == TAG_MNU_SET         : self.result = self.mnu_set()
         elif self.result == TAG_MNU_VIDLIBU     : self.result = self.mnu_vidlibu()
         elif self.result == TAG_MNU_VIDLIBCLN   : self.result = self.mnu_vidlibcln()
+        elif self.result == TAG_ACT_LPRESET     : self.result = self.act_lpreset()
     
     
-    def __init__(self):
+    def __init__(self, action=Empty):
         ## Create Addon Profile folder ...
-        DOS.mkdirs(addon.profile)
+        DOS.mkdirs(addon.libpath)
         
         CTVS.BGPROCESS = addon.BGUPD
         LI.DETVIDEXT   = addon.DETVIDEXT
@@ -222,7 +236,10 @@ class plgMain():
         self.items     = None
         self.TVS       = None
         self.src       = None
-    
+        
+        self.fListUPD  = []
+        self.sListUPD  = []
+            
         ## Set defaults ...
         self.setLI()
         self.setLinkTable()
@@ -236,7 +253,7 @@ class plgMain():
         self.updtPage = 0
         
         ## Start main menue process ...
-        while self.result != TAG_MNU_CANCEL : self.doAction()
+        while self.result != TAG_MNU_CANCEL : self.doAction(action)
         
         ## Delete all objects ...
         del self.srcmMenue, self.tvsmMenue, self.updtMenue, self.MainMenue, self.src, self.items, self.TVS, self.linkTable 
@@ -265,6 +282,36 @@ class plgMain():
         rd = TAG_MNU_CANCEL
                                                                  
         errord(updFolSRC(self.items, self.TVS), TAG_ERR_OK_UPDFOL, normName(self.TVS.lib_name))
+        
+        return rd
+        
+        
+    def mnu_brwsren(self):
+    
+        rd = TAG_MNU_BRWSREN
+        
+        srccl = self.src.clone(nofrc=True)
+        
+        mdefault = srccl.getlinkidx(self.items.vidCPath)
+        srccl(subMenue(srccl.remnames, srccl.idxs, cancelVal=-1, default=mdefault, defidx=0, 
+                          title=titName(TAG_MNU_BRWSREN, self.TVS.lib_name)))
+                          
+        if not srccl.isidx : return TAG_MNU_SRCMAN
+        
+        while True: 
+        
+            epsnames, epslinks = self.TVS.get_eps_names_and_links_forsrc(srccl.link)
+            
+            reslink = subMenue(epsnames, epslinks, cancelVal=Empty, title=tl(TAG_TTL_BRWSREN) % (tla(TAG_MNU_BRWSREN), normName(self.TVS.lib_name), srccl.name))
+            
+            if not reslink : return rd
+            
+            oldname = self.TVS.get_eps_name_by_link(reslink)
+            newName = GUI.dlgIn(tl(TAG_TTL_BRWSRENEP), oldname)
+            
+            if oldname != newName:
+                prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty          
+                errord(renEPS(self.TVS, reslink, newName, oldname, prefix), TAG_ERR_OK_BRWSREN, normName(self.TVS.lib_name)) 
         
         return rd
     
@@ -413,7 +460,8 @@ class plgMain():
     
         rd = TAG_MNU_CANCEL
         
-        self.chkfull = False
+        self.chkfull    = False
+        updnow(False)
         
         try    : self.usrc
         except : self.usrc = CSRC(*self.TVS.check_new_eps(titName(TAG_TTL_CHKUPD, self.TVS.lib_name)))
@@ -437,7 +485,7 @@ class plgMain():
         
         self.setLI()
          
-        if self.usrc.isf : return rd #self.mnu_updfol()
+        if self.usrc.isf : updnow(True); return rd 
         else             :
             self.TVS.os_getraw()
             if self.usrc.link not in self.TVS.get_raw_link_list() : self.mnu_tvsu  (False)
@@ -456,33 +504,44 @@ class plgMain():
         
         return rd 
         
+        
+    def mnu_chknewgl(self, updreload=False):
     
-    def mnu_chknewgl(self):
+        updnow(False)
+        if updreload : self.sListUPD, self.fListUPD = loadTVSupd()
+        resgl = self._mnu_chknewgl(updreload)
+        if self.sListUPD or self.fListUPD : saveTVSupd(self.sListUPD, self.fListUPD)
+        else                              : clearTVSupd() 
+        
+        return resgl 
+        
+    
+    def _mnu_chknewgl(self, updreload=False):
     
         rd = TAG_MNU_CANCEL
     
-        sList, fList = globalUpdateCheck()
+        if not updreload : self.sListUPD, self.fListUPD = globalUpdateCheck()
         
         while True:
         
-            if not sList and not fList : errord(TAG_ERR_OK, TAG_ERR_OK_CHKNEW); return rd
+            if not self.sListUPD and not self.fListUPD : errord(TAG_ERR_OK, TAG_ERR_OK_CHKNEW); return rd
         
-            tvsNames  = [tl(TAG_MNU_SRE) + normName(itm['name']) for itm in fList] + [normName(itm['name']) for itm in sList] 
+            tvsNames  = [tl(TAG_MNU_SRE) + normName(itm['name']) for itm in self.fListUPD] + [normName(itm['name']) for itm in self.sListUPD] 
             tvsVals   = range(len(tvsNames))
         
             result = subMenue(tvsNames, tvsVals, cancelVal=-1, title=titName(TAG_MNU_CHKNEWGL))
             
             if result == -1 : return TAG_MNU_BACKMAIN
             
-            if result < len(fList) : idx = result;            self.setTVS(fList[idx]['path'], True); name = fList[idx]['name'] 
-            else                   : idx = result-len(fList); self.setTVS(sList[idx]['path'], True); name = sList[idx]['name']
+            if result < len(self.fListUPD) : idx = result;            self.setTVS(self.fListUPD[idx]['path'], True); name = self.fListUPD[idx]['name'] 
+            else                   : idx = result-len(self.fListUPD); self.setTVS(self.sListUPD[idx]['path'], True); name = self.sListUPD[idx]['name']
             
             flst = [[], []]
-            for itm in fList:
+            for itm in self.fListUPD:
                 if itm['name'] == name : flst = [itm['ups'][0], itm['ups'][1]]; break
             
             slst = [[], []]
-            for itm in sList:
+            for itm in self.sListUPD:
                 if itm['name'] == name : slst = [itm['ups'][0], itm['ups'][1]]; break
             
             lst = slst + flst 
@@ -494,24 +553,26 @@ class plgMain():
                 upres = self.mnu_chknew() 
                 
                 idxf = -1; idxs = -1 
-                for i, itm in enumerate(fList):   
+                for i, itm in enumerate(self.fListUPD):   
                     if itm['name'] == name : idxf = i; break
-                for i, itm in enumerate(sList):   
+                for i, itm in enumerate(self.sListUPD):   
                     if itm['name'] == name : idxs = i; break
                      
-                try    : fList[idxf]['ups'] = self.usrc.getfrc()
+                try    : self.fListUPD[idxf]['ups'] = self.usrc.getfrc()
                 except : pass
-                try    : sList[idxs]['ups'] = self.usrc.getsrc()   
+                try    : self.sListUPD[idxs]['ups'] = self.usrc.getsrc()   
                 except : pass
                  
-                if idxf > -1 and (not fList[idxf]['ups'][0] or self.chkfull) : fList.pop(idxf)
-                if idxs > -1 and (not sList[idxs]['ups'][0] or self.chkfull) : sList.pop(idxs)
+                if idxf > -1 and (not self.fListUPD[idxf]['ups'][0] or self.chkfull) : self.fListUPD.pop(idxf)
+                if idxs > -1 and (not self.sListUPD[idxs]['ups'][0] or self.chkfull) : self.sListUPD.pop(idxs)
                 
                 if upres == TAG_MNU_BACKMAIN : break
-                if upres == TAG_MNU_CANCEL   : break
+                if upres == TAG_MNU_CANCEL   : 
+                    if isUpdnow() : return TAG_MNU_CANCEL
+                    else          : break 
                     
             del tvsNames, tvsVals
-            if not sList and not fList : break
+            if not self.sListUPD and not self.fListUPD : break
             
         return rd
                    
@@ -817,13 +878,22 @@ class plgMain():
                    
     
     def mnu_vidlibu(self):                                                                            
-        self.libUpdate(True, True) 
+        self.libUpdate(True, True)
+        
+        return TAG_MNU_CANCEL 
         
         
     def mnu_vidlibcln(self):                                                              
         self.libClean (True)
         self.libUpdate(False, True)
-
+        
+        return TAG_MNU_CANCEL
+    
+    
+    def act_lpreset(self):
+        addon.addon.setSetting('libpath', TAG_PAR_SETDEF)
+    
+        return TAG_MNU_CANCEL
 
 
 ##### Start main ...
