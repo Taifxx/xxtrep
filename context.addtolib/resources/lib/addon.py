@@ -58,11 +58,13 @@ POSSLEEP       = int(addon.getSetting('possleep'))
 WCHF           = _sbool(addon.getSetting('wchf'))   
 WPERC          = int(addon.getSetting('wperc'))    
 AUTORES        = _sbool(addon.getSetting('autores'))  
-RESDLG         = _sbool(addon.getSetting('resdlg'))
+RESDLG         = _sbool(addon.getSetting('resdlg')) 
 
-SEEKAFTERBUF   = _sbool(addon.getSetting('seekafterbuf')) 
+DETVIDEXT      = _sbool(addon.getSetting('detvidext'))
 
-DETVIDEXT      = _sbool(addon.getSetting('detvidext'))  
+WAITBSEEK      = int(addon.getSetting('waitbseek')) 
+
+EODGEN         = _sbool(addon.getSetting('eodgen'))  
 
 movFolder      = addon.getSetting('fldrmov')
 tvsFolder      = addon.getSetting('fldrtvs')

@@ -3,7 +3,7 @@
         <setting id="callurl"    type="bool"      label="30410" default="true"/>
         <setting id="detvidext"  type="bool"      label="30419" default="true"/>
         <setting id="bgupd"      type="bool"      label="30406" default="false"/>
-        <setting id="lnktimeout" type="slider"    label="30409" default="10" range="1,60" option="int"/>
+        <setting id="lnktimeout" type="slider"    label="30409" default="20" range="1,60" option="int"/>
         <setting                 type="sep"       label=""/>
         <setting id="actupdvl"   type="action"    label="30423" action="RunScript(special://home/addons/context.addtolib/context.py, action=30009)" option="close"/>
         <setting id="actclnvl"   type="action"    label="30424" action="RunScript(special://home/addons/context.addtolib/context.py, action=30027)" option="close"/>
@@ -28,10 +28,12 @@
         <setting                   type="sep"       label=""/>
         <setting id="posupd"       type="number"    label="30412" default="10"    enable="eq(-2,true)"/>
         <setting id="possleep"     type="number"    label="30413" default="60"    enable="eq(-3,true)"/>
-        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-4,true)"/>
-        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-5,true)+eq(-1,true)" range="1,100" option="int"/>
-        <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-6,true)"/>
-        <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-7,true)+eq(-1,false)"/>
-        <setting id="seekafterbuf" type="bool"      label="30418" default="true"  enable="eq(-8,true)"/>
+        <setting id="waitbseek"    type="number"    label="30418" default="3"     enable="eq(-4,true)"/>
+        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-5,true)"/>
+        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-6,true)+eq(-1,true)" range="1,100" option="int"/>
+        <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-7,true)"/>
+        <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-8,true)+eq(-1,false)"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="eodgen"       type="bool"      label="30425" default="false"/>
     </category>
 </settings>

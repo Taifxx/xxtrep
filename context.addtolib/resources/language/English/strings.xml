@@ -144,13 +144,14 @@
     <string id="30415">Automatically resume from the last position at the start of playback</string>
     <string id="30416">Show 'Resume from' plugin dialog (does not replace the standard dialog)</string>
     <string id="30417">Change watched status by the percentage of playback progress</string>
-    <string id="30418">Wait buffering end before resume</string>
+    <string id="30418">Wait before resume (sec.)</string>
     <string id="30419">Determine the file according extension in header</string>
     <string id="30420">Add-on library path</string>
     <string id="30421">Default</string>
     <string id="30422">> Set add-on library path as default</string>
     <string id="30423">> Update video library</string>
     <string id="30424">> Clean video library</string>
+    <string id="30425">Bypass playback (if 'Opening Stream' dialog problem)</string>
     <!-- Settings categories -->
     <string id="30480">General</string>
     <string id="30481">Main menue</string>

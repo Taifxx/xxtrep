@@ -1,4 +1,16 @@
-﻿v1.0.3
+﻿v1.0.4
+BugFix:
+    - Fixed problem with resuming position dialog when 'Automatically resume...' option is on
+    - Fixed problem with resuming position when TV Show theme playing 
+    - Fixed problem with 'rescan current source'  
+Remove:
+    - Removed 'Wait buffering before seek' option   
+New:
+    - Added 'Wait before resume' option
+    - Added 'Bypass playback' option (if 'Opening Stream' dialog problem)
+    
+
+v1.0.3
 BugFix:
     - Small bugfixes    
 New:

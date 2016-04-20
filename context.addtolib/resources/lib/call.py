@@ -40,13 +40,14 @@ class CPlayer(xbmc.Player):
         return True
     
     def wait_buffering(self):
-        _oldpos = self.getTime() if self.isPlaying() else 0 
-        while self.isPlaying() and _oldpos == self.getTime() : wait(1)
+        wait(1); _oldpos = self.getTime() if self.isPlaying() else 0 
+        while self.isPlaying() and _oldpos == self.getTime(): wait(1) 
         
     def seek(self, pos):
-        if addon.SEEKAFTERBUF : self.wait_buffering()
+        if addon.WAITBSEEK : wait(addon.WAITBSEEK) 
         #self.seekTime(pos)
         GUI.seekPlay(pos) 
+        
         
 def simplerun(strmurl):
     listitem = xbmcgui.ListItem (path=strmurl)
@@ -56,6 +57,8 @@ def simplerun(strmurl):
 
 
 def callSTRM(strmtype, strmurl, strmfile):
+
+    GUI.stopPlay()
 
     player = CPlayer()
     
@@ -101,10 +104,12 @@ def callSTRM(strmtype, strmurl, strmfile):
             
             if addon.PLAYBCONT:
                 fargs = timefromsec(medinfo.pos, TAG_PAR_TIMENUMFORMAT, TAG_PAR_TIMESEP)
-                if addon.RESDLG and medinfo.pos and \
+                if addon.RESDLG and medinfo.pos and not addon.AUTORES and \
                 GUI.dlgSel([tl(TAG_MNU_RFROM) % (fargs[0],fargs[1],fargs[2],fargs[3],fargs[4]), tl(TAG_MNU_SFRBEGIN)], title=medinfo.title) == 1 : medinfo.resetpos()
         
         except : simplerun(strmurl); return 
+        
+        if addon.EODGEN : xbmcplugin.endOfDirectory(int(sys.argv[1]))
         
         xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
         

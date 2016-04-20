@@ -640,7 +640,7 @@ class plgMain():
                                                                   
         if not confirm(TAG_MNU_RESCAN, normName(self.TVS.lib_name), self.src.getlinkname(self.items.vidCPath)) : return rd 
         
-        prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_PAR_REPFN, TAG_TYP_MOV) if addon.CALLURL else Empty
+        prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
         if not errord(rescanSRC(self.items, self.TVS, prefix), TAG_ERR_OK_RESCAN, normName(self.TVS.lib_name)):
             self.libUpdate()
             return TAG_MNU_CANCEL
