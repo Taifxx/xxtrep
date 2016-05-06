@@ -40,6 +40,7 @@ __language__     = addon.localize
 
 ##### Call ...
 def Main():
+
     arg = parseArgs()
     if   arg == TAG_CND_NOACTION : plgMain()
     elif arg != TAG_CND_PLAY     : plgMain(arg)
@@ -57,11 +58,12 @@ class plgMain():
         self.path    = path 
         self.isFound = isFound
         self.TVS = CTVS.TVS(TAG_PAR_TVSPACK_FILE, path, isFound)
+        self.setSRC()
     
     
-    def setLI(self):
+    def setLI(self, dirPath=Empty, srcName=Empty):
         self._cleanObject(self.items)
-        self.items = LI.vidItems()
+        self.items = LI.vidItems(dirPath, srcName)
      
         
     def setLinkTable(self):
@@ -150,6 +152,7 @@ class plgMain():
                                   {'pos':5, 'tag':TAG_MNU_DELETE,     'hideCond':{}},
                                   {'pos':6, 'tag':TAG_MNU_RESTORE,    'hideCond':{}},
                                   {'pos':7, 'tag':TAG_MNU_RESTOREALL, 'hideCond':{}},
+                                  {'pos':8, 'tag':TAG_MNU_RESCANFULL, 'hideCond':{}},
                                   pageLimit = addon.MNUITMNUM,
                                   cancelTag = TAG_MNU_BACKMAIN, 
                                   backTag   = TAG_MNU_BACK, 
@@ -157,13 +160,14 @@ class plgMain():
                                   visCond   = curVisCond,
                                   title     = titName(TAG_MNU_TVSMAN, self.TVS.lib_name))
         
-        self.srcmMenue = tagMenue({'pos':0, 'tag':TAG_MNU_ADDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_OLDFRC}},
+        self.srcmMenue = tagMenue({'pos':0, 'tag':TAG_MNU_ADDFOL,    'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_OLDFRC}},
                                   #{'pos':0, 'tag':TAG_MNU_UPDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NEWFRC}},
-                                  {'pos':1, 'tag':TAG_MNU_ADVADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY}},
-                                  {'pos':2, 'tag':TAG_MNU_BRWSREN,  'hideCond':{TAG_CND_NOTFOUND}},   
-                                  {'pos':3, 'tag':TAG_MNU_REMSRC,   'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':4, 'tag':TAG_MNU_RESCAN,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NOTFOUND, TAG_CND_NEWSRC}},
-                                  {'pos':5, 'tag':TAG_MNU_SRCREN,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':1, 'tag':TAG_MNU_ADVADD,    'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY}},
+                                  {'pos':2, 'tag':TAG_MNU_BRWSREN,   'hideCond':{TAG_CND_NOTFOUND}},   
+                                  {'pos':3, 'tag':TAG_MNU_REMSRC,    'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':4, 'tag':TAG_MNU_RESCAN,    'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NOTFOUND, TAG_CND_NEWSRC}},
+                                  {'pos':5, 'tag':TAG_MNU_RESCANALLS,'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':6, 'tag':TAG_MNU_SRCREN,    'hideCond':{TAG_CND_NOTFOUND}},
                                   pageLimit = addon.MNUITMNUM,
                                   cancelTag = TAG_MNU_BACKMAIN, 
                                   backTag   = TAG_MNU_BACK, 
@@ -221,12 +225,19 @@ class plgMain():
         elif self.result == TAG_MNU_SET         : self.result = self.mnu_set()
         elif self.result == TAG_MNU_VIDLIBU     : self.result = self.mnu_vidlibu()
         elif self.result == TAG_MNU_VIDLIBCLN   : self.result = self.mnu_vidlibcln()
+        elif self.result == TAG_MNU_RESCANALLS  : self.result = self.mnu_rescanalls()
+        elif self.result == TAG_MNU_RESCANFULL  : self.result = self.mnu_rescanfull()
         elif self.result == TAG_ACT_LPRESET     : self.result = self.act_lpreset()
+        elif self.result == TAG_ACT_SHADOWUPD   : self.result = self.act_shadowupd()
+        elif self.result == TAG_ACT_DONOTHING   : self.result = self.act_donothing()
+        elif self.result == TAG_ACT_CHCOLOR     : self.result = self.act_chcolor()
+        elif self.result == TAG_ACT_RENAMER     : self.result = self.act_renamer()
     
     
     def __init__(self, action=Empty):
         ## Create Addon Profile folder ...
         DOS.mkdirs(addon.libpath)
+        check_lib_folders(False)
         
         CTVS.BGPROCESS = addon.BGUPD
         LI.DETVIDEXT   = addon.DETVIDEXT
@@ -239,6 +250,7 @@ class plgMain():
         
         self.fListUPD  = []
         self.sListUPD  = []
+        self.reErrors  = []
             
         ## Set defaults ...
         self.setLI()
@@ -456,7 +468,17 @@ class plgMain():
         return Empty 
         
         
-    def mnu_chknew(self):                                         
+    def mnu_chknew(self, globalupd=False, silent=False, shadsl=False):
+    
+        if addon.AUTOUPDSRC and addon.SILENTUPD and not globalupd:
+            while True:
+                result = self._mnu_chknew()
+                if result != TAG_MNU_CHKNEW : return result
+        
+        else : return self._mnu_chknew(exsilent=silent, exshadu=True if globalupd and addon.AUTOUPDALL else shadsl)  
+        
+        
+    def _mnu_chknew(self, exsilent=False, exshadu=False):                                         
     
         rd = TAG_MNU_CANCEL
         
@@ -471,28 +493,55 @@ class plgMain():
         remnames = [itm for itm in self.usrc.remnames]
         idxs     = [itm for itm in self.usrc.idxs]
         
-        mdefault=self.usrc.getlinkidx(self.items.vidCPath) 
-        mdefidx=self.usrc.frclen if mdefault >= self.src.frclen else 0
-        self.usrc(subMenue(remnames, idxs, cancelVal=-1, default=mdefault, 
-                           defidx=mdefidx, title=titName(TAG_TTL_NEWEPS, self.TVS.lib_name)))
-                        
-        if not self.usrc.isidx : del self.usrc; return TAG_MNU_BACKMAIN
+        nosilent = True if not exsilent and not self.usrc.srccount() else False
+        allowmnu = True if not addon.AUTOUPDSRC and not exshadu else False  
+        if allowmnu or nosilent or not addon.SILENTUPD: 
         
-        oldCont = self.items.vidCPath
-        GUI.goTarget(self.usrc.link)
+            mdefault=self.usrc.getlinkidx(self.items.vidCPath) 
+            mdefidx=self.usrc.frclen if mdefault >= self.src.frclen else 0
+            self.usrc(subMenue(remnames, idxs, cancelVal=-1, default=mdefault, 
+                               defidx=mdefidx, title=titName(TAG_TTL_NEWEPS, self.TVS.lib_name)))
+                            
+            if not self.usrc.isidx : del self.usrc; return TAG_MNU_BACKMAIN
         
-        if oldCont != self.usrc.link and not isWait(oldCont, LI.getCpath, addon.LNKTIMEOUT) : errord(TAG_ERR_DEDLINK); return TAG_MNU_CHKNEW 
+        else: 
+            if not self.usrc.nextsidx():
+                del self.usrc 
+                return rd 
         
-        self.setLI()
+        if not addon.SILENTUPD:
+        
+            oldCont = self.items.vidCPath
+            GUI.goTarget(self.usrc.link)
+        
+            if oldCont != self.usrc.link and not isWait(oldCont, LI.getCpath, addon.LNKTIMEOUT) : errord(TAG_ERR_DEDLINK); return TAG_MNU_CHKNEW 
+        
+            self.setLI()
          
-        if self.usrc.isf : updnow(True); return rd 
-        else             :
+            if self.usrc.isf : updnow(True); return rd 
+            else             :
+                self.TVS.os_getraw()
+                if self.usrc.link not in self.TVS.get_raw_link_list() : self.mnu_tvsu  (False)
+                else                                                  : self.mnu_rawadd(True)
+        
+            self.back()
+            
+        else: 
+            
+            self.setLI(self.usrc.link, self.usrc.name)
+            if self.usrc.isf:
+                oldCont = self.items.vidCPath 
+                GUI.goTarget(self.usrc.link)
+                if oldCont != self.usrc.link and not isWait(oldCont, LI.getCpath, addon.LNKTIMEOUT) : errord(TAG_ERR_DEDLINK); return TAG_MNU_CHKNEW
+                updnow(True)
+                return rd
+                
             self.TVS.os_getraw()
             if self.usrc.link not in self.TVS.get_raw_link_list() : self.mnu_tvsu  (False)
             else                                                  : self.mnu_rawadd(True)
         
-        self.back()
-        self.setLI() 
+        self.setLI()
+             
         self.usrc.exclude(self.usrc.link)
         self.libUpdate()
     
@@ -503,24 +552,32 @@ class plgMain():
         self.chkfull = True
         
         return rd 
-        
-        
-    def mnu_chknewgl(self, updreload=False):
     
+    
+    def act_shadowupd(self):
+        self.mnu_chknewgl(shadow=addon.NOREPAUTO, shadu=True)
+        if addon.NOREPAUTO and self.fListUPD : errord(TAG_ERR_OK, TAG_ERR_OK_NEWFRC)
+        
+        return TAG_MNU_CANCEL  
+    
+        
+    def mnu_chknewgl(self, updreload=False, shadow=False, shadu=False):
         updnow(False)
         if updreload : self.sListUPD, self.fListUPD = loadTVSupd()
-        resgl = self._mnu_chknewgl(updreload)
+        resgl = self._mnu_chknewgl(updreload, shadow, shadu)
         if self.sListUPD or self.fListUPD : saveTVSupd(self.sListUPD, self.fListUPD)
         else                              : clearTVSupd() 
         
         return resgl 
         
     
-    def _mnu_chknewgl(self, updreload=False):
+    def _mnu_chknewgl(self, updreload=False, shadow=False, shadu=False):
     
         rd = TAG_MNU_CANCEL
+        
+        auFinish = False if (addon.AUTOUPDALL or shadu) and addon.SILENTUPD else True
     
-        if not updreload : self.sListUPD, self.fListUPD = globalUpdateCheck()
+        if not updreload : self.sListUPD, self.fListUPD = globalUpdateCheck(shadbg=shadu)
         
         while True:
         
@@ -529,7 +586,12 @@ class plgMain():
             tvsNames  = [tl(TAG_MNU_SRE) + normName(itm['name']) for itm in self.fListUPD] + [normName(itm['name']) for itm in self.sListUPD] 
             tvsVals   = range(len(tvsNames))
         
-            result = subMenue(tvsNames, tvsVals, cancelVal=-1, title=titName(TAG_MNU_CHKNEWGL))
+            if (not addon.AUTOUPDALL and not shadu) or not addon.SILENTUPD or auFinish:
+                result = subMenue(tvsNames, tvsVals, cancelVal=-1, title=titName(TAG_MNU_CHKNEWGL))
+            else: 
+                if self.sListUPD : result = len(self.fListUPD) 
+                elif shadow : return rd
+                else        : auFinish = True; continue   
             
             if result == -1 : return TAG_MNU_BACKMAIN
             
@@ -550,7 +612,8 @@ class plgMain():
             
             while True:
             
-                upres = self.mnu_chknew() 
+                glsilent = True if (addon.AUTOUPDALL or shadu) and addon.SILENTUPD and not auFinish else False
+                upres = self.mnu_chknew(globalupd=True, silent=glsilent, shadsl=shadu) 
                 
                 idxf = -1; idxs = -1 
                 for i, itm in enumerate(self.fListUPD):   
@@ -633,7 +696,78 @@ class plgMain():
         
         return rd 
                 
+                
+    def mnu_rescanfull(self):
+    
+        rd = TAG_MNU_SRCMAN
         
+        if not confirm(TAG_MNU_RESCANFULL) : return rd
+        
+        tvsNames, tvsPaths = getAllTVS()
+        
+        if not tvsNames : return rd
+        
+        self.reErrors = []
+        
+        progress = CProgress(len(tvsNames), bg=addon.BGUPD)
+        progress.show(tla(TAG_MNU_RESCANFULL))
+        
+        currentPath = self.TVS.lib_path
+        for path in tvsPaths:
+            self.setTVS(path, True)
+            progress.step(normName(self.TVS.lib_name), 1)
+            self.mnu_rescanalls(full=True)    
+         
+        self.setTVS(currentPath, True)
+        self.setLI()
+        self.libUpdate()
+        
+        for error in self.reErrors:
+            errord(error[0], Empty, error[1], exten=error[2])
+            
+        self.reErrors = []
+        
+        errord(TAG_ERR_OK, TAG_ERR_OK_RESCANFULL)
+        
+        return rd
+    
+    
+    def mnu_rescanalls(self, full=False):
+        
+        rd = TAG_MNU_SRCMAN
+        
+        if not full and not confirm(TAG_MNU_RESCANALLS, normName(self.TVS.lib_name)) : return rd
+        
+        srccl = self.src.clone(nofrc=True)
+        
+        if not full : self.reErrors = []
+        
+        while srccl.nextsidx():
+            
+            self.setLI(srccl.link, srccl.name)
+            src_name = srccl.name
+            srccl.exclude(srccl.link)
+            if srccl.link in self.TVS.get_raw_link_list() : self.mnu_rawadd(rescan=True); continue
+            
+            prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
+            err = rescanSRC(self.items, self.TVS, prefix)
+            
+            if err != TAG_ERR_OK : self.reErrors.append([err, normName(self.TVS.lib_name), src_name])
+        
+        if not full:
+            self.setLI()
+            self.libUpdate()
+        
+            for error in self.reErrors:
+                errord(error[0], Empty, error[1], exten=error[2])
+                
+            self.reErrors = []
+            
+        if not full : errord(TAG_ERR_OK, TAG_ERR_OK_RESCANALLS, normName(self.TVS.lib_name))
+        
+        return rd
+    
+    
     def mnu_rescan(self):
     
         rd = TAG_MNU_SRCMAN
@@ -648,7 +782,7 @@ class plgMain():
         return rd
                 
                 
-    def mnu_rawadd(self, update=False):
+    def mnu_rawadd(self, update=False, rescan=False):
         
         rd = TAG_MNU_BACKMAIN
         
@@ -672,6 +806,8 @@ class plgMain():
             if not selitems : return rd
             
             self.items.setmanually(selitems)
+            
+            if rescan : self.TVS.os_exclude_src(self.items.vidCPath); update = True  
               
             if update : ares = self.mnu_tvsu(False)
             else      : ares = self.mnu_tvs()
@@ -859,40 +995,59 @@ class plgMain():
         
     def mnu_help(self): 
         help.showHelp()
-        
         return TAG_MNU_BACKMAIN           
         
         
     def mnu_set(self):
         GUI.openSet()
-        
-        oldtvsfol = LIB.tvsf
-        oldmovfol = LIB.mov
-        
-        resetfol()
-        
-        if not DOS.compath(oldtvsfol, LIB.tvsf)  : DOS.rename(oldtvsfol, LIB.tvsf) 
-        if not DOS.compath(oldmovfol, LIB.mov)   : DOS.rename(oldmovfol, LIB.mov) 
-        
+        check_lib_folders()
         return TAG_MNU_CANCEL 
                    
     
     def mnu_vidlibu(self):                                                                            
         self.libUpdate(True, True)
-        
         return TAG_MNU_CANCEL 
         
         
     def mnu_vidlibcln(self):                                                              
         self.libClean (True)
         self.libUpdate(False, True)
-        
         return TAG_MNU_CANCEL
     
     
     def act_lpreset(self):
         addon.addon.setSetting('libpath', TAG_PAR_SETDEF)
+        return TAG_MNU_CANCEL
+        
     
+    def act_chcolor(self):
+        pckdcolors = DOS.file(TAG_PAR_COLORS_FILE, DOS.join(addon.path, TAG_PAR_RESFOLDER, TAG_PAR_BSFOLDER), fType=FRead)
+        colors     = pckdcolors.split(NewLine)
+        colnames   = [TAG_PAR_MNUCOLORFORMAT % (color, color) for color in colors]
+        defcolor   = addon.getcolor() 
+        
+        newcolor = subMenue(colnames, colors, cancelVal=Empty, default=defcolor, title=tl(TAG_TTL_COLORIZE))
+        
+        if newcolor : addon.addon.setSetting('mnucolor', newcolor)
+        
+        path       = DOS.join(addon.path, *TAG_PAR_STRINGSXML_PATH)
+        stringsxml = DOS.file(TAG_PAR_STRINGSXML_FILE, path, fType=FRead)
+        label      = CMP.comps(stringsxml)
+        label.sub(TAG_PAR_ADDONLABEL_PATT, rep_text=TAG_PAR_ADDONLABEL % addon.getcolor())
+        DOS.file(TAG_PAR_STRINGSXML_FILE, path, label(), fType=FWrite, fRew=True)
+        
+        return TAG_MNU_CANCEL
+        
+    
+    def act_renamer(self):
+        rd = TAG_MNU_CANCEL
+        if not confirm(TAG_ACT_RENAMER) : return rd
+        srcRenamer()
+        errord(TAG_ERR_OK, TAG_ERR_OK_RENAMER)
+        return rd
+        
+    
+    def act_donothing(self):
         return TAG_MNU_CANCEL
 
 

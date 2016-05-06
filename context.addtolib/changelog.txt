@@ -1,4 +1,19 @@
-﻿v1.0.4
+﻿v1.0.5
+BugFix:
+    - Fixed problem with TV Shows|Movies folders renaming when name was changed in 'addon information > configure'
+    - Other small bugfixes
+New:
+    - Added Silent source update
+    - Added Automatically source update
+    - Added Background scanning (for update)
+    - Added new settings category 'Update'
+    - Added possibility to change menu color
+    - Added season number to added source name
+    - Added automatically rename tool (for added sources)
+    - Added possibility to rescann all sources
+
+
+v1.0.4
 BugFix:
     - Fixed problem with resuming position dialog when 'Automatically resume...' option is on
     - Fixed problem with resuming position when TV Show theme playing 

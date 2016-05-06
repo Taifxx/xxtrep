@@ -24,18 +24,33 @@ TAG_PAR_DEFAULT_DEBUG_FILE  = '__debug1'
 TAG_PAR_DEFAULT_DEBUG_EXT   = '.debf'
 
 TAG_PAR_SCRIPT_ID           = 'context.addtolib'
+TAG_PAR_SERVICE_PY          = 'service.py'
+TAG_PAR_ADDON_PY            = 'context.py'
+TAG_PAR_SERVICE             = 'special://home/addons/%s/%s' % (TAG_PAR_SCRIPT_ID, TAG_PAR_SERVICE_PY)
+TAG_PAR_ADDON               = 'special://home/addons/%s/%s' % (TAG_PAR_SCRIPT_ID, TAG_PAR_ADDON_PY)
+TAG_PAR_STRINGSXML_PATH     = ['resources','language','english']
+TAG_PAR_STRINGSXML_FILE     = 'strings.xml'
 TAG_PAR_TVSPACK_FILE        = 'tvs.pack'
 TAG_PAR_TVSRAWFILE          = 'tvs.eraw'
 TAG_PAR_STL_FILE            = 'linktable'
 TAG_PAR_TVSUPD_FILE         = '.tvsupd'
 TAG_PAR_TVSUPDNOW_FILE      = '.updnow'
+TAG_PAR_FSET_FILE           = 'fset'
+TAG_PAR_COLORS_FILE         = 'colors'
 TAG_PAR_TVSDEFSEASON        = '01' 
 TAG_PAR_VIDEOSEXT           = ['.avi', '.mpeg', '.wmv', 'asf', '.flv', '.mkv', '.mka', '.mp4', '.m4a', '.aac', '.ogg', '.ogm', '.ram', '.rm', '.rv', '.ra', '.rmvb', '.3gp']
 TAG_PAR_SETDEF              = 'Default'
-
-### Help ...
 TAG_PAR_RESFOLDER           = 'resources'
 TAG_PAR_IMGFOLDER           = 'img'
+TAG_PAR_BSFOLDER            = 'bs'
+TAG_PAR_MNUCOLORFORMAT      = '[COLOR %s]%s[/COLOR]'
+TAG_PAR_COLORTAG            = '##COLOR##'
+TAG_PAR_ADDONLABEL_TMPL     = '<string id="29999">%s</string>'
+TAG_PAR_ADDONLABEL_PATT     = TAG_PAR_ADDONLABEL_TMPL % ('(.*)')
+TAG_PAR_ADDONLABEL          = TAG_PAR_ADDONLABEL_TMPL % ('ADD to [COLOR %s]Lib[/COLOR]')
+
+
+### Help ...
 TAG_PAR_BKG                 = 'bkg.png'
 TAG_PAR_LN                  = 'line.png'
 TAG_PAR_XBMCTAGQ            = '[]'
@@ -103,6 +118,10 @@ TAG_CND_PLAY            = 10087
 
 ### Free actions ...
 TAG_ACT_LPRESET         = 10200
+TAG_ACT_SHADOWUPD       = 10201
+TAG_ACT_DONOTHING       = 10202
+TAG_ACT_CHCOLOR         = 10203
+TAG_ACT_RENAMER         = 10204
 
 ### Language ...
 TAG_LNG_ID              = 30000
@@ -160,6 +179,8 @@ TAG_MNU_SMM             = 30049
 TAG_MNU_RAWADD          = 30050
 TAG_MNU_BRWSREN         = 30051
 TAG_MNU_CONTUPD         = 30052
+TAG_MNU_RESCANALLS      = 30053
+TAG_MNU_RESCANFULL      = 30054
 
 TAG_MNU_MORE            = 30090
 TAG_MNU_BACKMAIN        = 30091
@@ -179,6 +200,9 @@ TAG_CFR_JOIN            = 30076
 TAG_CFR_CLEANVL         = 30077
 TAG_CFR_DEFNM           = 30078
 TAG_CFR_RESTOREALL      = 30079
+TAG_CFR_RESCANALLS      = 30080
+TAG_CFR_RESCANFULL      = 30081
+TAG_CFR_RENAMER         = 30082
 
 ### Dialogs messages ...
 TAG_DLG_OK              = 30100
@@ -204,6 +228,10 @@ TAG_TTL_POSHLP          = 30162
 TAG_TTL_CAST            = 30163
 TAG_TTL_BRWSREN         = 30164
 TAG_TTL_BRWSRENEP       = 30165
+TAG_TTL_COLORIZE        = 30166
+TAG_TTL_SEASON          = 30167
+
+TAG_SET_RENAMER         = 30436
 
 ### Ok messages ...
 TAG_ERR_OK              = 30301 
@@ -225,6 +253,10 @@ TAG_ERR_OK_VIDLIBU      = 30316
 TAG_ERR_OK_REBSTL       = 30317
 TAG_ERR_OK_RESTOREALL   = 30318
 TAG_ERR_OK_BRWSREN      = 30319
+TAG_ERR_OK_NEWFRC       = 30320
+TAG_ERR_OK_RESCANALLS   = 30321
+TAG_ERR_OK_RESCANFULL   = 30322
+TAG_ERR_OK_RENAMER      = 30323
 
 ### Errors ...
 TAG_ERR_NOTFILE         = 30201
@@ -236,4 +268,6 @@ TAG_ERR_DEDLINK         = 30206
 TAG_ERR_NONAME          = 30207
 TAG_ERR_NONAME2         = 30208
 TAG_ERR_DEFEPS          = 30209
+TAG_ERR_BROKENLINK      = 30210
+TAG_ERR_BROKENLINK2     = 30211
 

@@ -16,24 +16,45 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# modules
-import os
-import time
-import xbmc
-import xbmcaddon
-import xbmcvfs
-import lib.common
+### Import modules ...
 
-### get addon info
-__addon__        = lib.common.__addon__
-__addonpath__    = lib.common.__addonpath__
-__localize__     = lib.common.__localize__
-__addonname__    = lib.common.__addonname__
-__version__      = lib.common.__version__
-__addonprofile__ = lib.common.__addonprofile__
+from resources.lib.ext import *
+
+### Base functions ...
+log    = lambda event : xbmc.log('[%s] %s' % (addon.id, event))
+action = lambda actid : xbmc.executebuiltin('RunScript(%s, action=%s)' % (TAG_PAR_ADDON, str(actid)), False)
+
+### Main ...
+def service():
+    
+    monitor = xbmc.Monitor()
+    autimer = 0
+    
+    log('Service started ...')
+    
+    ## Startup ...
+    if addon.STARTUPSHAD and addon.SILENTUPD : sadowupd()
+    
+    ## Start on timer ...
+    while not monitor.abortRequested():
+        if monitor.waitForAbort(10) : break
+        
+        if autimer >= addon.getautime() * 6:
+            autimer = 0
+              
+            if addon.getshad() and addon.SILENTUPD : sadowupd()
+            
+        autimer += 1
+    
+    ## End ...    
+    log('Service stoped ...')
 
 
-# starts update/sync
-def autostart(): pass             
-
-if (__name__ == "__main__"): autostart()
+### Actions ...
+def sadowupd():
+    log('Background scanning started ...') 
+    action(10201)
+   
+                      
+### Start main ...
+if (__name__ == "__main__"): service()

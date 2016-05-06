@@ -33,6 +33,8 @@ class PATTERN:
     folder_remove_spch  = ur'[/\\<>:"\|\?\* \t\n\r\u200f]+'
     file_remove_ext     = ur'\.[^.]{1,3}$'
     folder_name_by_file = ur'(.+)([sS]{1}[.]?[\d]+[.]?[eE]{1}[.]?[\d]+)'
+    season_and_eps      = ur'([sS]{1}[.]?[\d]+[.]?[eE]{1}[.]?[\d]+)'
+    season_only         = ur'([\d]+)'   
     clear_name_by_file  = ur'[^a-zA-ZА-Яа-я\d)]+$'
     remove_fdots        = ur'^[.]+'
     @staticmethod
@@ -72,14 +74,29 @@ def create_name (comps_item, *args, **kwargs):
         
         if sw.issuperset({TAG_TYP_SRC}):
         
-                preSub = comps_item () 
+                preSub = comps_item ()
+                
+                if kwargs['season'] : season = kwargs['season']
+                else: 
+                    seasoneps = comps(comps_item.search(PATTERN.season_and_eps))
+                    season    = seasoneps.search(PATTERN.season_only)
+                    del seasoneps 
+                  
                 comps_item.sub   (PATTERN.folder_name_by_file)
                 comps_item.sub   (PATTERN.file_remove_ext)
-                comps_item.sub   (PATTERN.remove_fdots)
+                comps_item.sub   (PATTERN.remove_fdots) 
                 
-                if preSub != comps_item :
-                      comps_item ('%s (%s)' % (kwargs['srcFolder'], comps_item()))
-                else: comps_item (kwargs['srcFolder'])
+                tmp_season = Empty
+                tmp_discr  = Empty
+                
+                if season               : tmp_season = ' * %s: %s' % ('Season', season)
+                if preSub != comps_item : tmp_discr  = ' (%s)'   % (comps_item())
+                
+                srcname = kwargs['srcFolder']
+                srcname = srcname.replace(tmp_season, Empty)
+                srcname = srcname.replace(tmp_discr, Empty)
+                
+                comps_item(srcname + tmp_discr + tmp_season)
         
             
         if sw.issuperset({TAG_TYP_PREFILE}):
@@ -128,6 +145,10 @@ class comps:
     def sub_compiled  (self, rep_text=Empty, toself=False):
         if toself : self.class_data = self.class_compile.sub(rep_text, self.class_data)
         else : return self.class_compile.sub(rep_text, self.class_data)
+        
+    def search(self, pattern):
+        tmp_search = re.compile(pattern).search(self.class_data)
+        return tmp_search.group(0) if tmp_search is not None else Empty
     
     def add (self, data):
         self.class_data = data + self.class_data
@@ -144,4 +165,4 @@ class comps:
     def __call__ (self, data=Empty):
         if data != Empty : self.class_data = data 
         else: return self.class_data 
-
+ 

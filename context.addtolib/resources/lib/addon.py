@@ -70,8 +70,23 @@ movFolder      = addon.getSetting('fldrmov')
 tvsFolder      = addon.getSetting('fldrtvs')
 _libpath       = addon.getSetting('libpath')
 
+SILENTUPD      = _sbool(addon.getSetting('silentupd')) 
+AUTOUPDSRC     = _sbool(addon.getSetting('autoupdsrc'))
+AUTOUPDALL     = _sbool(addon.getSetting('autoupdall'))
+NOREPAUTO      = _sbool(addon.getSetting('norepauto'))
+HIDEAUPD       = _sbool(addon.getSetting('hideaupd'))
+ALLOWSHADOW    = _sbool(addon.getSetting('allowshadow'))
+
+AUTIME         = int(addon.getSetting('autime'))
+STARTUPSHAD    = _sbool(addon.getSetting('startupshad'))
+
+COLOR          = addon.getSetting('mnucolor')
+
 libpath        = _libpath if _libpath != TAG_PAR_SETDEF else profile 
 
-def getlib() : return addon.getSetting('fldrmov'), addon.getSetting('fldrtvs')
+def getlib()    : return addon.getSetting('fldrmov'), addon.getSetting('fldrtvs')
+def getshad()   : return _sbool(addon.getSetting('allowshadow'))
+def getautime() : return int(addon.getSetting('autime'))
+def getcolor()  : return addon.getSetting('mnucolor')
     
     

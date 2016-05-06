@@ -67,6 +67,9 @@ def remove (path, delDir=True):
      
 
 def file(fName, fPath, fContent=Empty, fType=FWrite, fRew = True):
+
+    if not fPath or not fName : return -1
+    
     path = join(fPath, fName)
 
     if exists(path): 

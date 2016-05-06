@@ -18,7 +18,7 @@
 ########## EXT:
 
 ### Import modules ...
-import resources.lib.li      as LI
+import resources.lib.li2     as LI
 import resources.lib.dos     as DOS
 import resources.lib.gui     as GUI
 import resources.lib.comps   as CMP
@@ -36,5 +36,5 @@ LIB   = lib.libPaths(addon.libpath, TAG_PAR_LIB_FOLDER, addon.movFolder, addon.t
 resetfol = lambda : LIB.setlib(addon.libpath, TAG_PAR_LIB_FOLDER, *addon.getlib())
    
 ### Remove tags in text ...
-tl  = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) if not addon.COLORIZE else addon.tlraw(textTag)
+tl  = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) if not addon.COLORIZE else addon.tlraw(textTag).replace(TAG_PAR_COLORTAG, addon.COLOR)
 tla = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) 

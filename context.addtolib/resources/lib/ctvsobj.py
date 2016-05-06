@@ -200,7 +200,7 @@ class TVS:
     
     ### Import and export tvs.pack 
     def dimport(self):
-        self.packed_data = DOS.file(self._file_name, self.lib_path, fType=FRead)
+        self.packed_data = DOS.file(self._file_name, self.lib_path, fType=FRead) 
         if self.packed_data == -1: self.packed_data = Empty
         self._unpack()
     
@@ -223,7 +223,7 @@ class TVS:
         
     def _unpack(self):
         if not self.packed_data: return
-        src, frc, eps, seq       = (self.packed_data.split(self._sepPRT))
+        src, frc, eps, seq       = (self.packed_data.split(self._sepPRT)) 
         if src: self._sources    = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':sbool(itm4), 'src_season':itm5, 'src_numb':int(itm6)} for itm in src.split(self._sepSRC) for itm1, itm2, itm3, itm4, itm5, itm6 in [itm.split(self._sepLST)]]
         if frc: self._folsources = [{'fsrc_name':itm1, 'fsrc_link':itm2, 'fsrc_inum':int(itm3), 'fsrc_upd':sbool(itm4)} for itm in frc.split(self._sepFRC) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
         if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4)} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
@@ -290,7 +290,15 @@ class TVS:
         DOS.rename(self.lib_path, newPathName)
         self.lib_path = newPathName
     
-    def os_exclude_src(self, src_link, prefix):
+    def os_exclude_src(self, link, dexport=True):
+        src_id = self.get_src_id(link)
+        for eps in self._episodes: 
+            if eps['src_id'] == src_id : DOS.delf(DOS.join(self.lib_path, eps['new_name']+STRM))     
+        self.exclude_source_data(link)
+        self.exclude_source(src_id)
+        if dexport : self.dexport()
+    
+    def os_exclude_src_rest(self, src_link, prefix):
         self.os_clear()
         self.exclude_source(self.exclude_source_data(src_link))
         self.os_create(prefix)

@@ -1,8 +1,8 @@
 ﻿<settings>
     <category label="30480">
+        <setting id="bgupd"      type="bool"      label="30406" default="false"/>
         <setting id="callurl"    type="bool"      label="30410" default="true"/>
         <setting id="detvidext"  type="bool"      label="30419" default="true"/>
-        <setting id="bgupd"      type="bool"      label="30406" default="false"/>
         <setting id="lnktimeout" type="slider"    label="30409" default="20" range="1,60" option="int"/>
         <setting                 type="sep"       label=""/>
         <setting id="actupdvl"   type="action"    label="30423" action="RunScript(special://home/addons/context.addtolib/context.py, action=30009)" option="close"/>
@@ -10,6 +10,9 @@
     </category>
     <category label="30481">
         <setting id="colorize"   type="bool"      label="30401" default="true"/>
+        <setting id="actcolor"   type="action"    label="30435" action="RunScript(special://home/addons/context.addtolib/context.py, action=10203)" option="close" enable="eq(-1,true)"/>
+        <setting id="mnucolor"   type="text"      label=""      default="darkorange" visible="false"/>
+        <setting                 type="sep"       label=""/>
         <setting id="addupd"     type="bool"      label="30403" default="false"/>
         <setting                 type="sep"       label=""/>
         <setting id="mnuitmnum"  type="select"    label="30407" default="7" values="5|6|7|8|9|10|11|12"/>
@@ -22,6 +25,8 @@
         <setting id="fldrtvs"    type="text"      label="30405" default="TV Shows"/>
         <setting                 type="sep"       label=""/>
         <setting id="actreslibp" type="action"    label="30422" action="RunScript(special://home/addons/context.addtolib/context.py, action=10200)" option="close"/>
+        <setting id="actchnnow"  type="action"    label="30434" action="RunScript(special://home/addons/context.addtolib/context.py, action=10202)" option="close"/>
+        <setting id="actrenamer" type="action"    label="30436" action="RunScript(special://home/addons/context.addtolib/context.py, action=10204)" option="close"/>
     </category>
     <category label="30482">
         <setting id="playbcont"    type="bool"      label="30411" default="true"/>
@@ -35,5 +40,17 @@
         <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-8,true)+eq(-1,false)"/>
         <setting                   type="sep"       label=""/>
         <setting id="eodgen"       type="bool"      label="30425" default="false"/>
+    </category>
+    <category label="30484">
+        <setting id="silentupd"    type="bool"      label="30426" default="true"/>
+        <setting                   type="sep"       label=""/>    
+        <setting id="autoupdsrc"   type="bool"      label="30427" default="true"  enable="eq(-2,true)"/>
+        <setting id="autoupdall"   type="bool"      label="30428" default="true"  enable="eq(-3,true)"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="allowshadow"  type="bool"      label="30431" default="true"  enable="eq(-5,true)"/>
+        <setting id="startupshad"  type="bool"      label="30433" default="true"  enable="eq(-6,true)+eq(-1,true)"/>
+        <setting id="norepauto"    type="bool"      label="30429" default="true"  enable="eq(-7,true)+eq(-2,true)"/>
+        <setting id="hideaupd"     type="bool"      label="30430" default="false" enable="eq(-8,true)+eq(-3,true)"/>
+        <setting id="autime"       type="number"    label="30432" default="180"   enable="eq(-9,true)+eq(-4,true)"/>
     </category>
 </settings>

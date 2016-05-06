@@ -68,6 +68,14 @@ def getUniqname(item, seq):
         if uniqname not in seq : return uniqname  
         uniqname = '%s - %d' % (item, idx+1)
     return uniqname  
+    
+
+class struct:
+    def __setattr__(self, name, value):
+        self.__dict__.update({name:value})
+    
+    def __del__(self):
+        self.__dict__.clear()
      
     
     

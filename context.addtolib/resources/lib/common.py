@@ -26,6 +26,9 @@ def confirm (tag, tvsName=Empty, srcName=Empty):
     if   tag == TAG_MNU_RESCAN     : text = tl(TAG_CFR_RESCAN) % (srcName)
     elif tag == TAG_MNU_REMSRC     : text = tl(TAG_CFR_REMSRC) % (srcName)
     
+    elif tag == TAG_ACT_RENAMER    : text = tl(TAG_CFR_RENAMER)
+    elif tag == TAG_MNU_RESCANFULL : text = tl(TAG_CFR_RESCANFULL)
+    elif tag == TAG_MNU_RESCANALLS : text = tl(TAG_CFR_RESCANALLS)
     elif tag == TAG_MNU_RESTORE    : text = tl(TAG_CFR_RESTORE)
     elif tag == TAG_MNU_RESTOREALL : text = tl(TAG_CFR_RESTOREALL)
     elif tag == TAG_MNU_DELETE     : text = tl(TAG_CFR_DELETE)
@@ -39,7 +42,7 @@ def confirm (tag, tvsName=Empty, srcName=Empty):
     return GUI.dlgYn (text, **kwargs)
          
 
-def errord (error, error_ok=Empty, tvsName=Empty):
+def errord (error, error_ok=Empty, tvsName=Empty, exten=Empty):
 
     if tvsName : txtTTL = tl(TAG_TTL_NM) % (tvsName) 
     else       : txtTTL = tl(TAG_TTL_NM) % (addon.name)
@@ -54,11 +57,70 @@ def errord (error, error_ok=Empty, tvsName=Empty):
     elif error == TAG_ERR_LISTEMPTY   : GUI.dlgOk (tl(TAG_ERR_LISTEMPTY), tl(TAG_ERR_ABORT),   title=tvsName)
     elif error == TAG_ERR_NONAME      : GUI.dlgOk (tl(TAG_ERR_NONAME),    tl(TAG_ERR_NONAME2), title=tvsName)
     
+    elif error == TAG_ERR_BROKENLINK  : GUI.dlgOk (tl(TAG_ERR_BROKENLINK), tl(TAG_ERR_BROKENLINK2) % (NewLine, exten), title=tvsName)
+    
     return True 
 
 
 titName        = lambda tag, tvsName=Empty : '%s  ( %s )' % (tla(tag), normName(tvsName)) if tvsName else tla(tag)
-normTargetName = lambda path               :  normName(DOS.getdir(path))  
+normTargetName = lambda path               :  normName(DOS.getdir(path)) 
+
+
+def srcRenamer():
+
+    fname = TAG_PAR_TVSPACK_FILE
+
+    tvsNames, tvsPaths = getAllTVS()
+    
+    if not tvsNames : return
+    
+    progress = CProgress(len(tvsNames), bg=addon.BGUPD)
+    progress.show(tla(TAG_SET_RENAMER))
+    
+    for path in tvsPaths:
+        tvs = CTVS.TVS(fname, path, True)
+        episodes, fsources, sources  = tvs.get_direct()
+        progress.step(normName(tvs.lib_name), 1)
+        for src in sources:
+            src_oldname = src['src_name']
+            src_id      = src['src_id']
+            eps_name    = Empty
+            for eps in episodes:
+                if eps['src_id'] == src_id : eps_name = eps['new_name']; break
+                
+            if eps_name: 
+                src_newname = CMP.create_name_once (eps_name, TAG_TYP_SRC, srcFolder=src_oldname, season=Empty)
+                if src_newname : tvs.rensource(src_oldname, src_newname)
+        
+        tvs.dexport()
+        del tvs
+    del progress
+              
+
+def check_lib_folders(now=True):
+
+    fname = TAG_PAR_FSET_FILE
+    fSep  = TAG_PAR_TVSPACK_FSEP
+    
+    err   = False
+    
+    if now:
+        oldtvsfol = LIB.tvsf
+        oldmovfol = LIB.mov
+        resetfol()
+        
+    else:
+        try:
+            oldmovfol, oldtvsfol = DOS.file(fname, LIB.lib, fType=FRead).split(fSep)
+        except : err = True 
+            
+    pack  = fSep.join([LIB.mov, LIB.tvsf]) 
+    DOS.file(fname, LIB.lib, pack, fRew = True)
+    
+    if err : return
+    
+    if not DOS.compath(oldtvsfol, LIB.tvsf)  : DOS.rename(oldtvsfol, LIB.tvsf) 
+    if not DOS.compath(oldmovfol, LIB.mov)   : DOS.rename(oldmovfol, LIB.mov)
 
 
 def getAllTVS():
@@ -257,20 +319,30 @@ def restoreAllTVS(prefix):
     
     for deftvs in tvss:
         tvs = CTVS.TVS(fname, DOS.join(LIB.tvsf, deftvs), True)
-        tvs.os_create(prefix, overwrite=True)
         progress.step(normName(tvs.lib_name), 1)
+        tvs.os_create(prefix, overwrite=True)
         del tvs             
         
     del progress
     
     return TAG_ERR_OK
-
-
+    
+    
 def rescanSRC(items, TVS, prefix):
-    TVS.os_clear()
-    TVS.exclude_source_data(items.vidCPath)
+    #if items.vidCPath in TVS.get_raw_link_list() : return TAG_MNU_RAWADD 
+    if len(TVS.get_eps_names_and_links_forsrc(items.vidCPath)[0]) > len(items.vidListItems) : return TAG_ERR_BROKENLINK  
+    
+    TVS.os_exclude_src(items.vidCPath, dexport=False)
     err = addTVS(items, TVS, prefix)
+    
     return err
+
+
+# def rescanSRC(items, TVS, prefix):
+#     TVS.os_clear()
+#     TVS.exclude_source_data(items.vidCPath)
+#     err = addTVS(items, TVS, prefix)
+#     return err
 
     
 def renameSRC(oldName, newName, isfrc, TVS):
@@ -283,7 +355,7 @@ def renameSRC(oldName, newName, isfrc, TVS):
 
 def removeSRC(link, isfrc, TVS, prefix):
     if isfrc   : TVS.exclude_folsource(link); TVS.dexport()  
-    else       : TVS.os_exclude_src(link, prefix)
+    else       : TVS.os_exclude_src(link, dexport=True)
     
     return TAG_ERR_OK
 
@@ -341,7 +413,7 @@ def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty):
         else             : return TAG_ERR_NONAME  
     
     file_name = CMP.comps()
-    src_name  = CMP.create_name_once (items.vidFolderNameDef, TAG_TYP_SRC, srcFolder=items.vidCName) 
+    src_name  = CMP.create_name_once (items.vidFolderNameDef, TAG_TYP_SRC, srcFolder=items.vidCName, season=defSeason) 
     src_id    = TVS.append_source    (src_name, items.vidCPath, defSeason)
       
     CMP.create_name(file_name, TAG_TYP_PREFILE)
@@ -444,14 +516,16 @@ def checkfile(items, linkTable, recurse=False):
     return (isFound, container, path)
     
     
-def globalUpdateCheck():
+def globalUpdateCheck(shadbg=False):
     
     fname  = TAG_PAR_TVSPACK_FILE
     
     tmplist = DOS.listdir(LIB.tvsf)[0]
     
-    progress = CProgress(len(tmplist)*100, bg=addon.BGUPD)
-    progress.show(tla(TAG_TTL_CHKUPDGL))
+    bgmode   = addon.BGUPD if not shadbg else True 
+    progress = CProgress(len(tmplist)*100, bg=bgmode)
+    
+    if not addon.HIDEAUPD or not addon.SILENTUPD or not addon.ALLOWSHADOW : progress.show(tla(TAG_TTL_CHKUPDGL))
     
     sList = []; fList = []
     for itm in tmplist:
@@ -544,7 +618,14 @@ class CSRC:
         return self.names[:self.frclen], self.links[:self.frclen]    
     
     def getsrc(self):
-        return self.names[self.frclen:], self.links[self.frclen:] 
+        return self.names[self.frclen:], self.links[self.frclen:]
+        
+    def srccount(self):
+        return len(self.names) - self.frclen 
+    
+    def nextsidx(self):
+        if self.srccount() : self.__call__(self.frclen); return True 
+        else               : return False 
     
     def clone(self, nofrc=False):
         tsrc_names, tsrc_links = self.getsrc()

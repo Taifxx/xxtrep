@@ -28,16 +28,20 @@ class CProgress:
         else  : self._pbar   = xbmcgui.DialogProgress()
         self._maxnum = maxnum
         self._curnum = 0
+        self._show   = False
     
     def show(self, title, text=Empty):
+        self._show = True
         self._pbar.create(title, text)
     
     def step(self, mes=Empty, stepv=1):
+        if not self._show : return
         self._curnum += stepv
         perc = int(round(float(self._curnum) / self._maxnum * 100, 0))
         self.update(perc, mes)
         
     def update(self, perc, mes=Empty):
+        if not self._show : return
         self._pbar.update(perc, mes)
     
     def __del__(self):

@@ -78,6 +78,9 @@ libClean    = lambda      : xbmc.executebuiltin('CleanLibrary(video)', True)
 openSet     = lambda      : xbmc.executebuiltin('Addon.OpenSettings(%s)' % (defScript), True)
 goTarget    = lambda link : xbmc.executebuiltin('container.update(%s)' % (link))
 
+### Service ...
+serviceOn   = lambda      : xbmc.executebuiltin('RunScript(%s)' % (TAG_PAR_SERVICE), False)
+
 ### Player ...
 seekPlay    = lambda pos  : xbmc.executebuiltin('seek(%s)' % (pos), True)
 stopPlay    = lambda      : xbmc.executebuiltin('PlayerControl(Stop)', True)

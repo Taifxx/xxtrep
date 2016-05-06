@@ -2,7 +2,7 @@
 <addon
     id="context.addtolib"
     name="Add to Lib"
-    version="1.0.4"
+    version="1.0.5"
     provider-name="Taifxx"
     >
   <requires>
@@ -16,11 +16,12 @@
       library="context.py"
   >
 		<item>
-			<label>ADD to [COLOR darkorange]Lib[/COLOR]</label>
+			<label>$ADDON[context.addtolib 29999]</label>
 			<!--visible>Container.Content(tvshows)|Container.Content(movies)|Container.Content(musicvideos)|Container.Content(episodes)</visible-->
 			<visible>True</visible>
 		</item>
   </extension>
+  <extension point="xbmc.service" library="service.py" start="login"/>
   <extension point="xbmc.addon.metadata">
   
     <summary lang="en">Adds links to movies and TV shows from other add-ons in Kodi library</summary>
@@ -35,6 +36,12 @@ More information can be found in the help section.</description>
     <disclaimer lang="ru"></disclaimer>
     
     <platform>all</platform>
+    
+    <website>http://taifxx.github.io/xxtrep</website>
+    <source>https://github.com/Taifxx/xxtrep/tree/master/context.addtolib</source>
+    
+    <forum lang="en">http://forum.kodi.tv/showthread.php?tid=268997</forum>
+    <forum lang="ru">http://xbmc.ru/forum/showthread.php?t=12708</forum>
     
     <license>GNU GENERAL PUBLIC LICENSE V3</license>
     
