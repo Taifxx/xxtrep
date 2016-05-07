@@ -1,0 +1,1112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>XXTREP Repository</title>
+<meta name="keywords" content="xxtrep kodi addtolib xbmc strm video library">
+<meta name="author" content="Taifxx">
+<link href="icsit.ico" rel="shortcut icon" type="image/x-icon">
+<style type="text/css">
+div#container
+{
+   width: 802px;
+   position: relative;
+   margin: 0 auto 0 auto;
+   text-align: left;
+}
+body
+{
+   background-color: #000000;
+   background-image: url(images/wallpaper-339894.jpg);
+   background-attachment: scroll;
+   background-position: left top;
+   background-repeat: repeat-x;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   text-align: center;
+}
+a
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+a:visited
+{
+   color: #800080;
+}
+a:active
+{
+   color: #FF0000;
+}
+a:hover
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+a.Blue_style
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:visited
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:active
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:hover
+{
+   color: #1E90FF;
+   text-decoration: underline;
+}
+a.Blue_style_bold
+{
+   color: #1E90FF;
+   font-weight: bold;
+   text-decoration: none;
+   -webkit-text-shadow: 1px 1px 0px rgba(0,0,0,1.00);
+   -moz-text-shadow: 1px 1px 0px rgba(0,0,0,1.00);
+   text-shadow: 1px 1px 0px rgba(0,0,0,1.00);
+}
+a.Blue_style_bold:visited
+{
+   color: #1E90FF;
+   font-weight: bold;
+   text-decoration: none;
+}
+a.Blue_style_bold:active
+{
+   color: #1E90FF;
+   font-weight: bold;
+   text-decoration: none;
+}
+a.Blue_style_bold:hover
+{
+   color: #1E90FF;
+   font-weight: bold;
+   text-decoration: underline;
+}
+.Shad
+{
+   font-family: "Trebuchet MS";
+   font-weight: bold;
+   font-size: 9.3px;
+   font-style: normal;
+   text-align: justify;
+   text-decoration: none;
+   color: #DCDCDC;
+   background-color: transparent;
+   -webkit-text-shadow: 1px 1px 1px rgba(0,0,0,1.00);
+   -moz-text-shadow: 1px 1px 1px rgba(0,0,0,1.00);
+   text-shadow: 1px 1px 1px rgba(0,0,0,1.00);
+}
+.Shad_8
+{
+   font-family: "Trebuchet MS";
+   font-weight: bold;
+   font-size: 11px;
+   font-style: normal;
+   text-align: justify;
+   text-decoration: none;
+   color: #DCDCDC;
+   background-color: transparent;
+   -webkit-text-shadow: 1px 1px 1px rgba(0,0,0,1.00);
+   -moz-text-shadow: 1px 1px 1px rgba(0,0,0,1.00);
+   text-shadow: 1px 1px 1px rgba(0,0,0,1.00);
+}
+#pHeader
+{
+   background-color: transparent;
+   background-image: none;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+#h2Bkg
+{
+   border-width: 0;
+}
+#h2TxtBkg
+{
+   border-width: 0;
+}
+#h2Img
+{
+   border: 0px #000000 solid;
+   -moz-box-shadow: 0px 0px 10px #000000;
+   -webkit-box-shadow: 0px 0px 10px #000000;
+   box-shadow: 0px 0px 10px #000000;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#wb_h2TxtA 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_h2TxtA div
+{
+   text-align: left;
+}
+#wb_h2TxtB 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_h2TxtB div
+{
+   text-align: left;
+}
+#h1Logo 
+{
+   border: 0px #000000 solid;
+   margin: 0;
+}
+#wb_h1MainMenue
+{
+   border: 0px #DCDCDC solid;
+   background-color: transparent;
+}
+#wb_h1MainMenue ul
+{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+}
+#wb_h1MainMenue li
+{
+   float: left;
+   margin: 0;
+   padding: 0px 1px 0px 0px;
+}
+#wb_h1MainMenue a
+{
+   display: block;
+   float: left;
+   color: #FFFFFF;
+   border: 0px #D0F0EF solid;
+   background-color: #000000;
+   background-color: rgba(0,0,0,0.50);
+   background-image: none;
+   font-family: Arial;
+   font-weight: bold;
+   font-size: 13px;
+   font-style: normal;
+   text-decoration: none;
+   height: 56px;
+   line-height: 56px;
+   padding: 0px 5px 0px 5px;
+   vertical-align: middle;
+   text-align: center;
+}
+#wb_h1MainMenue li:hover a, #wb_h1MainMenue a:hover, #wb_h1MainMenue .active
+{
+   color: #9ACD32;
+   background-color: #000000;
+   background-color: rgba(0,0,0,0.75);
+   background-image: none;
+   border: 0px #145F74 solid;
+}
+#wb_h1MainMenue li.firstmain
+{
+   padding-left: 0px;
+}
+#wb_h1MainMenue li.lastmain
+{
+   padding-right: 0px;
+}
+#wb_h1MainMenue li:hover, #wb_h1MainMenue li a:hover
+{
+   position: relative;
+}
+#wb_h1MainMenue a.withsubmenu
+{
+   padding: 0 5px 0 5px;
+   background-image: none;
+}
+#wb_h1MainMenue li:hover a.withsubmenu, #wb_h1MainMenue a.withsubmenu:hover
+{
+   background-image: none;
+}
+#wb_h1MainMenue ul ul
+{
+   position: absolute;
+   left: 0;
+   top: 0;
+   visibility: hidden;
+   width: 122px;
+   height: auto;
+   border: none;
+   background-color: transparent;
+}
+#wb_h1MainMenue ul :hover ul
+{
+   left: 1px;
+   top: 56px;
+   padding-top: 0px;
+   visibility: visible;
+}
+#wb_h1MainMenue .firstmain:hover ul
+{
+   left: 1px;
+}
+#wb_h1MainMenue li li
+{
+   width: 120px;
+   padding: 0 0px 0px 0px;
+   border: 1px #1E1E1E solid;
+   border-width: 0 1px;
+}
+#wb_h1MainMenue li li.firstitem
+{
+   border-top: 1px #1E1E1E solid;
+}
+#wb_h1MainMenue li li.lastitem
+{
+   border-bottom: 1px #1E1E1E solid;
+}
+#wb_h1MainMenue ul ul a, #wb_h1MainMenue ul :hover ul a
+{
+   float: none;
+   margin: 0;
+   width: 108px;
+   height: auto;
+   white-space: normal;
+   padding: 8px 6px 7px 6px;
+   background-color: #000000;
+   background-image: none;
+   border: 0px #C0C0C0 none;
+   color: #F5F5F5;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   font-style: normal;
+   line-height: 13px;
+   text-align: left;
+   text-decoration: none;
+}
+#wb_h1MainMenue ul :hover ul .firstitem a
+{
+   margin-top: 0px;
+}
+#wb_h1MainMenue ul ul :hover a, #wb_h1MainMenue ul ul a:hover, #wb_h1MainMenue ul ul :hover ul :hover a, #wb_h1MainMenue ul ul :hover ul a:hover
+{
+   background-color: #2D2D2D;
+   background-image: none;
+   border: 0px #C0C0C0 none;
+   color: #FFFFFF;
+}
+#wb_h1MainMenue br
+{
+   clear: both;
+   font-size: 1px;
+   height: 0;
+   line-height: 0;
+}
+#wb_h1MainMenue.affix
+{
+   top: 0 !important;
+   position: fixed !important;
+   left: 50% !important;
+   margin-left: -3px;
+}
+#h1Layer
+{
+   background-color: #000000;
+   background-image: none;
+}
+#footBLayer
+{
+   background-color: transparent;
+   background-image: none;
+}
+#wb_footBTxt 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_footBTxt div
+{
+   text-align: center;
+}
+#footLayerA
+{
+   background-color: #000000;
+   background-image: none;
+   border: 1px #CCCCCC none;
+}
+#footALayer
+{
+   background-color: #000000;
+   background-image: none;
+}
+#wb_footAM2
+{
+   border: 0px #DCDCDC solid;
+   background-color: transparent;
+}
+#wb_footAM2 ul
+{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   width: 150px;
+}
+#wb_footAM2 li
+{
+   float: left;
+   margin: 0;
+   padding: 0px 0px 0px 0px;
+   width: 150px;
+}
+#wb_footAM2 a
+{
+   display: block;
+   color: #BBBBBB;
+   border: 0px #D0F0EF none;
+   background-color: transparent;
+   background-image: none;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 11px;
+   font-style: normal;
+   text-decoration: none;
+   width: 140px;
+   height: 20px;
+   padding: 0px 5px 0px 5px;
+   vertical-align: middle;
+   line-height: 20px;
+   text-align: left;
+}
+#wb_footAM2 li:hover a, #wb_footAM2 a:hover
+{
+   color: #6EC401;
+   background-color: transparent;
+   background-image: none;
+   border: 0px #145F74 none;
+}
+#wb_footAM2 .firstmain a
+{
+   margin-top: 0px;
+}
+#wb_footAM2 li.lastmain
+{
+   padding-bottom: 0px;
+}
+#wb_footAM2 br
+{
+   clear: both;
+   font-size: 1px;
+   height: 0;
+   line-height: 0;
+}
+#wb_footACapM1 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_footACapM1 div
+{
+   text-align: left;
+}
+#wb_footAM1
+{
+   border: 0px #DCDCDC solid;
+   background-color: transparent;
+}
+#wb_footAM1 ul
+{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   width: 200px;
+}
+#wb_footAM1 li
+{
+   float: left;
+   margin: 0;
+   padding: 0px 0px 0px 0px;
+   width: 200px;
+}
+#wb_footAM1 a
+{
+   display: block;
+   color: #BBBBBB;
+   border: 0px #D0F0EF solid;
+   background-color: transparent;
+   background-image: none;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 11px;
+   font-style: normal;
+   text-decoration: none;
+   width: 190px;
+   height: 20px;
+   padding: 0px 5px 0px 5px;
+   vertical-align: middle;
+   line-height: 20px;
+   text-align: left;
+}
+#wb_footAM1 li:hover a, #wb_footAM1 a:hover
+{
+   color: #6EC401;
+   background-color: transparent;
+   background-image: none;
+   border: 0px #145F74 solid;
+}
+#wb_footAM1 .firstmain a
+{
+   margin-top: 0px;
+}
+#wb_footAM1 li.lastmain
+{
+   padding-bottom: 0px;
+}
+#wb_footAM1 br
+{
+   clear: both;
+   font-size: 1px;
+   height: 0;
+   line-height: 0;
+}
+#wb_footACapM2 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_footACapM2 div
+{
+   text-align: left;
+}
+#wb_footASearch
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+}
+#wb_footASCap 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_footASCap div
+{
+   text-align: left;
+}
+#footASEdBox
+{
+   border: 0px #CCCCCC solid;
+   background-color: #FFFFFF;
+   background-image: none;
+   color :#000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   padding: 0px 0px 0px 2px;
+   text-align: left;
+   vertical-align: middle;
+}
+#footASEdBox:focus
+{
+   border-color: #66AFE9;
+   -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+.autocomplete
+{
+   position: absolute;
+   background: #FFFFFF;
+   border: 1px solid #CCCCCC;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   list-style-type: none;
+   z-index: 999;
+   padding: 0;
+   width: 245px;
+   margin: 0;
+}
+.autocomplete li
+{
+   padding: 0;
+   margin: 0;
+}
+.autocomplete li.selected
+{
+   background: #008;
+   color: #FFFFFF;
+}
+#footASBtn
+{
+   border: 1px #3370B7 solid;
+   -moz-border-radius: 4px;
+   -webkit-border-radius: 4px;
+   border-radius: 4px;
+   background-color: #3370B7;
+   background-image: none;
+   color: #F5F5F5;
+   font-family: Arial;
+   font-weight: bold;
+   font-size: 13px;
+}
+#wb_footAM3
+{
+   border: 0px #DCDCDC solid;
+   background-color: transparent;
+}
+#wb_footAM3 ul
+{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+   width: 150px;
+}
+#wb_footAM3 li
+{
+   float: left;
+   margin: 0;
+   padding: 0px 0px 0px 0px;
+   width: 150px;
+}
+#wb_footAM3 a
+{
+   display: block;
+   color: #BBBBBB;
+   border: 0px #D0F0EF none;
+   background-color: transparent;
+   background-image: none;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 11px;
+   font-style: normal;
+   text-decoration: none;
+   width: 140px;
+   height: 20px;
+   padding: 0px 5px 0px 5px;
+   vertical-align: middle;
+   line-height: 20px;
+   text-align: left;
+}
+#wb_footAM3 li:hover a, #wb_footAM3 a:hover
+{
+   color: #6EC401;
+   background-color: transparent;
+   background-image: none;
+   border: 0px #145F74 none;
+}
+#wb_footAM3 .firstmain a
+{
+   margin-top: 0px;
+}
+#wb_footAM3 li.lastmain
+{
+   padding-bottom: 0px;
+}
+#wb_footAM3 br
+{
+   clear: both;
+   font-size: 1px;
+   height: 0;
+   line-height: 0;
+}
+#wb_footACapM3 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_footACapM3 div
+{
+   text-align: left;
+}
+#footLayerB
+{
+   background-color: transparent;
+   background-image: none;
+   border: 1px #CCCCCC none;
+}
+#Shape2
+{
+   border-width: 0;
+}
+#Layer3
+{
+   background-color: #000000;
+   background-image: none;
+   border: 1px #CCCCCC none;
+   filter: alpha(opacity=20);
+   opacity: 0.20;
+}
+#Image2
+{
+   border: 0px #000000 solid;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#hmNews
+{
+   padding: 8px;
+   border: 1px #CCCCCC none;
+   text-align: left;
+}
+#hmNews .headline
+{
+   position: absolute;
+   height: 100%;
+   margin: 0 0 8px 0;
+   overflow: hidden;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 11px;
+   color: #DCDCDC;
+   font-style: normal;
+   text-decoration: none;
+}
+#hmNews h4
+{
+   margin-top: .5em;
+   margin-bottom: .25em;
+   font-family: Arial;
+   font-weight: bold;
+   font-size: 15px;
+   color: #1E90FF;
+   font-style: normal;
+   text-decoration: none;
+}
+#hmNews h4 a
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+#hmNews .news-wait
+{
+   position: absolute;
+   top: 30%;
+   left: 50%;
+   margin-left: -10px;
+   z-index: 4;
+}
+#pFooter
+{
+   background-color: transparent;
+   background-image: none;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+</style>
+<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="affix.min.js"></script>
+<script type="text/javascript" src="scrollspy.min.js"></script>
+<script type="text/javascript" src="wb.newsviewer.min.js"></script>
+<script type="text/javascript" src="./searchindex.js"></script>
+<script type="text/javascript">
+var features = 'toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes,status=no,left=,top=,width=,height=';
+var searchDatabase = new SearchDatabase();
+var searchResults_length = 0;
+var searchResults = new Object();
+function searchPage(features)
+{
+   var element = document.getElementById('footASEdBox');
+   if (element.value.length != 0 || element.value != " ")
+   {
+      var value = unescape(element.value);
+      var keywords = value.split(" ");
+      searchResults_length = 0;
+      for (var i=0; i<database_length; i++)
+      {
+         var matches = 0;
+         var words = searchDatabase[i].title + " " + searchDatabase[i].description + " " + searchDatabase[i].keywords;
+         for (var j = 0; j < keywords.length; j++)
+         {
+            var pattern = new RegExp(keywords[j], "i");
+            var result = words.search(pattern);
+            if (result >= 0)
+            {
+               matches++;
+            }
+            else
+            {
+               matches = 0;
+            }
+         }
+         if (matches == keywords.length)
+         {
+            searchResults[searchResults_length++] = searchDatabase[i];
+         }
+      }
+      var wndResults = window.open('about:blank', '', features);
+      setTimeout(function()
+      {
+         var results = '';
+         var html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Search results<\/title><'+'style type="text/css">.highlight { color: #FFFFFF; background-color: #00458A}<\/style><\/head>';
+         html = html + '<body style="background-color:#000000;margin:0;padding:2px 2px 2px 2px;">';
+         html = html + '<span style="font-family:Arial;font-size:13px;color:#D3D3D3">';
+         for (var n=0; n<searchResults_length; n++)
+         {
+            var page_keywords = searchResults[n].keywords;
+            for (var k = 0; k < keywords.length; k++)
+            {
+               keywords[k] = keywords[k].replace('*', '');
+               var rgxp = new RegExp(keywords[k], 'g');
+               var repl = '<span class="highlight">' + keywords[k] + '</span>';
+               page_keywords = page_keywords.replace(rgxp, repl);
+            }
+            results = results + '<strong><a style="color:#1E90FF" target="_parent" href="'+searchResults[n].url+'">'+searchResults[n].title +'<\/a><\/strong><br>Ключевые слова: ' + page_keywords +'<br><br>\n';
+         }
+         if (searchResults_length == 0)
+         {
+            results = 'Нет результатов';
+         }
+         else
+         {
+            html = html + searchResults_length;
+            html = html + 'Результат поиска: ';
+            html = html + value;
+            html = html + '<br><br>';
+         }
+         html = html + results;
+         html = html + '<\/span>';
+         html = html + '<\/body><\/html>';
+         wndResults.document.write(html);
+     },100);
+   }
+   return false;
+}
+function searchParseURL()
+{
+   var url = decodeURIComponent(window.location.href);
+   if (url.indexOf('?') > 0)
+   {
+      var terms = '';
+      var params = url.split('?');
+      var values = params[1].split('&');
+      for (var i=0;i<values.length;i++)
+      {
+         var param = values[i].split('=');
+         if (param[0] == 'q')
+         {
+            terms = unescape(param[1]);
+            break;
+         }
+      }
+      if (terms != '')
+      {
+         var element = document.getElementById('footASEdBox');
+         element.value = terms;
+         searchPage('');
+      }
+   }
+}
+</script>
+<script type="text/javascript" src="fancybox/jquery.easing-1.3.pack.js"></script>
+<link rel="stylesheet" href="fancybox/jquery.fancybox-1.3.4.css" type="text/css">
+<script type="text/javascript" src="fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript">
+function displaylightbox(url, options)
+{
+   options.padding = 0;
+   options.autoScale = true;
+   options.href = url;
+   options.type = 'iframe';
+   $.fancybox(options);
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function()
+{
+   $("#wb_h1MainMenue").affix({offset:{top: $("#wb_h1MainMenue").offset().top}});
+   searchParseURL();
+   var $autocomplete = $('<ul class="autocomplete"></ul>').hide().insertAfter('#footASEdBox');
+   var selectedItem = null;
+   var setSelectedItem = function(item)
+   {
+      selectedItem = item;
+      if (selectedItem === null)
+      {
+         $autocomplete.hide();
+         return;
+      }
+      if (selectedItem < 0)
+      {
+         selectedItem = 0;
+      }
+      if (selectedItem >= $autocomplete.find('li').length)
+      {
+         selectedItem = $autocomplete.find('li').length - 1;
+      }
+      $autocomplete.find('li').removeClass('selected').eq(selectedItem).addClass('selected');
+      $autocomplete.css('left', $('#footASEdBox').position().left);
+      $autocomplete.css('top', $('#footASEdBox').position().top + $('#footASEdBox').outerHeight());
+      $autocomplete.show();
+   };
+   var populateSearchField = function()
+   {
+      $('#footASEdBox').val($autocomplete.find('li').eq(selectedItem).text());
+      setSelectedItem(null);
+   };
+   $('#footASEdBox').attr('autocomplete', 'off').keyup(function(event)
+   {
+      if (event.keyCode > 40 || event.keyCode == 8)
+      {
+         var data = new Array();
+         var keywordVal = $('#footASEdBox').val();
+         keywordVal = keywordVal.toLowerCase();
+         for (i=0; i<database_length; i++)
+         {
+            var words = (searchDatabase[i].title + " " + searchDatabase[i].description + " " + searchDatabase[i].keywords).toLowerCase();
+            var array = words.split(" ");
+            data = $.merge(data, array);
+         }
+
+         var unique = new Array();
+         o:for(var i = 0; i < data.length; i++)
+         {
+            for(var j = 0; j < unique.length; j++)
+            {
+               if(unique[j]==data[i]) continue o;
+            }
+            unique[unique.length] = data[i];
+         }
+
+         unique.sort();
+         if (keywordVal.length && unique.length)
+         {
+            $autocomplete.empty();
+            var item = 0;
+            $.each(unique, function(index, term)
+            {
+               term = term.toLowerCase();
+               if (term.indexOf(keywordVal) == 0)
+               {
+                  $('<li></li>').text(term).data('item', item).appendTo($autocomplete).mouseover(function()
+                  {
+                     var item = $(this).data('item');
+                     setSelectedItem(item);
+                  }).click(populateSearchField);
+                  item++;
+               }
+            });
+            setSelectedItem(0);
+         }
+         else
+         {
+            setSelectedItem(null);
+         }
+      }
+      else
+      if (event.keyCode == 38 && selectedItem !== null)
+      {
+         setSelectedItem(selectedItem - 1);
+         event.preventDefault();
+      }
+      else
+      if (event.keyCode == 40 && selectedItem !== null)
+      {
+         setSelectedItem(selectedItem + 1);
+         event.preventDefault();
+      }
+      else
+      if (event.keyCode == 27 && selectedItem !== null)
+      {
+         setSelectedItem(null);
+      }
+   }).keypress(function(event)
+   {
+      if (event.keyCode == 13 && selectedItem !== null)
+      {
+         populateSearchField();
+         event.preventDefault();
+      }
+   }).blur(function(event)
+   {
+      setTimeout(function()
+      {
+         setSelectedItem(null);
+      }, 250);
+   });
+   var hmNews_Data = new Array();
+   hmNews_Data[0] = ["./addtolib/addtolib-about.html", "ADD TO LIB V1.0.5", "", "<br>- &#1048;&#1089;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;&#1072; &#1087;&#1088;&#1086;&#1073;&#1083;&#1077;&#1084;&#1072; &#1089; &#1087;&#1077;&#1088;&#1077;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;&#1084; &#1087;&#1072;&#1087;&#1086;&#1082; Movies &#1080; TV Shows &#1082;&#1086;&#1075;&#1076;&#1072; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080; &#1074;&#1099;&#1079;&#1099;&#1074;&#1072;&#1083;&#1080;&#1089;&#1100; &#1085;&#1077; &#1080;&#1079; &#1072;&#1076;&#1076;&#1086;&#1085;&#1072;<br>- &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1086;: &#1058;&#1080;&#1093;&#1080;&#1081; &#1088;&#1077;&#1078;&#1080;&#1084; &#1086;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103; (&#1073;&#1077;&#1079; &#1087;&#1077;&#1088;&#1077;&#1093;&#1086;&#1076;&#1072; &#1074; &#1087;&#1072;&#1087;&#1082;&#1091; &#1080;&#1089;&#1090;&#1086;&#1095;&#1085;&#1080;&#1082;&#1072;)<br>- &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1086;: &#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077; &#1086;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1089;&#1077;&#1088;&#1080;&#1072;&#1083;&#1072;<br>- &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1086;: &#1060;&#1086;&#1085;&#1086;&#1074;&#1086;&#1077; &#1089;&#1082;&#1072;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; (&#1086;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077;)<br>- &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1086;: &#1053;&#1086;&#1074;&#1072;&#1103; &#1082;&#1072;&#1090;&#1077;&#1075;&#1086;&#1088;&#1080;&#1103; &quot;&#1054;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077;&quot; &#1074; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1072;&#1093;<br>- &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1086;: &#1042;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1100; &#1080;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103; &#1094;&#1074;&#1077;&#1090;&#1072; &#1084;&#1077;&#1085;&#1102;<br>- &#1048;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085; &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1103; &#1085;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1103; &#1080;&#1089;&#1090;&#1086;&#1095;&#1085;&#1080;&#1082;&#1072;, &#1090;&#1077;&#1087;&#1077;&#1088;&#1100; &#1082; &#1085;&#1077;&#1084;&#1091; &#1076;&#1086;&#1073;&#1072;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1089;&#1077;&#1079;&#1086;&#1085; (&#1087;&#1086; &#1074;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1080;)<br>- &#1042; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1072;&#1093; &#1072;&#1076;&#1076;&#1086;&#1085;&#1072; &gt; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1072; &#1076;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085; &#1087;&#1091;&#1085;&#1082;&#1090; &quot;&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080; &#1087;&#1077;&#1088;&#1077;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1090;&#1100; &#1080;&#1089;&#1090;&#1086;&#1095;&#1085;&#1080;&#1082;&#1080;&quot;. &#1055;&#1088;&#1080; &#1077;&#1075;&#1086; &#1079;&#1072;&#1087;&#1091;&#1089;&#1082;&#1077; &#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; &#1087;&#1077;&#1088;&#1077;&#1080;&#1084;&#1077;&#1085;&#1091;&#1077;&#1090; &#1080;&#1089;&#1090;&#1086;&#1095;&#1085;&#1080;&#1082;&#1080; &#1074; &#1089;&#1086;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1080;&#1080; &#1089; &#1085;&#1086;&#1074;&#1099;&#1084; &#1089;&#1090;&#1072;&#1085;&#1076;&#1072;&#1088;&#1090;&#1086;&#1084; (!!! &#1053;&#1072;&#1089;&#1090;&#1086;&#1103;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086; &#1088;&#1077;&#1082;&#1086;&#1084;&#1077;&#1085;&#1076;&#1091;&#1077;&#1090;&#1089;&#1103; &#1089;&#1076;&#1077;&#1083;&#1072;&#1090;&#1100; &#1073;&#1077;&#1082;&#1072;&#1087; &#1073;&#1072;&#1079;&#1099; &#1087;&#1077;&#1088;&#1077;&#1076; &#1077;&#1075;&#1086; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;&#1084;)<br>- &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1072; &#1074;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1100; &#1087;&#1077;&#1088;&#1077;&#1089;&#1082;&#1072;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1074;&#1089;&#1077; &#1080;&#1089;&#1090;&#1086;&#1095;&#1085;&#1080;&#1082;&#1080; &#1089;&#1077;&#1088;&#1080;&#1072;&#1083;&#1072;<br>- &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1072; &#1074;&#1086;&#1079;&#1084;&#1086;&#1078;&#1085;&#1086;&#1089;&#1090;&#1100; &#1087;&#1077;&#1088;&#1077;&#1089;&#1082;&#1072;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1074;&#1089;&#1077; &#1080;&#1089;&#1090;&#1086;&#1095;&#1085;&#1080;&#1082;&#1080; &#1074;&#1089;&#1077;&#1093; &#1089;&#1077;&#1088;&#1080;&#1072;&#1083;&#1086;&#1074;"];
+   hmNews_Data[1] = ["./forums.html", "&#1053;&#1040;&#1049;&#1044;&#1048;&#1058;&#1045; &#1053;&#1040;&#1057;", "", "<br>&#1053;&#1072;&#1081;&#1076;&#1080;&#1090;&#1077; &#1085;&#1072;&#1089; &#1085;&#1072; &#1092;&#1086;&#1088;&#1091;&#1084;&#1072;&#1093;: Kodi.tv (&#1040;&#1085;&#1075;&#1083;&#1080;&#1081;&#1089;&#1082;&#1080;&#1081; &#1103;&#1079;&#1099;&#1082;) &#1080; Xbmc.ru (&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081; &#1103;&#1079;&#1099;&#1082;)"];
+   $("#hmNews").newsviewer({ mode: 'rotate', pause: 5000, pause: 5000, animation: 1, animationDuration: 1500, sortOrder: 0, dataSource: 'local', param: hmNews_Data, target: '_self', includeDate: false, maxItems: 10});
+});
+</script>
+</head>
+<body data-spy="scroll">
+<div id="pFooter" style="position:absolute;overflow:hidden;text-align:left;left:0px;top:554px;width:100%;height:326px;z-index:-1;">
+<div id="footLayerA" style="position:absolute;text-align:center;left:0px;top:1px;width:99.7506%;height:169px;z-index:69;">
+<div id="footLayerA_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_moFootA" style="position:absolute;left:0px;top:0px;width:800px;height:169px;z-index:65;">
+<div id="footALayer" style="position:absolute;text-align:center;left:0px;top:0px;width:100%;height:169px;z-index:64;">
+<div id="footALayer_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_footAM3" style="position:absolute;left:383px;top:47px;width:150px;height:80px;z-index:54;">
+<ul>
+<li class="firstmain"><a href="javascript:displaylightbox('./parts/lbtranslate.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">&#1055;&#1077;&#1088;&#1077;&#1074;&#1086;&#1076;</a>
+</li>
+<li><a href="javascript:displaylightbox('./parts/lbsuggest.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">&#1055;&#1088;&#1077;&#1076;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103;</a>
+</li>
+<li><a href="javascript:displaylightbox('./parts/lbpull.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">Pull&nbsp;requests</a>
+</li>
+</ul>
+</div>
+<div id="wb_footACapM3" style="position:absolute;left:387px;top:26px;width:132px;height:15px;z-index:55;text-align:left;">
+&nbsp;</div>
+<div id="wb_footAM2" style="position:absolute;left:235px;top:47px;width:150px;height:80px;z-index:56;">
+<ul>
+<li class="firstmain"><a href="javascript:displaylightbox('./parts/lbsuported.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">&#1044;&#1086;&#1089;&#1090;&#1091;&#1087;&#1085;&#1099;&#1077;&nbsp;&#1087;&#1083;&#1072;&#1090;&#1092;&#1086;&#1088;&#1084;&#1099;</a>
+</li>
+<li><a href="javascript:displaylightbox('./parts/lbhowtoinst.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">&#1050;&#1072;&#1082;&nbsp;&#1091;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100;</a>
+</li>
+<li><a href="javascript:displaylightbox('./parts/lbcodeborr.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">&#1047;&#1072;&#1080;&#1084;&#1089;&#1090;&#1074;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;&nbsp;&#1082;&#1086;&#1076;&#1072;</a>
+</li>
+<li><a href="javascript:displaylightbox('./parts/lbcontacts.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">&#1050;&#1086;&#1085;&#1090;&#1072;&#1082;&#1090;&#1099;</a>
+</li>
+</ul>
+</div>
+<div id="wb_footACapM2" style="position:absolute;left:235px;top:26px;width:147px;height:15px;z-index:57;text-align:left;">
+&nbsp;</div>
+<div id="wb_footAM1" style="position:absolute;left:13px;top:47px;width:200px;height:80px;z-index:58;">
+<ul>
+<li class="firstmain"><a href="https://kodi.tv/about/" target="_blank">&#1063;&#1090;&#1086;&nbsp;&#1090;&#1072;&#1082;&#1086;&#1077;&nbsp;Kodi?</a>
+</li>
+<li><a href="./addtolib/addtolib-faq.html" target="_self">&#1055;&#1088;&#1086;&#1073;&#1083;&#1077;&#1084;&#1099;&nbsp;&#1089;&nbsp;&#1087;&#1086;&#1089;&#1090;&#1077;&#1088;&#1072;&#1084;&#1080;&nbsp;&#1074;&nbsp;Aeon&nbsp;MQ6</a>
+</li>
+<li><a href="https://github.com/Taifxx/xxtrep" target="_blank">&#1057;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100;&nbsp;&#1085;&#1072;&nbsp;GitHub</a>
+</li>
+</ul>
+</div>
+<div id="wb_footACapM1" style="position:absolute;left:16px;top:26px;width:250px;height:15px;z-index:59;text-align:left;">
+<span style="color:#FFFFFF;font-family:Arial;font-size:12px;"><strong>БЫСТРЫЕ ОТВЕТЫ</strong></span></div>
+<div id="wb_footASearch" style="position:absolute;left:527px;top:20px;width:269px;height:108px;z-index:60;">
+<form name="Search" method="get" action="javascript:searchPage();" id="footASearch">
+<div id="wb_footASCap" style="position:absolute;left:18px;top:6px;width:137px;height:15px;z-index:51;text-align:left;">
+<span style="color:#FFFFFF;font-family:Arial;font-size:12px;"><strong>ПОИСК</strong></span></div>
+<form name="footASEdBox_form" id="footASEdBox_form" accept-charset="UTF-8" onsubmit="return searchPage(features)">
+<input type="text" id="footASEdBox" style="position:absolute;left:18px;top:29px;width:243px;height:23px;line-height:23px;z-index:52;" name="SiteSearch1" value="" placeholder="&#1055;&#1086;&#1080;&#1089;&#1082; &#1087;&#1086; &#1089;&#1072;&#1081;&#1090;&#1091;"></form>
+<input type="button" id="footASBtn" onclick="searchPage();return false;" name="Search" value="GO!" style="position:absolute;left:155px;top:64px;width:108px;height:25px;z-index:53;">
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footLayerB" style="position:absolute;text-align:center;left:0px;top:172px;width:99.7506%;height:220px;z-index:70;">
+<div id="footLayerB_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_moFootB" style="position:absolute;left:0px;top:0px;width:800px;height:169px;z-index:68;">
+<div id="footBLayer" style="position:absolute;text-align:left;left:0px;top:0px;width:100%;height:16.0038%;z-index:67;">
+   <div id="wb_footBTxt" style="position:absolute;left:0%;top:8%;width:99%;height:89%;text-align:center;z-index:66;">
+      <span class="Shad_8">Авторское право © 2016 Taifxx<br></span><span class="Shad"><br>Эта программа является свободным программным обеспечением: вы можете распространять и/или модифицировать ее согласно условиям стандартной общественной лицензии GNU, опубликованной Фондом свободного программного обеспечения, версии 3, либо (по вашему выбору) любой более поздней версии. <br><br>Эта программа распространяется в надежде, что она будет полезной, но без каких-либо гарантий; даже без подразумеваемых гарантий коммерческой ценности или пригодности для конкретной цели. Смотрите стандартную общественную лицензию GNU для получения дополнительной информации. <br><br></span><span style="color:#F5F5F5;font-family:'Trebuchet MS';font-size:9.3px;"><strong><a href="http://www.gnu.org/licenses" class="Blue_style_bold">http://www.gnu.org/licenses</a></strong></span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="container">
+<div id="wb_Shape2" style="position:absolute;left:6px;top:278px;width:800px;height:294px;filter:alpha(opacity=70);opacity:0.70;z-index:71;">
+<img src="images/img0021.gif" id="Shape2" alt="" style="width:800px;height:294px;"></div>
+<div id="Layer3" style="position:absolute;text-align:left;left:16px;top:288px;width:776px;height:251px;z-index:72;">
+</div>
+<div id="wb_Image2" style="position:absolute;left:16px;top:339px;width:150px;height:150px;z-index:73;">
+<img src="images/flag.png" id="Image2" alt=""></div>
+<div id="hmNews" style="overflow:hidden;position:absolute;left:194px;top:289px;width:582px;height:234px;z-index:74;">
+</div>
+</div>
+<div id="pHeader" style="position:absolute;overflow:hidden;text-align:center;left:0px;top:0px;width:100%;height:279px;z-index:7777;">
+<div id="pHeader_Container" style="width:802px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<div id="wb_moHead" style="position:absolute;left:0px;top:0px;width:805px;height:278px;z-index:8;">
+<div id="wb_h2Bkg" style="position:absolute;left:5px;top:81px;width:800px;height:197px;z-index:2;">
+<img src="images/img0016.gif" id="h2Bkg" alt="" style="width:800px;height:197px;"></div>
+<div id="wb_h2TxtBkg" style="position:absolute;left:5px;top:100px;width:382px;height:69px;filter:alpha(opacity=50);opacity:0.50;z-index:3;">
+<img src="images/img0017.gif" id="h2TxtBkg" alt="" style="width:382px;height:69px;"></div>
+<div id="wb_h2Img" style="position:absolute;left:5px;top:183px;width:800px;height:95px;z-index:4;">
+<img src="images/img0018.png" id="h2Img" alt=""></div>
+<div id="wb_h2TxtA" style="position:absolute;left:39px;top:113px;width:348px;height:14px;z-index:5;text-align:left;">
+<span style="color:#DCDCDC;font-family:Arial;font-size:11px;">Установка</span><span style="color:#F5F5F5;font-family:Arial;font-size:11px;"> дополнений из репозитория XXTREP для KODI от </span><span style="color:#1E90FF;font-family:Arial;font-size:11px;"><strong>Taifxx</strong></span></div>
+<div id="wb_h2TxtB" style="position:absolute;left:39px;top:139px;width:246px;height:15px;z-index:6;text-align:left;">
+<span style="color:#F5F5F5;font-family:Arial;font-size:12px;"><strong>Скачать рерозиторий: <a href="https://github.com/Taifxx/xxtrep/blob/master/repository.xxtrep.zip?raw=true" class="Blue_style">xxtrep.repository</a></strong> </span></div>
+<div id="h1Layer" style="position:absolute;text-align:center;left:5px;top:1px;width:800px;height:80px;z-index:7;">
+<div id="h1Layer_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+<img src="images/img0019.png" id="h1Logo" alt=""  style="position:absolute;left:34px;top:13px;width:189px;height:54px;z-index:0;">
+<div id="wb_h1MainMenue" style="position:absolute;left:393px;top:12px;width:404px;height:56px;z-index:1;">
+<ul>
+<li class="firstmain"><a class="withsubmenu" href="#" target="_self">LANGUAGE</a>
+
+<ul>
+<li class="firstitem lastitem"><a href="http://taifxx.github.io/xxtrep/" target="_self">English</a>
+</li>
+</ul>
+</li>
+<li><a class="active" href="./home.html" target="_self">&#1043;&#1051;&#1040;&#1042;&#1053;&#1040;&#1071;</a>
+</li>
+<li><a class="withsubmenu" href="./addtolib/addtolib-index.html" target="_self">ADD&nbsp;TO&nbsp;LIB</a>
+
+<ul>
+<li class="firstitem"><a href="./addtolib/addtolib-about.html" target="_self">&#1054;&nbsp;&#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080;</a>
+</li>
+<li><a href="./addtolib/addtolib-more.html" target="_self">&#1055;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1077;&#1077;...</a>
+</li>
+<li class="lastitem"><a href="./addtolib/addtolib-faq.html" target="_self">&#1042;&#1086;&#1087;&#1088;&#1086;&#1089;&#1099;&nbsp;&#1080;&nbsp;&#1086;&#1090;&#1074;&#1077;&#1090;&#1099;</a>
+</li>
+</ul>
+</li>
+<li><a class="withsubmenu" href="./forums.html" target="_self">&#1060;&#1054;&#1056;&#1059;&#1052;&#1067;</a>
+
+<ul>
+<li class="firstitem"><a href="./redirects/red-xbmcru.html" target="_self">Xbmc.ru&nbsp;(RU)</a>
+</li>
+<li class="lastitem"><a href="./redirects/red-koditv.html" target="_self">Kodi.tv&nbsp;(EN)</a>
+</li>
+</ul>
+</li>
+<li><a href="./downloads.html" target="_self">&#1057;&#1050;&#1040;&#1063;&#1040;&#1058;&#1068;</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

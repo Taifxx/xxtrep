@@ -1,0 +1,520 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>--head</title>
+<meta name="keywords" content="xxtrep kodi addtolib xbmc strm video library">
+<meta name="author" content="Taifxx">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="../icsit.ico" rel="shortcut icon" type="image/x-icon">
+<style type="text/css">
+div#container
+{
+   width: 800px;
+   position: relative;
+   margin: 0 auto 0 auto;
+   text-align: left;
+}
+body
+{
+   background-color: transparent;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   text-align: center;
+}
+a
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+a:visited
+{
+   color: #800080;
+}
+a:active
+{
+   color: #FF0000;
+}
+a:hover
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+a.Blue_style
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:visited
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:active
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:hover
+{
+   color: #1E90FF;
+   text-decoration: underline;
+}
+#h2Bkg
+{
+   border-width: 0;
+}
+#h2TxtBkg
+{
+   border-width: 0;
+}
+#h2Img
+{
+   border: 0px #000000 solid;
+   -moz-box-shadow: 0px 0px 10px #000000;
+   -webkit-box-shadow: 0px 0px 10px #000000;
+   box-shadow: 0px 0px 10px #000000;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#wb_h2TxtA 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_h2TxtA div
+{
+   text-align: left;
+}
+#wb_h2TxtB 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_h2TxtB div
+{
+   text-align: left;
+}
+#h1Logo 
+{
+   border: 0px #000000 solid;
+   margin: 0;
+}
+#wb_h1MainMenue
+{
+   border: 0px #DCDCDC solid;
+   background-color: transparent;
+}
+#wb_h1MainMenue ul
+{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+}
+#wb_h1MainMenue li
+{
+   float: left;
+   margin: 0;
+   padding: 0px 1px 0px 0px;
+}
+#wb_h1MainMenue a
+{
+   display: block;
+   float: left;
+   color: #FFFFFF;
+   border: 0px #D0F0EF solid;
+   background-color: #000000;
+   background-color: rgba(0,0,0,0.50);
+   background-image: none;
+   font-family: Arial;
+   font-weight: bold;
+   font-size: 13px;
+   font-style: normal;
+   text-decoration: none;
+   height: 56px;
+   line-height: 56px;
+   padding: 0px 5px 0px 5px;
+   vertical-align: middle;
+   text-align: center;
+}
+#wb_h1MainMenue li:hover a, #wb_h1MainMenue a:hover, #wb_h1MainMenue .active
+{
+   color: #9ACD32;
+   background-color: #000000;
+   background-color: rgba(0,0,0,0.75);
+   background-image: none;
+   border: 0px #145F74 solid;
+}
+#wb_h1MainMenue li.firstmain
+{
+   padding-left: 0px;
+}
+#wb_h1MainMenue li.lastmain
+{
+   padding-right: 0px;
+}
+#wb_h1MainMenue li:hover, #wb_h1MainMenue li a:hover
+{
+   position: relative;
+}
+#wb_h1MainMenue a.withsubmenu
+{
+   padding: 0 5px 0 5px;
+   background-image: none;
+}
+#wb_h1MainMenue li:hover a.withsubmenu, #wb_h1MainMenue a.withsubmenu:hover
+{
+   background-image: none;
+}
+#wb_h1MainMenue ul ul
+{
+   position: absolute;
+   left: 0;
+   top: 0;
+   visibility: hidden;
+   width: 122px;
+   height: auto;
+   border: none;
+   background-color: transparent;
+}
+#wb_h1MainMenue ul :hover ul
+{
+   left: 1px;
+   top: 56px;
+   padding-top: 0px;
+   visibility: visible;
+}
+#wb_h1MainMenue .firstmain:hover ul
+{
+   left: 1px;
+}
+#wb_h1MainMenue li li
+{
+   width: 120px;
+   padding: 0 0px 0px 0px;
+   border: 1px #1E1E1E solid;
+   border-width: 0 1px;
+}
+#wb_h1MainMenue li li.firstitem
+{
+   border-top: 1px #1E1E1E solid;
+}
+#wb_h1MainMenue li li.lastitem
+{
+   border-bottom: 1px #1E1E1E solid;
+}
+#wb_h1MainMenue ul ul a, #wb_h1MainMenue ul :hover ul a
+{
+   float: none;
+   margin: 0;
+   width: 108px;
+   height: auto;
+   white-space: normal;
+   padding: 8px 6px 7px 6px;
+   background-color: #000000;
+   background-image: none;
+   border: 0px #C0C0C0 none;
+   color: #F5F5F5;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   font-style: normal;
+   line-height: 13px;
+   text-align: left;
+   text-decoration: none;
+}
+#wb_h1MainMenue ul :hover ul .firstitem a
+{
+   margin-top: 0px;
+}
+#wb_h1MainMenue ul ul :hover a, #wb_h1MainMenue ul ul a:hover, #wb_h1MainMenue ul ul :hover ul :hover a, #wb_h1MainMenue ul ul :hover ul a:hover
+{
+   background-color: #2D2D2D;
+   background-image: none;
+   border: 0px #C0C0C0 none;
+   color: #FFFFFF;
+}
+#wb_h1MainMenue br
+{
+   clear: both;
+   font-size: 1px;
+   height: 0;
+   line-height: 0;
+}
+#wb_h1MainMenue.affix
+{
+   top: 0 !important;
+   position: fixed !important;
+   left: 50% !important;
+   margin-left: -2px;
+}
+#h1Layer
+{
+   background-color: #000000;
+   background-image: none;
+}
+#h1Layer
+{
+   position: absolute;
+   text-align: center;
+   left: 5px;
+   top: 1px;
+   width: 800px;
+   height: 80px;
+   z-index: 7;
+}
+#wb_h2Img
+{
+   position: absolute;
+   left: 5px;
+   top: 183px;
+   width: 800px;
+   height: 95px;
+   z-index: 4;
+}
+#h2TxtBkg
+{
+   width: 382px;
+   height: 69px;
+}
+#h1Logo
+{
+   position: absolute;
+   left: 34px;
+   top: 13px;
+   width: 189px;
+   height: 54px;
+   z-index: 0;
+}
+#h1Layer_Container
+{
+   width: 800px;
+   position: relative;
+   margin-left: auto;
+   margin-right: auto;
+   text-align: left;
+}
+#wb_h1MainMenue
+{
+   position: absolute;
+   left: 393px;
+   top: 12px;
+   width: 404px;
+   height: 56px;
+   z-index: 1;
+}
+#wb_h2TxtA
+{
+   position: absolute;
+   left: 39px;
+   top: 113px;
+   width: 348px;
+   height: 14px;
+   z-index: 5;
+   text-align: left;
+}
+#wb_h2TxtB
+{
+   position: absolute;
+   left: 39px;
+   top: 139px;
+   width: 246px;
+   height: 15px;
+   z-index: 6;
+   text-align: left;
+}
+#wb_h2Bkg
+{
+   position: absolute;
+   left: 5px;
+   top: 81px;
+   width: 800px;
+   height: 197px;
+   z-index: 2;
+}
+#h2Bkg
+{
+   width: 800px;
+   height: 197px;
+}
+#wb_h2TxtBkg
+{
+   position: absolute;
+   left: 5px;
+   top: 100px;
+   width: 382px;
+   height: 69px;
+   filter: alpha(opacity=50);
+   opacity: 0.50;
+   z-index: 3;
+}
+@media only screen and (max-width: 320px)
+{
+div#container
+{
+   width: 320px;
+}
+body
+{
+   background-color: transparent;
+   background-image: none;
+}
+#wb_h2Bkg
+{
+   left: 5px;
+   top: 81px;
+   visibility: visible;
+   display: inline;
+}
+#wb_h2TxtBkg
+{
+   left: 5px;
+   top: 100px;
+   visibility: visible;
+   display: inline;
+}
+#wb_h2Img
+{
+   left: 5px;
+   top: 241px;
+   width: 800px;
+   height: 95px;
+   visibility: visible;
+   display: inline;
+}
+#wb_h2TxtA
+{
+   left: 39px;
+   top: 136px;
+   width: 396px;
+   height: 14px;
+   visibility: visible;
+   display: inline;
+   background-color: transparent;
+   background-image: none;
+}
+#wb_h2TxtB
+{
+   left: 39px;
+   top: 171px;
+   width: 246px;
+   height: 15px;
+   visibility: visible;
+   display: inline;
+   background-color: transparent;
+   background-image: none;
+}
+#h1Logo
+{
+   left: 64px;
+   top: 17px;
+   visibility: visible;
+   display: inline;
+   background-color: transparent;
+   background-image: none;
+}
+#wb_h1MainMenue
+{
+   left: 340px;
+   top: 13px;
+   visibility: visible;
+   display: inline;
+}
+#wb_h1MainMenue.affix
+{
+   margin-left: 185px;
+}
+#h1Layer
+{
+   left: 5px;
+   top: 1px;
+   width: 800px;
+   height: 80px;
+   visibility: visible;
+   display: inline;
+}
+#h1Layer_Container
+{
+   width: 800px;
+}
+}
+</style>
+<script type="text/javascript" src="../jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../affix.min.js"></script>
+<script type="text/javascript" src="../scrollspy.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function()
+{
+   $("#wb_h1MainMenue").affix({offset:{top: $("#wb_h1MainMenue").offset().top}});
+});
+</script>
+</head>
+<body data-spy="scroll">
+<div id="container">
+<div id="wb_h2Bkg">
+<img src="../images/img0016.gif" id="h2Bkg" alt=""></div>
+<div id="wb_h2TxtBkg">
+<img src="../images/img0017.gif" id="h2TxtBkg" alt=""></div>
+<div id="wb_h2Img">
+<img src="../images/img0018.png" id="h2Img" alt=""></div>
+<div id="wb_h2TxtA">
+<span style="color:#DCDCDC;font-family:Arial;font-size:11px;">Установка</span><span style="color:#F5F5F5;font-family:Arial;font-size:11px;"> дополнений из репозитория XXTREP для KODI от </span><span style="color:#1E90FF;font-family:Arial;font-size:11px;"><strong>Taifxx</strong></span></div>
+<div id="wb_h2TxtB">
+<span style="color:#F5F5F5;font-family:Arial;font-size:12px;"><strong>Скачать рерозиторий: <a href="https://github.com/Taifxx/xxtrep/blob/master/repository.xxtrep.zip?raw=true" class="Blue_style">xxtrep.repository</a></strong> </span></div>
+<div id="h1Layer">
+<div id="h1Layer_Container">
+<img src="../images/img0019.png" id="h1Logo" alt="" >
+<div id="wb_h1MainMenue">
+<ul>
+<li class="firstmain"><a class="withsubmenu" href="#" target="_self">LANGUAGE</a>
+
+<ul>
+<li class="firstitem lastitem"><a href="http://taifxx.github.io/xxtrep/" target="_self">English</a>
+</li>
+</ul>
+</li>
+<li><a href="./../home.html" target="_self">&#1043;&#1051;&#1040;&#1042;&#1053;&#1040;&#1071;</a>
+</li>
+<li><a class="withsubmenu" href="./../addtolib/addtolib-index.html" target="_self">ADD&nbsp;TO&nbsp;LIB</a>
+
+<ul>
+<li class="firstitem"><a href="./../addtolib/addtolib-about.html" target="_self">&#1054;&nbsp;&#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080;</a>
+</li>
+<li><a href="./../addtolib/addtolib-more.html" target="_self">&#1055;&#1086;&#1076;&#1088;&#1086;&#1073;&#1085;&#1077;&#1077;...</a>
+</li>
+<li class="lastitem"><a href="./../addtolib/addtolib-faq.html" target="_self">&#1042;&#1086;&#1087;&#1088;&#1086;&#1089;&#1099;&nbsp;&#1080;&nbsp;&#1086;&#1090;&#1074;&#1077;&#1090;&#1099;</a>
+</li>
+</ul>
+</li>
+<li><a class="withsubmenu" href="./../forums.html" target="_self">&#1060;&#1054;&#1056;&#1059;&#1052;&#1067;</a>
+
+<ul>
+<li class="firstitem"><a href="./../redirects/red-xbmcru.html" target="_self">Xbmc.ru&nbsp;(RU)</a>
+</li>
+<li class="lastitem"><a href="./../redirects/red-koditv.html" target="_self">Kodi.tv&nbsp;(EN)</a>
+</li>
+</ul>
+</li>
+<li><a href="./../downloads.html" target="_self">&#1057;&#1050;&#1040;&#1063;&#1040;&#1058;&#1068;</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

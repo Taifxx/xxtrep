@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>--faq</title>
+<meta name="keywords" content="xxtrep kodi addtolib xbmc strm video library">
+<meta name="author" content="Taifxx">
+<link href="../icsit.ico" rel="shortcut icon" type="image/x-icon">
+<style type="text/css">
+div#container
+{
+   width: 970px;
+   position: relative;
+   margin: 0 auto 0 auto;
+   text-align: left;
+}
+body
+{
+   background-color: transparent;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   text-align: center;
+}
+a
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+a:visited
+{
+   color: #800080;
+}
+a:active
+{
+   color: #FF0000;
+}
+a:hover
+{
+   color: #0000FF;
+   text-decoration: underline;
+}
+a.Blue_style
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:visited
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:active
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style:hover
+{
+   color: #1E90FF;
+   text-decoration: underline;
+}
+#wb_Text1 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: justify;
+}
+#wb_Text1 div
+{
+   text-align: justify;
+}
+#Image1
+{
+   border: 0px #000000 solid;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#Image2
+{
+   border: 0px #000000 solid;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#wb_Text2 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text2 div
+{
+   text-align: left;
+}
+#PhotoGallery1
+{
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+   width: 100%;
+   height: 100%;
+   table-layout: fixed;
+   display: table;
+}
+#PhotoGallery1 .thumbnails
+{
+   margin: 0;
+}
+#PhotoGallery1 .thumbnail
+{
+   position: relative;
+   min-height: 1px;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+   float: left;
+   padding: 3px 3px 3px 3px;
+   width: 33.33333333%;
+   text-align: center;
+   vertical-align: top;
+}
+#PhotoGallery1 .thumbnail img
+{
+   border: 0px #000000 solid;
+   display: block;
+   width: 100%;
+   height: auto;
+   max-width: 100%;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+#PhotoGallery1 .clearfix:before,
+#PhotoGallery1 .clearfix:after,
+#PhotoGallery1 .thumbnails:before,
+#PhotoGallery1 .thumbnails:after
+{
+   display: table;
+   content: " ";
+}
+#PhotoGallery1 .clearfix:after,
+#PhotoGallery1 .thumbnails:after
+{
+   clear: both;
+}
+#PhotoGallery1 .visible-col3
+{
+   display: block;
+}
+</style>
+<script type="text/javascript" src="../jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../jquery.ui.effect.min.js"></script>
+<script type="text/javascript" src="../jquery.ui.effect-blind.min.js"></script>
+<script type="text/javascript" src="../fancybox/jquery.easing-1.3.pack.js"></script>
+<link rel="stylesheet" href="../fancybox/jquery.fancybox-1.3.4.css" type="text/css">
+<script type="text/javascript" src="../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="../fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript" src="../wwb11.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function()
+{
+$("a[rel^='PhotoGallery1']").fancybox({overlayShow:true,
+overlayColor:'#1E1E1E'});
+});
+</script>
+</head>
+<body onunload="ShowObjectWithEffect('wb_Text1', 0, 'blindhorizontal', 500);return false;">
+<div id="container">
+<div id="wb_Text1" style="position:absolute;left:0px;top:36px;width:517px;height:376px;text-align:justify;z-index:0;">
+<span style="color:#C0C0C0;font-family:Arial;font-size:13px;"> Проблема заключается в том, что в Aeon MQ6 постер берется исключительно из FanArt'а. В дополнении FanArt передается элементу listitem, который проигрывается функцией setResolvedUrl. в Kodi есть небольшой баг, относительно функции setResolvedUrl, который игнорирует инструкцию ListItem.setArt(...). Таким образом, заставить Aeon MQ6 видеть постеры можно только внеся коррективу в код самого скина:</span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br></span><span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Файл:</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;">&nbsp; </span><span style="color:#A9A9A9;font-family:Arial;font-size:13px;"><em>Kodi \ addons \ skin.aeonmq6 \ 720p \ IncludesVariables.xml<br></em><br></span><span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Блок:</strong><br></span><span style="color:#808080;font-family:Arial;font-size:13px;"><br>&nbsp;&nbsp;&nbsp;&nbsp; &lt;variable name=&quot;value_thumbfullscreen&quot;&gt;</span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br></span><span style="color:#A9A9A9;font-family:Arial;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp; ...</span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br></span><span style="color:#6EC401;font-family:Arial;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp; &lt;value condition=&quot;!IsEmpty(Player.Art(thumb))&quot;&gt;$INFO[Player.Art(thumb)]&lt;/value&gt;</span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br></span><span style="color:#808080;font-family:Arial;font-size:13px;">&nbsp;&nbsp;&nbsp;&nbsp; &lt;/variable&gt;</span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color:#FF0000;font-family:Arial;font-size:21px;"><strong>(!)</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;">&nbsp;&nbsp; Добавить строку нужно после других value condition, перед закрытием <br>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; блока</span><span style="color:#808080;font-family:Arial;font-size:13px;"> &lt;/variable&gt;</span><span style="color:#D3D3D3;font-family:Arial;font-size:13px;"><br></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br></span><span style="color:#C0C0C0;font-family:Arial;font-size:13px;">Кому лень копаться вот исправленный файл IncludesVariables.xml из версии 3.3.0: <br></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><a href="https://github.com/Taifxx/OtherFix/blob/master/AeonMQ6/IncludesVariables.xml" class="Blue_style">IncludesVariables.xml</a></span></div>
+<div id="wb_Image1" style="position:absolute;left:0px;top:16px;width:360px;height:20px;z-index:1;">
+<img src="../images/line.png" id="Image1" alt=""></div>
+<div id="wb_Image2" style="position:absolute;left:0px;top:405px;width:360px;height:20px;z-index:2;">
+<img src="../images/line.png" id="Image2" alt=""></div>
+<div id="wb_Text2" style="position:absolute;left:0px;top:0px;width:334px;height:19px;z-index:3;text-align:left;">
+<span style="color:#1E90FF;font-family:Arial;font-size:16px;"><strong>ПРОБЛЕМА С ПОСТЕРАМИ В AEON MQ6</strong></span></div>
+<div id="wb_PhotoGallery1" style="position:absolute;left:6px;top:422px;width:511px;height:98px;z-index:4;">
+<div id="PhotoGallery1">
+   <div class="thumbnails">
+      <div class="thumbnail">
+         <a href="../images/angh.png" rel="PhotoGallery1"><img alt="" src="../images/angh.png"></a>
+      </div>
+      <div class="thumbnail">
+         <a href="../images/angh2.png" rel="PhotoGallery1"><img alt="" src="../images/angh2.png"></a>
+      </div>
+      <div class="thumbnail">
+         <a href="../images/angh3.png" rel="PhotoGallery1"><img alt="" src="../images/angh3.png"></a>
+      </div>
+      <div class="clearfix visible-col3"></div>
+   </div>
+</div></div>
+</div>
+</body>
+</html>
