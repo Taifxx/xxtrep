@@ -236,7 +236,7 @@ class plgMain():
     
     def __init__(self, action=Empty):
         ## Create Addon Profile folder ...
-        DOS.mkdirs(addon.libpath)
+        DOS.mkdirs(LIB.lib)
         check_lib_folders(False)
         
         CTVS.BGPROCESS = addon.BGUPD
