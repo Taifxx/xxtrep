@@ -80,6 +80,9 @@
     <string id="30080">Do you want to [COLOR ##COLOR##]rescann all[/COLOR] TV Show sources?</string>
     <string id="30081">Do you want to [COLOR ##COLOR##]rescann all[/COLOR] sources in [COLOR ##COLOR##]all TV Shows[/COLOR]?</string>
     <string id="30082">Do you want to [COLOR ##COLOR##]automatically rename[/COLOR] all sources?</string>
+    <string id="30083">Addon [COLOR red]locked[/COLOR] until background process running. Unlock forcibly?</string>
+    <string id="30084">Do you want to [COLOR ##COLOR##]remove[/COLOR] all backups?</string>
+    <string id="30085">Do you want to restore library from backup ([COLOR ##COLOR##]%s[/COLOR])?</string>
     <!-- Dialogs messages -->
     <string id="30100">OK</string>  
     <string id="30101">></string>
@@ -105,6 +108,20 @@
     <string id="30165">Enter new episode name:</string>
     <string id="30166">Choose color:</string>
     <string id="30167">Season</string>
+    <string id="30168">Backuping</string>
+    <string id="30169">Select backup</string>
+    <string id="30170">Library restoring</string>
+    <string id="30171">Removing library</string>
+    <string id="30172">Unpacking library</string>
+    <string id="30173">Checking backup file</string>
+    <string id="30174">Date: %s.%s.%s  *  Time: %s:%s:%s  *  Records: %s</string>
+    <string id="30175">Transfer backup</string>
+    <string id="30176">Transfer library</string>
+    <string id="30177">Removing temporary files</string>
+    <string id="30178">Packing library</string>
+    <string id="30179">Removing old backups</string>
+    <string id="30180">Clearing</string>
+    <string id="30181">Cleaning erroneous data</string>
     <!-- Errors messages -->
     <string id="30201">[COLOR red]Item is not a file[/COLOR]</string>
     <string id="30202">Entered incorrect data.</string>
@@ -117,6 +134,13 @@
     <string id="30209">[COLOR red]Can't define[/COLOR] episode data</string>
     <string id="30210">[COLOR red]Decrease in number of episodes in source[/COLOR]</string>
     <string id="30211">[COLOR red]Perhaps source is corrupted:[/COLOR] %s[COLOR ##COLOR##]%s[/COLOR]</string>
+    <string id="30212">[COLOR red]Library is not available.[/COLOR] Verify correct path</string>
+    <string id="30213">[COLOR red]Library is not available[/COLOR]</string>
+    <string id="30214">[COLOR red]Locked.[/COLOR] Background process running</string>
+    <string id="30215">[COLOR ##COLOR##]ATTENTION.[/COLOR] Selected TV Show is in another library</string>
+    <string id="30216">[COLOR red]Backup corrupted.[/COLOR] Restore impossible</string>
+    <string id="30217">[COLOR red]Backup path is not available.[/COLOR] Verify correct path</string>
+    <string id="30218">[COLOR red]Backup path is not available[/COLOR]</string>
     <!-- OK messages -->
     <string id="30301">Process completed [COLOR ##COLOR##]successfully[/COLOR]</string>
     <string id="30302">Movie added</string>
@@ -141,6 +165,10 @@
     <string id="30321">TV Show sources [COLOR ##COLOR##]rescanned[/COLOR]</string>
     <string id="30322">All sources in all TV Shows [COLOR ##COLOR##]rescanned[/COLOR]</string>
     <string id="30323">All sources [COLOR ##COLOR##]renamed[/COLOR]</string>
+    <string id="30324">Backup [COLOR ##COLOR##]created[/COLOR]</string>
+    <string id="30325">All backups [COLOR red]removed[/COLOR]</string>
+    <string id="30326">Library [COLOR ##COLOR##]restored[/COLOR]</string>
+    <string id="30327">Backups [COLOR ##COLOR##]do not exist[/COLOR]</string>
     <!-- Settings -->
     <string id="30401">Colorize menue and messages</string>
     <string id="30402">Update (Clean) video library after action</string>
@@ -178,10 +206,24 @@
     <string id="30434">> Rename folders now</string>
     <string id="30435">> Change menue color</string>
     <string id="30436">> Automatically rename all sources</string>
+    <string id="30437">Hide forced adding during background scanning</string>
+    <string id="30438">> Library backup</string>
+    <string id="30439">Library backup path</string>
+    <string id="30440">Remove old backups</string>
+    <string id="30441">Number of stored backups</string>
+    <string id="30442">Allow automatically backup</string>
+    <string id="30443">Backup on startup</string>
+    <string id="30444">Automatically backup period (min.)</string>
+    <string id="30445">> Remove all backups</string>
+    <string id="30446">> Restore backup</string>
+    <string id="30447">> Set backup path as default</string>
+    <string id="30448">Don't show progress during automatically backup</string>
     <!-- Settings categories -->
     <string id="30480">General</string>
     <string id="30481">Main menue</string>
     <string id="30482">Playback</string>
     <string id="30483">Library</string>
     <string id="30484">Update</string>
+    
+    <string id="30485">Backup</string>
 </strings>

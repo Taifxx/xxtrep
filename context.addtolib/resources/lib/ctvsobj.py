@@ -202,6 +202,7 @@ class TVS:
     def dimport(self):
         self.packed_data = DOS.file(self._file_name, self.lib_path, fType=FRead) 
         if self.packed_data == -1: self.packed_data = Empty
+        self.packed_data = self.packed_data.replace(CR, Empty)
         self._unpack()
     
     def dexport(self):
@@ -257,7 +258,7 @@ class TVS:
                 srcItmNum = len(DOS.listdir(src['src_link'])[1])
                 locEpsNum = len([eps['original_name'] for eps in self._episodes if eps['src_id'] == src['src_id']])
                 
-            if srcItmNum != locEpsNum and srcItmNum != 0: 
+            if srcItmNum > locEpsNum and srcItmNum != 0: 
                 srcListNames.append(src['src_name'])
                 srcListLinks.append(src['src_link'])
         
@@ -268,7 +269,7 @@ class TVS:
             if not frc['fsrc_upd']: continue
             frcItmNum = len(DOS.listdir(frc['fsrc_link'])[1])
             folNum    = frc['fsrc_inum']
-            if frcItmNum != folNum and frcItmNum != 0: 
+            if frcItmNum > folNum and frcItmNum != 0: 
                 frcListNames.append(frc['fsrc_name'])
                 frcListLinks.append(frc['fsrc_link'])
         
@@ -355,6 +356,7 @@ class CLinkTable:
     def _load_table(self):
         self._unp_table = DOS.file(self._file_name, self._file_path, fType=FRead)
         if self._unp_table == -1: self._unp_table = Empty
+        self._unp_table = self._unp_table.replace(CR, Empty)
         self._unpack()
     
     def _unpack(self):
@@ -371,8 +373,10 @@ class CLinkTable:
         DOS.file(self._file_name, self._file_path, self._unp_table, fRew = True)
         
     def find(self, link):
+        if not link : return Empty
         for itm in self._table:
             if itm['stl_link'] == link: return itm['stl_path']
+        return Empty
     
     def add(self, path, link, save=True):
         self._add(path, path, False)

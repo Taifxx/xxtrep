@@ -24,69 +24,126 @@ import xbmcaddon
 from resources.lib.deecode import *
 from resources.lib.tags    import *
 
-### Addon info ...
-addon          = xbmcaddon.Addon(id=TAG_PAR_SCRIPT_ID)
-profile        = de(xbmc.translatePath(addon.getAddonInfo('profile')))
-localize       = addon.getLocalizedString
-name           = addon.getAddonInfo('name')
-id             = addon.getAddonInfo('id')
-author         = addon.getAddonInfo('author')
-version        = addon.getAddonInfo('version')
-path           = de(addon.getAddonInfo('path'))
-icon           = addon.getAddonInfo('icon')
-
-
-### Translate tag to languare string ...
-tlraw = lambda tag : e(localize(tag))   
-    
 
 ### Convert string True result ...
 _sbool = lambda sval : True if sval == 'true' else False
 
-COLORIZE       = _sbool(addon.getSetting('colorize'))
-UPDAFTER       = _sbool(addon.getSetting('updafter'))
-ADDUPD         = _sbool(addon.getSetting('addupd'))
-BGUPD          = _sbool(addon.getSetting('bgupd'))
-LNKTIMEOUT     = int(addon.getSetting('lnktimeout'))
-MNUITMNUM      = int(addon.getSetting('mnuitmnum'))
-SETPAGE        = int(addon.getSetting('setpage'))
-CALLURL        = _sbool(addon.getSetting('callurl'))
 
-PLAYBCONT      = _sbool(addon.getSetting('playbcont'))         
-POSUPD         = int(addon.getSetting('posupd'))   
-POSSLEEP       = int(addon.getSetting('possleep')) 
-WCHF           = _sbool(addon.getSetting('wchf'))   
-WPERC          = int(addon.getSetting('wperc'))    
-AUTORES        = _sbool(addon.getSetting('autores'))  
-RESDLG         = _sbool(addon.getSetting('resdlg')) 
+### Addon class ...
+class CAddon:
 
-DETVIDEXT      = _sbool(addon.getSetting('detvidext'))
+    ### Translate tag to languare string ...
+    tlraw = lambda self, tag : e(self.localize(tag))   
 
-WAITBSEEK      = int(addon.getSetting('waitbseek')) 
+    ### Addon info ...
+    @property
+    def addon          (self) : return xbmcaddon.Addon(id=TAG_PAR_SCRIPT_ID)
+    @property
+    def profile        (self) : return de(xbmc.translatePath(self.addon.getAddonInfo('profile')))
+    @property
+    def localize       (self) : return self.addon.getLocalizedString
+    @property
+    def name           (self) : return self.addon.getAddonInfo('name')
+    @property
+    def id             (self) : return self.addon.getAddonInfo('id')
+    @property
+    def author         (self) : return self.addon.getAddonInfo('author')
+    @property
+    def version        (self) : return self.addon.getAddonInfo('version')
+    @property
+    def path           (self) : return de(self.addon.getAddonInfo('path'))
+    @property
+    def icon           (self) : return self.addon.getAddonInfo('icon')
+    
+    
+    ### Settings ...
+    @property
+    def COLORIZE       (self) : return _sbool(self.addon.getSetting('colorize'))
+    @property
+    def UPDAFTER       (self) : return _sbool(self.addon.getSetting('updafter'))
+    @property
+    def ADDUPD         (self) : return _sbool(self.addon.getSetting('addupd'))
+    @property
+    def BGUPD          (self) : return _sbool(self.addon.getSetting('bgupd'))
+    @property
+    def LNKTIMEOUT     (self) : return int(self.addon.getSetting('lnktimeout'))
+    @property
+    def MNUITMNUM      (self) : return int(self.addon.getSetting('mnuitmnum'))
+    @property
+    def SETPAGE        (self) : return int(self.addon.getSetting('setpage'))
+    @property
+    def CALLURL        (self) : return _sbool(self.addon.getSetting('callurl'))
+    @property
+    def PLAYBCONT      (self) : return _sbool(self.addon.getSetting('playbcont'))         
+    @property
+    def POSUPD         (self) : return int(self.addon.getSetting('posupd'))   
+    @property
+    def POSSLEEP       (self) : return int(self.addon.getSetting('possleep')) 
+    @property
+    def WCHF           (self) : return _sbool(self.addon.getSetting('wchf'))   
+    @property
+    def WPERC          (self) : return int(self.addon.getSetting('wperc'))    
+    @property
+    def AUTORES        (self) : return _sbool(self.addon.getSetting('autores'))  
+    @property
+    def RESDLG         (self) : return _sbool(self.addon.getSetting('resdlg')) 
+    @property
+    def DETVIDEXT      (self) : return _sbool(self.addon.getSetting('detvidext'))
+    @property
+    def WAITBSEEK      (self) : return int(self.addon.getSetting('waitbseek')) 
+    @property
+    def EODGEN         (self) : return _sbool(self.addon.getSetting('eodgen'))  
+    @property
+    def movFolder      (self) : return self.addon.getSetting('fldrmov')
+    @property
+    def tvsFolder      (self) : return self.addon.getSetting('fldrtvs')
+    @property
+    def SILENTUPD      (self) : return _sbool(self.addon.getSetting('silentupd')) 
+    @property
+    def AUTOUPDSRC     (self) : return _sbool(self.addon.getSetting('autoupdsrc'))
+    @property
+    def AUTOUPDALL     (self) : return _sbool(self.addon.getSetting('autoupdall'))
+    @property
+    def NOREPAUTO      (self) : return _sbool(self.addon.getSetting('norepauto'))
+    @property
+    def NOREPRAWAUTO   (self) : return _sbool(self.addon.getSetting('noreprawauto'))
+    @property
+    def HIDEAUPD       (self) : return _sbool(self.addon.getSetting('hideaupd'))
+    @property
+    def ALLOWSHADOW    (self) : return _sbool(self.addon.getSetting('allowshadow'))
+    @property
+    def AUTIME         (self) : return int(self.addon.getSetting('autime'))
+    @property
+    def STARTUPSHAD    (self) : return _sbool(self.addon.getSetting('startupshad'))
+    @property
+    def COLOR          (self) : return self.addon.getSetting('mnucolor')
+    @property
+    def libpath        (self) : _libpath = self.addon.getSetting('libpath'); return _libpath if _libpath != TAG_PAR_SETDEF else self.profile
+    @property
+    def BKUPPATH       (self) : _bkuppath = self.addon.getSetting('bkuppath'); return _bkuppath if _bkuppath != TAG_PAR_SETDEF else self.profile
+    @property
+    def BKUPREMOLD     (self) : return _sbool(self.addon.getSetting('bkupremold')) 
+    @property
+    def BKUPNUM        (self) : return int(self.addon.getSetting('bkupnum'))    
+    @property
+    def BKUPSTARTUP    (self) : return _sbool(self.addon.getSetting('bkupstartup'))
+    @property
+    def BKUPAUTO       (self) : return _sbool(self.addon.getSetting('bkupauto'))   
+    @property
+    def BKUPTIME       (self) : return int(self.addon.getSetting('bkuptime'))  
+    @property
+    def HIDEBCKPRGS    (self) : return _sbool(self.addon.getSetting('hidebckprgs'))
 
-EODGEN         = _sbool(addon.getSetting('eodgen'))  
-
-movFolder      = addon.getSetting('fldrmov')
-tvsFolder      = addon.getSetting('fldrtvs')
-_libpath       = addon.getSetting('libpath')
-
-SILENTUPD      = _sbool(addon.getSetting('silentupd')) 
-AUTOUPDSRC     = _sbool(addon.getSetting('autoupdsrc'))
-AUTOUPDALL     = _sbool(addon.getSetting('autoupdall'))
-NOREPAUTO      = _sbool(addon.getSetting('norepauto'))
-HIDEAUPD       = _sbool(addon.getSetting('hideaupd'))
-ALLOWSHADOW    = _sbool(addon.getSetting('allowshadow'))
-
-AUTIME         = int(addon.getSetting('autime'))
-STARTUPSHAD    = _sbool(addon.getSetting('startupshad'))
-
-COLOR          = addon.getSetting('mnucolor')
-
-libpath        = _libpath if _libpath != TAG_PAR_SETDEF else profile 
-
-def getlib()    : return addon.getSetting('fldrmov'), addon.getSetting('fldrtvs')
-def getshad()   : return _sbool(addon.getSetting('allowshadow'))
-def getautime() : return int(addon.getSetting('autime'))
-def getcolor()  : return addon.getSetting('mnucolor')
+    
+    def getlibpath(self): _libpath  = self.addon.getSetting('libpath');  return _libpath  if _libpath  != TAG_PAR_SETDEF else self.profile
+    def getbckpath(self): _bkuppath = self.addon.getSetting('bkuppath'); return _bkuppath if _bkuppath != TAG_PAR_SETDEF else self.profile
+    
+    def getlib(self)    : return self.addon.getSetting('fldrmov'), self.addon.getSetting('fldrtvs')
+    def getshad(self)   : return _sbool(self.addon.getSetting('allowshadow'))
+    def getsilent(self) : return _sbool(self.addon.getSetting('silentupd')) 
+    def getautime(self) : return int(self.addon.getSetting('autime'))
+    def getcolor(self)  : return self.addon.getSetting('mnucolor')
+    def getabck(self)   : return _sbool(self.addon.getSetting('bkupauto'))
+    def getbcktime(self): return int(self.addon.getSetting('bkuptime'))  
     
     

@@ -29,10 +29,13 @@ class CProgress:
         self._maxnum = maxnum
         self._curnum = 0
         self._show   = False
+        self.bg      = bg
     
     def show(self, title, text=Empty):
         self._show = True
+        if self.bg : text = title
         self._pbar.create(title, text)
+        self.update(0)
     
     def step(self, mes=Empty, stepv=1):
         if not self._show : return

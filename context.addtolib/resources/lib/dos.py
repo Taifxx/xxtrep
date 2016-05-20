@@ -32,14 +32,39 @@ rmdir   = lambda  path: xbmcvfs.rmdir   (path)
 listdir = lambda  path: xbmcvfs.listdir (path)
 #listdir = lambda  path: os.listdir      (path)
 split   = lambda  path: os.path.split   (path)
-unsl    = lambda  path: os.path.normpath(path)
+#unsl    = lambda  path: os.path.normpath(path)
 getdir  = lambda  path: os.path.split   (unsl(path))[1]
 gettail = lambda  path: os.path.split   (unsl(path))[0]
-join    = lambda *args: os.path.join    (*jede(*args))
+#join    = lambda *args: os.path.join    (*jede(*args))
 rename  = lambda  path, newPath : xbmcvfs.rename (path, newPath)
 
+
+def isvfs(path):
+    if not exists(path)     : return -1
+    if os.path.exists(path) : return  0
+    return 1 
+
+
+def unsl(path):
+    if not path : return Empty
+    return path[0:-1] if path[-1] in [BkSlash, Slash] else path     
+
+def join (*args):
+    jargs  = jede(*args)
+    sep    = BkSlash if jargs[0].find(BkSlash) != -1 else os.sep 
+    jr     = sep.join(jargs)
+    if sep == BkSlash : jr = jr.replace(Slash, BkSlash)
+    bdlsep = sep+sep
+    protx  = Colon+BkSlash+BkSlash
+    protx_ = Colon+Colon
+    jr     = jr.replace(protx, protx_)
+    jr     = jr.replace(bdlsep, sep)
+    jr     = jr.replace(protx_, protx)
+    return jr 
+         
 def mkdirs (path):
-    try    : os.makedirs(esys(de(path)))
+    #try    : os.makedirs(esys(de(path)))
+    try    : xbmcvfs.mkdirs(esys(de(path)))
     except : pass
 
 def copyfls (pathSrc, pathDst, move=False):
@@ -58,12 +83,23 @@ def copyfls (pathSrc, pathDst, move=False):
     if move: rmdir(pathSrc)
         
 
-def remove (path, delDir=True):
+def remove (path, delDir=True, maskfn=None):
     dirList, flsList = listdir(path)
-    for fls in flsList : delf  (join(path, fls))
+    for fls in flsList:
+        if maskfn is not None and not maskfn(path, fls) : continue 
+        delf  (join(path, fls))
     for drs in dirList : remove(join(path, drs))
     if  delDir         : rmdir(path)
     return True 
+    
+
+def walk(path):
+    dirs, files = listdir(path)
+    if dirs:
+        for dir in dirs:
+            for sub in walk(join(path, dir)):
+                yield sub
+    yield path, dirs, files
      
 
 def file(fName, fPath, fContent=Empty, fType=FWrite, fRew = True):
@@ -73,13 +109,16 @@ def file(fName, fPath, fContent=Empty, fType=FWrite, fRew = True):
     path = join(fPath, fName)
 
     if exists(path): 
-        if fType in (FWrite, FAppend) and not fRew : return -1
+        if fType in (FWrite, FAppend):
+            if not fRew : return -1
+            else        : delf(path)
     else: 
-        if fType ==  FRead                         : return -1
+        if fType == FRead : return -1
     
     data = Empty
     
-    ofile = open(esys(de(path)), fType)
+    #ofile = open(esys(de(path)), fType)
+    ofile = xbmcvfs.File(esys(de(path)), fType)
     if   fType in (FWrite, FAppend) : ofile.write(fContent)
     elif fType ==  FRead            : data = ofile.read()
     ofile.close() 
@@ -90,6 +129,33 @@ def compath(path1, path2):
 
 
 def exists(path):
-    try:    result = os.path.exists(esys(de(path)))
-    except: result = False
-    return  result
+    def _exists(path):
+        try    : result = xbmcvfs.exists(esys(de(path)))
+        except : result = False
+        return True if result else False
+    
+    path = setLower(path)
+    if   _exists(path)         : return True
+    elif _exists(path+Slash)   : return True
+    elif _exists(path+BkSlash) : return True
+    return False
+
+
+### JSP functions ...
+_listdircmd = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"properties": ["file", "title"], "directory":"%s", "media":"files"}, "id": "1"}'
+
+def jexists(path):
+    import xbmc
+    path  = setLower(path)
+    spath = gettail(path)
+    selem = getdir(path)
+    return xbmc.executeJSONRPC(_listdircmd % (path))
+    rmain = eval(xbmc.executeJSONRPC(_listdircmd % (path))).get('result', False)
+    if rmain : return True
+    
+    rsub  = eval(xbmc.executeJSONRPC(_listdircmd % (spath))).get('result', False)
+    if not rsub : return False
+ 
+    itmlist = [setLower(itm['label']) for itm in rsub['files']]
+    #return itmlist     
+    return True if selem in itmlist else False

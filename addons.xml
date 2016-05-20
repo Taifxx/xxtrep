@@ -3,7 +3,7 @@
 <addon
     id="context.addtolib"
     name="Add to Lib"
-    version="1.0.5"
+    version="1.0.6"
     provider-name="Taifxx"
     >
   <requires>
@@ -43,6 +43,8 @@ More information can be found in the help section.</description>
 
     <forum lang="en">http://forum.kodi.tv/showthread.php?tid=268997</forum>
     <forum lang="ru">http://xbmc.ru/forum/showthread.php?t=12708</forum>
+
+    <email>xxtrep@yandex.ru</email>
 
     <license>GNU GENERAL PUBLIC LICENSE V3</license>
 

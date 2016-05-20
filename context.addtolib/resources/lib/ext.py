@@ -19,11 +19,12 @@
 
 ### Import modules ...
 import resources.lib.li2     as LI
+import resources.lib.zip     as ZIP
 import resources.lib.dos     as DOS
 import resources.lib.gui     as GUI
 import resources.lib.comps   as CMP
 import resources.lib.ctvsobj as CTVS
-import resources.lib.addon   as addon
+import resources.lib.addon   as addondata
 import resources.lib.lib     as lib 
 
 from resources.lib.tools   import *
@@ -31,9 +32,9 @@ from resources.lib.tags    import *
 
 
 ### Set ...
-LIB   = lib.libPaths(addon.libpath, TAG_PAR_LIB_FOLDER, addon.movFolder, addon.tvsFolder)
+addon = addondata.CAddon()
 
-resetfol = lambda : LIB.setlib(addon.libpath, TAG_PAR_LIB_FOLDER, *addon.getlib())
+LIB   = lib.libPaths(addon, TAG_PAR_LIB_FOLDER)
    
 ### Remove tags in text ...
 tl  = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) if not addon.COLORIZE else addon.tlraw(textTag).replace(TAG_PAR_COLORTAG, addon.COLOR)

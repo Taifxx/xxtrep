@@ -20,19 +20,21 @@
 ### Import modules ...
 import xbmc
 import xbmcgui
-import resources.lib.addon as addon
+#import resources.lib.addon as addon
 
 from resources.lib.const   import *
 from resources.lib.tags    import *
-
+from resources.lib.addon   import CAddon as adn
 
 ### Defaults ...
-defCaption = addon.name
+#defCaption = addon.name
+defCaption = adn().name
 defScript  = TAG_PAR_SCRIPT_ID
 
 ### Message ...
 notInfo    = xbmcgui.NOTIFICATION_INFO
 notWarning = xbmcgui.NOTIFICATION_WARNING
+notError   = xbmcgui.NOTIFICATION_ERROR
 
 msg       = lambda title,    text=Empty,                                 : xbmc.executebuiltin('Notification(%s,%s)' % (title, text))
 msgf      = lambda title,    text=Empty, nottype=notInfo                 : xbmcgui.Dialog().notification(title, text, nottype)
@@ -84,3 +86,5 @@ serviceOn   = lambda      : xbmc.executebuiltin('RunScript(%s)' % (TAG_PAR_SERVI
 ### Player ...
 seekPlay    = lambda pos  : xbmc.executebuiltin('seek(%s)' % (pos), True)
 stopPlay    = lambda      : xbmc.executebuiltin('PlayerControl(Stop)', True)
+FocusPayer  = lambda      : xbmc.executebuiltin('ActivateWindow(12005)')
+FocusPayerC = lambda      : xbmc.executebuiltin('ActivateWindow(10114)')

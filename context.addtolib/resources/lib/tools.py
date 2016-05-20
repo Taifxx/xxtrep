@@ -76,6 +76,13 @@ class struct:
     
     def __del__(self):
         self.__dict__.clear()
+    
+        
+def getdate():
+    return time.strftime('%d-%m-%y')
+
+def getunftime():
+    return time.strftime('%H-%M-%S')
      
     
     

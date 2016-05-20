@@ -51,6 +51,51 @@ class plgMain():
     def _cleanObject(self, obj):
         try    : del obj 
         except : pass
+        
+    
+    def updlock(self, action=Empty, lock=False, check=False):
+        filepath = DOS.join(addon.profile, TAG_PAR_LOCKF)
+        isex     = lambda : DOS.exists(filepath) 
+    
+        if not check:
+            if lock : DOS.file(TAG_PAR_LOCKF, addon.profile, str(0))    
+            else    : DOS.delf(filepath)
+            
+        elif isex():
+            if not action:
+                calln = inte(DOS.file(TAG_PAR_LOCKF, addon.profile, fType=FRead))
+                
+                if calln < 2:
+                    DOS.file(TAG_PAR_LOCKF, addon.profile, str(calln+1), fRew=True) 
+                    errord(TAG_ERR_LOCK, Empty); return False
+                else: 
+                    if not confirm (TAG_CFR_UNLOCK) : return False
+                    DOS.delf(filepath) 
+        
+        return True
+    
+    def started(self, iss, action=Empty):
+        if action : file = TAG_PAR_STRARTAF
+        else      : file = TAG_PAR_STRARTF
+         
+        if iss : DOS.file(file, addon.profile, Empty)
+        else   : DOS.delf(DOS.join(addon.profile, file))
+        
+    
+    def check_exilib(self, action):
+        
+        if not DOS.exists(LIB.lib): 
+            
+            if not action:
+                errord(TAG_ERR_LIB, Empty)
+                self.mnu_set()
+                return False
+                
+            elif action != TAG_ACT_LPRESET:
+                errord(TAG_ERR_LIBACT, Empty)
+                return False
+                
+        return True
 
 
     def setTVS(self, path, isFound):
@@ -76,8 +121,9 @@ class plgMain():
         self.src = CSRC(*self.TVS.get_names_and_links())
     
     
-    def setFile(self):
-        self.isFound, self.container, self.path = checkfile(self.items, self.linkTable)
+    def setFile(self, rep=False):
+        self.isFound, self.container, self.path, isOL = checkfile(self.items, self.linkTable)
+        if rep and isOL : errord(TAG_ERR_OL, Empty) 
     
     
     def libClean(self, always=False):
@@ -194,7 +240,9 @@ class plgMain():
                           
         ## Show Sub menues ...   
         if   self.result == TAG_MNU_SRCMAN : self.srcmPage, self.result = self.srcmMenue.show(self.srcmPage)  
-        elif self.result == TAG_MNU_TVSMAN : self.tvsmPage, self.result = self.tvsmMenue.show(self.tvsmPage) 
+        elif self.result == TAG_MNU_TVSMAN : self.tvsmPage, self.result = self.tvsmMenue.show(self.tvsmPage)
+        
+        if self.updlock(check=True) : self.result == TAG_MNU_CANCEL
         
         ## Parse results ...
         if   self.result == TAG_MNU_CANCEL      : pass
@@ -232,11 +280,19 @@ class plgMain():
         elif self.result == TAG_ACT_DONOTHING   : self.result = self.act_donothing()
         elif self.result == TAG_ACT_CHCOLOR     : self.result = self.act_chcolor()
         elif self.result == TAG_ACT_RENAMER     : self.result = self.act_renamer()
+        elif self.result == TAG_ACT_BACKUP      : self.result = self.act_backup()
+        elif self.result == TAG_ACT_REMBACK     : self.result = self.act_remback()
+        elif self.result == TAG_ACT_RESTBACK    : self.result = self.act_restback()
+        elif self.result == TAG_ACT_RESETTBU    : self.result = self.act_resettbu()
+        elif self.result == TAG_ACT_AUTOBACKUP  : self.result = self.act_autobackup()
     
     
     def __init__(self, action=Empty):
         ## Create Addon Profile folder ...
         DOS.mkdirs(LIB.lib)
+        if not self.check_exilib(action)        : return
+        if not self.updlock(action, check=True) : return
+        self.started(True, action)
         check_lib_folders(False)
         
         CTVS.BGPROCESS = addon.BGUPD
@@ -255,7 +311,7 @@ class plgMain():
         ## Set defaults ...
         self.setLI()
         self.setLinkTable()
-        self.setFile()
+        self.setFile(True if not action else False)
         self.setTVS(self.path, self.isFound)
         
         self.result   = Empty
@@ -266,6 +322,10 @@ class plgMain():
         
         ## Start main menue process ...
         while self.result != TAG_MNU_CANCEL : self.doAction(action)
+        
+        ## Unlock upd ...
+        self.updlock(lock=False)
+        self.started(False, action)
         
         ## Delete all objects ...
         del self.srcmMenue, self.tvsmMenue, self.updtMenue, self.MainMenue, self.src, self.items, self.TVS, self.linkTable 
@@ -469,20 +529,20 @@ class plgMain():
         
         
     def mnu_chknew(self, globalupd=False, silent=False, shadsl=False):
-    
+        self.updlock(lock=True)  
         if addon.AUTOUPDSRC and addon.SILENTUPD and not globalupd:
             while True:
                 result = self._mnu_chknew()
                 if result != TAG_MNU_CHKNEW : return result
         
-        else : return self._mnu_chknew(exsilent=silent, exshadu=True if globalupd and addon.AUTOUPDALL else shadsl)  
+        else : return self._mnu_chknew(exsilent=silent, exshadu=True if globalupd and addon.AUTOUPDALL else shadsl, shadow=shadsl)  
         
         
-    def _mnu_chknew(self, exsilent=False, exshadu=False):                                         
+    def _mnu_chknew(self, exsilent=False, exshadu=False, shadow=False):                                         
     
         rd = TAG_MNU_CANCEL
         
-        self.chkfull    = False
+        self.chkfull = False
         updnow(False)
         
         try    : self.usrc
@@ -538,7 +598,7 @@ class plgMain():
                 
             self.TVS.os_getraw()
             if self.usrc.link not in self.TVS.get_raw_link_list() : self.mnu_tvsu  (False)
-            else                                                  : self.mnu_rawadd(True)
+            elif not (addon.NOREPRAWAUTO and shadow)              : self.mnu_rawadd(True)
         
         self.setLI()
              
@@ -555,6 +615,8 @@ class plgMain():
     
     
     def act_shadowupd(self):
+        if DOS.exists(DOS.join(addon.profile, TAG_PAR_STRARTF)) : return TAG_MNU_CANCEL 
+        self.updlock(lock=True)
         self.mnu_chknewgl(shadow=addon.NOREPAUTO, shadu=True)
         if addon.NOREPAUTO and self.fListUPD : errord(TAG_ERR_OK, TAG_ERR_OK_NEWFRC)
         
@@ -562,6 +624,7 @@ class plgMain():
     
         
     def mnu_chknewgl(self, updreload=False, shadow=False, shadu=False):
+        self.updlock(lock=True)
         updnow(False)
         if updreload : self.sListUPD, self.fListUPD = loadTVSupd()
         resgl = self._mnu_chknewgl(updreload, shadow, shadu)
@@ -593,7 +656,8 @@ class plgMain():
                 elif shadow : return rd
                 else        : auFinish = True; continue   
             
-            if result == -1 : return TAG_MNU_BACKMAIN
+            #if result == -1 : return TAG_MNU_BACKMAIN
+            if result == -1 : return rd
             
             if result < len(self.fListUPD) : idx = result;            self.setTVS(self.fListUPD[idx]['path'], True); name = self.fListUPD[idx]['name'] 
             else                   : idx = result-len(self.fListUPD); self.setTVS(self.sListUPD[idx]['path'], True); name = self.sListUPD[idx]['name']
@@ -631,7 +695,7 @@ class plgMain():
                 
                 if upres == TAG_MNU_BACKMAIN : break
                 if upres == TAG_MNU_CANCEL   : 
-                    if isUpdnow() : return TAG_MNU_CANCEL
+                    if isUpdnow() : return rd
                     else          : break 
                     
             del tvsNames, tvsVals
@@ -1044,6 +1108,64 @@ class plgMain():
         if not confirm(TAG_ACT_RENAMER) : return rd
         srcRenamer()
         errord(TAG_ERR_OK, TAG_ERR_OK_RENAMER)
+        return rd
+        
+        
+    def act_resettbu(self):
+        addon.addon.setSetting('bkuppath', TAG_PAR_SETDEF)
+        return TAG_MNU_CANCEL
+        
+    
+    def act_autobackup(self):    
+        return self.act_backup(True)
+        
+    
+    def act_backup(self, auto=False):
+        rd = TAG_MNU_CANCEL
+        
+        self.updlock(lock=True)
+        
+        errord(backup(auto), TAG_ERR_OK_BACKUP)
+        
+        return rd
+    
+    
+    def act_remback(self):
+        rd = TAG_MNU_CANCEL
+        
+        if not confirm(TAG_ACT_REMBACK) : return rd
+        errord(remove_all_backups(), TAG_ERR_OK_REMBACK)
+        
+        return rd
+    
+    
+    def act_restback(self):
+        rd = TAG_MNU_CANCEL
+        
+        self.updlock(lock=True)
+        
+        backups = get_all_sort_backups()
+        if backups == -1:
+            errord(TAG_ERR_NOBCKPATH, Empty) 
+            return rd
+            
+        if not backups:
+            errord(TAG_ERR_OK, TAG_ERR_OK_NOBACK) 
+            return rd
+        
+        bcknames = []
+        for name in backups:
+            pn = parse_backupname(name)
+            bcknames.append(tl(TAG_TTL_BCKNM) % (pn[2], pn[1], pn[0], pn[3], pn[4], pn[5], pn[6]))
+        
+        bckname = subMenue(bcknames, backups, cancelVal=Empty, default=backups[0], title=tl(TAG_TTL_RESTBACK))
+         
+        if not bckname or not confirm(TAG_ACT_RESTBACK, srcName=bckname) : return rd
+        
+        if not errord(restore_lib(bckname), TAG_ERR_OK_RESTBACK):
+            self.libClean()
+            self.libUpdate()
+            
         return rd
         
     

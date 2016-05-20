@@ -20,6 +20,9 @@
 ### Params ...
 TAG_PAR_LIB_FOLDER          = 'LIB'
 
+TAG_PAR_TMP                 = '.TMP'
+TAG_PAR_TMPA                = '.TMPA'
+
 TAG_PAR_DEFAULT_DEBUG_FILE  = '__debug1'
 TAG_PAR_DEFAULT_DEBUG_EXT   = '.debf'
 
@@ -35,6 +38,9 @@ TAG_PAR_TVSRAWFILE          = 'tvs.eraw'
 TAG_PAR_STL_FILE            = 'linktable'
 TAG_PAR_TVSUPD_FILE         = '.tvsupd'
 TAG_PAR_TVSUPDNOW_FILE      = '.updnow'
+TAG_PAR_LOCKF               = '.lock'
+TAG_PAR_STRARTF             = '.start'
+TAG_PAR_STRARTAF            = '.act'
 TAG_PAR_FSET_FILE           = 'fset'
 TAG_PAR_COLORS_FILE         = 'colors'
 TAG_PAR_TVSDEFSEASON        = '01' 
@@ -48,6 +54,12 @@ TAG_PAR_COLORTAG            = '##COLOR##'
 TAG_PAR_ADDONLABEL_TMPL     = '<string id="29999">%s</string>'
 TAG_PAR_ADDONLABEL_PATT     = TAG_PAR_ADDONLABEL_TMPL % ('(.*)')
 TAG_PAR_ADDONLABEL          = TAG_PAR_ADDONLABEL_TMPL % ('ADD to [COLOR %s]Lib[/COLOR]')
+TAG_PAR_ZIPCN               = 'CN'
+TAG_PAR_ZIPST               = 'atl.backup.'
+TAG_PAR_ZIPTMPL             = TAG_PAR_ZIPST + '%s.%s.'+ TAG_PAR_ZIPCN + '.zip'
+
+### XML
+TAG_PAR_XMLW_SELDLG         = 'XDialogSelect.xml' 
 
 
 ### Help ...
@@ -122,6 +134,11 @@ TAG_ACT_SHADOWUPD       = 10201
 TAG_ACT_DONOTHING       = 10202
 TAG_ACT_CHCOLOR         = 10203
 TAG_ACT_RENAMER         = 10204
+TAG_ACT_BACKUP          = 10205
+TAG_ACT_REMBACK         = 10206
+TAG_ACT_RESTBACK        = 10207
+TAG_ACT_RESETTBU        = 10208
+TAG_ACT_AUTOBACKUP      = 10209
 
 ### Language ...
 TAG_LNG_ID              = 30000
@@ -203,6 +220,9 @@ TAG_CFR_RESTOREALL      = 30079
 TAG_CFR_RESCANALLS      = 30080
 TAG_CFR_RESCANFULL      = 30081
 TAG_CFR_RENAMER         = 30082
+TAG_CFR_UNLOCK          = 30083
+TAG_CFR_REMBACK         = 30084
+TAG_CFR_RESTBACK        = 30085
 
 ### Dialogs messages ...
 TAG_DLG_OK              = 30100
@@ -230,6 +250,20 @@ TAG_TTL_BRWSREN         = 30164
 TAG_TTL_BRWSRENEP       = 30165
 TAG_TTL_COLORIZE        = 30166
 TAG_TTL_SEASON          = 30167
+TAG_TTL_BACKUP          = 30168
+TAG_TTL_RESTBACK        = 30169
+TAG_TTL_RESTLIB         = 30170
+TAG_TTL_RESTRL          = 30171
+TAG_TTL_RESTUL          = 30172
+TAG_TTL_RESTCHK         = 30173
+TAG_TTL_BCKNM           = 30174
+TAG_TTL_RESTAT          = 30175
+TAG_TTL_RESTATC         = 30176
+TAG_TTL_RESTRTMP        = 30177
+TAG_TTL_PACK            = 30178
+TAG_TTL_REMOLDBCK       = 30179
+TAG_TTL_CLRERRDT        = 30180
+TAG_TTL_CLRERRD         = 30181
 
 TAG_SET_RENAMER         = 30436
 
@@ -257,6 +291,10 @@ TAG_ERR_OK_NEWFRC       = 30320
 TAG_ERR_OK_RESCANALLS   = 30321
 TAG_ERR_OK_RESCANFULL   = 30322
 TAG_ERR_OK_RENAMER      = 30323
+TAG_ERR_OK_BACKUP       = 30324
+TAG_ERR_OK_REMBACK      = 30325
+TAG_ERR_OK_RESTBACK     = 30326
+TAG_ERR_OK_NOBACK       = 30327
 
 ### Errors ...
 TAG_ERR_NOTFILE         = 30201
@@ -270,4 +308,11 @@ TAG_ERR_NONAME2         = 30208
 TAG_ERR_DEFEPS          = 30209
 TAG_ERR_BROKENLINK      = 30210
 TAG_ERR_BROKENLINK2     = 30211
+TAG_ERR_LIB             = 30212
+TAG_ERR_LIBACT          = 30213
+TAG_ERR_LOCK            = 30214
+TAG_ERR_OL              = 30215
+TAG_ERR_BADZIP          = 30216
+TAG_ERR_NOBCKPATH       = 30217
+TAG_ERR_NOBCKPATHM      = 30218
 

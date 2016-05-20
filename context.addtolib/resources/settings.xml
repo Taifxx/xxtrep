@@ -20,12 +20,14 @@
     </category>
     <category label="30483">
         <setting id="updafter"   type="bool"      label="30402" default="true"/>
+        <setting                 type="sep"       label=""/>
         <setting id="libpath"    type="folder"    label="30420" default="Default" option="writeable"/>
+        <setting id="actreslibp" type="action"    label="30422" action="RunScript(special://home/addons/context.addtolib/context.py, action=10200)" option="close"/>
+        <setting                 type="sep"       label=""/>
         <setting id="fldrmov"    type="text"      label="30404" default="Movies"/>
         <setting id="fldrtvs"    type="text"      label="30405" default="TV Shows"/>
-        <setting                 type="sep"       label=""/>
-        <setting id="actreslibp" type="action"    label="30422" action="RunScript(special://home/addons/context.addtolib/context.py, action=10200)" option="close"/>
         <setting id="actchnnow"  type="action"    label="30434" action="RunScript(special://home/addons/context.addtolib/context.py, action=10202)" option="close"/>
+        <setting                 type="sep"       label=""/>
         <setting id="actrenamer" type="action"    label="30436" action="RunScript(special://home/addons/context.addtolib/context.py, action=10204)" option="close"/>
     </category>
     <category label="30482">
@@ -34,12 +36,12 @@
         <setting id="posupd"       type="number"    label="30412" default="10"    enable="eq(-2,true)"/>
         <setting id="possleep"     type="number"    label="30413" default="60"    enable="eq(-3,true)"/>
         <setting id="waitbseek"    type="number"    label="30418" default="3"     enable="eq(-4,true)"/>
-        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-5,true)"/>
-        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-6,true)+eq(-1,true)" range="1,100" option="int"/>
-        <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-7,true)"/>
-        <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-8,true)+eq(-1,false)"/>
-        <setting                   type="sep"       label=""/>
+        <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-5,true)"/>
+        <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-6,true)+eq(-1,false)"/>
         <setting id="eodgen"       type="bool"      label="30425" default="false"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-9,true)"/>
+        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-10,true)+eq(-1,true)" range="1,100" option="int"/>
     </category>
     <category label="30484">
         <setting id="silentupd"    type="bool"      label="30426" default="true"/>
@@ -49,8 +51,25 @@
         <setting                   type="sep"       label=""/>
         <setting id="allowshadow"  type="bool"      label="30431" default="true"  enable="eq(-5,true)"/>
         <setting id="startupshad"  type="bool"      label="30433" default="true"  enable="eq(-6,true)+eq(-1,true)"/>
-        <setting id="norepauto"    type="bool"      label="30429" default="true"  enable="eq(-7,true)+eq(-2,true)"/>
-        <setting id="hideaupd"     type="bool"      label="30430" default="false" enable="eq(-8,true)+eq(-3,true)"/>
-        <setting id="autime"       type="number"    label="30432" default="180"   enable="eq(-9,true)+eq(-4,true)"/>
+        <setting id="autime"       type="number"    label="30432" default="180"   enable="eq(-7,true)+eq(-2,true)"/>
+        <setting id="norepauto"    type="bool"      label="30429" default="true"  enable="eq(-8,true)+eq(-3,true)"/>
+        <setting id="noreprawauto" type="bool"      label="30437" default="true"  enable="eq(-9,true)+eq(-4,true)"/>
+        <setting id="hideaupd"     type="bool"      label="30430" default="false" enable="eq(-10,true)+eq(-5,true)"/>
+    </category>
+    <category label="30485">
+        <setting id="actbackup"    type="action"    label="30438" action="RunScript(special://home/addons/context.addtolib/context.py, action=10205)" option="close"/>
+        <setting id="actrestlib"   type="action"    label="30446" action="RunScript(special://home/addons/context.addtolib/context.py, action=10207)" option="close"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="bkuppath"     type="folder"    label="30439" default="Default" option="writeable"/>
+        <setting id="actresbup"    type="action"    label="30447" action="RunScript(special://home/addons/context.addtolib/context.py, action=10208)" option="close"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="bkupremold"   type="bool"      label="30440" default="true"/>
+        <setting id="bkupnum"      type="number"    label="30441" default="3"  enable="eq(-1,true)"/>
+        <setting id="actremallbu"  type="action"    label="30445" action="RunScript(special://home/addons/context.addtolib/context.py, action=10206)" option="close"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="bkupauto"     type="bool"      label="30442" default="true"/>
+        <setting id="bkupstartup"  type="bool"      label="30443" default="true" enable="eq(-1,true)"/>
+        <setting id="bkuptime"     type="number"    label="30444" default="360"  enable="eq(-2,true)"/>
+        <setting id="hidebckprgs"  type="bool"      label="30448" default="360"  enable="eq(-3,true)"/>
     </category>
 </settings>

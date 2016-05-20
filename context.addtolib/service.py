@@ -18,43 +18,73 @@
 
 ### Import modules ...
 
-from resources.lib.ext import *
+#from resources.lib.ext import *
+import context 
 
-### Base functions ...
-log    = lambda event : xbmc.log('[%s] %s' % (addon.id, event))
-action = lambda actid : xbmc.executebuiltin('RunScript(%s, action=%s)' % (TAG_PAR_ADDON, str(actid)), False)
+log = lambda event : context.xbmc.log('[%s] >> %s' % (context.addon.id, event))
+
+### Action class ...
+class CAction:
+    
+    def __init__(self, actID, startup, skip, eventTime, logMsg, *args):
+        self.timer     = 0
+        self.actID     = actID
+        self.logMsg    = logMsg
+        self.startup   = startup
+        self.skip      = skip
+        self.eventTime = eventTime
+        self.args      = args
+    
+    
+    def __call__(self):
+        
+        if self.timer >= self.eventTime() * 6 or self.startup:
+            
+            if self.skip() : return
+             
+            self.timer   = 0
+            self.startup = False
+            
+            for arg in self.args:
+                if not arg() : return
+                
+            log(self.logMsg)
+            context.plgMain(self.actID)
+        
+        else : self.timer += 1 
+
+### Skip functions ... 
+def skip():
+    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LIB_FOLDER, context.TAG_PAR_LOCKF))   : return True
+    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LIB_FOLDER, context.TAG_PAR_STRARTF)) : return True
+    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LIB_FOLDER, context.TAG_PAR_STRARTAF)): return True
+    return False
+
 
 ### Main ...
 def service():
     
-    monitor = xbmc.Monitor()
-    autimer = 0
+    monitor = context.xbmc.Monitor()
+    shadowupd = CAction(10201, context.addon.STARTUPSHAD, skip, context.addon.getautime, 'Background scanning started ...', context.addon.getshad, context.addon.getsilent)
+    backup    = CAction(10209, context.addon.BKUPSTARTUP, skip, context.addon.getbcktime, 'Backup creating started ...', context.addon.getabck)
     
     log('Service started ...')
-    
-    ## Startup ...
-    if addon.STARTUPSHAD and addon.SILENTUPD : sadowupd()
     
     ## Start on timer ...
     while not monitor.abortRequested():
         if monitor.waitForAbort(10) : break
+
+        if context.DOS.exists(context.DOS.join(context.addon.profile, '.nos'))   : break
+        if context.DOS.exists(context.DOS.join(context.addon.profile, '.cont'))  : continue
         
-        if autimer >= addon.getautime() * 6:
-            autimer = 0
-              
-            if addon.getshad() and addon.SILENTUPD : sadowupd()
-            
-        autimer += 1
-    
+        backup()
+        shadowupd()
+
+        
     ## End ...    
-    log('Service stoped ...')
+    del shadowupd, backup
+    log('Service stoped ...') 
 
 
-### Actions ...
-def sadowupd():
-    log('Background scanning started ...') 
-    action(10201)
-   
-                      
 ### Start main ...
 if (__name__ == "__main__"): service()

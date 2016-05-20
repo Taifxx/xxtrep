@@ -22,14 +22,15 @@ import resources.lib.dos   as DOS
 ### Set library folders names ...
 class libPaths:
     
-    def __init__(self, profile, libFolder, movFolder, tvsFolder):
-        self.setlib(profile, libFolder, movFolder, tvsFolder)
+    def __init__(self, addon, libFolder):
+        self.addon     = addon
+        self.libFolder = libFolder 
         
+    @property 
+    def lib  (self) : return DOS.join(self.addon.libpath, self.libFolder)
+    @property 
+    def mov  (self) : return DOS.join(self.addon.libpath, self.libFolder, self.addon.movFolder)
+    @property 
+    def tvsf (self) : return DOS.join(self.addon.libpath, self.libFolder, self.addon.tvsFolder) 
     
-    def setlib(self, profile, libFolder, movFolder, tvsFolder):
-    
-        self.lib  = DOS.join(profile, libFolder)
-        self.mov  = DOS.join(profile, libFolder, movFolder)
-        self.tvsf = DOS.join(profile, libFolder, tvsFolder) 
-    
-        self.tvs = lambda path: DOS.join(self.tvsf, path)
+    tvs = lambda self, path : DOS.join(self.tvsf, path)

@@ -1,4 +1,18 @@
-﻿v1.0.5
+﻿v1.0.6
+BugFix:
+    - Fixed problem with false positives when checking for new episodes 
+    - Other small bugfixes
+New:
+    - Added SMB path support
+    - Added library avaliable control
+    - Added 'Hide forced adding during background scanning' option
+    - Added update control (shadow update does not start if add-on menu is open, add-on locked if episodes update or backup was started)
+      * Start addon thrice for unlocking, if it was locked in error
+    - Added 'Backup' settings category
+    - Added automatically backup
+
+
+v1.0.5
 BugFix:
     - Fixed problem with TV Shows|Movies folders renaming when name was changed in 'addon information > configure'
     - Other small bugfixes

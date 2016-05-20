@@ -19,7 +19,9 @@
 
 ### Constants ...
 Slash                  = '\\'
+BkSlash                = '/'
 NewLine                = '\n'
+CR                     = '\r'
 #sTrue                  = 'true'
 STRM                   = '.strm'
 FWrite                 = 'w'
@@ -28,3 +30,5 @@ FRead                  = 'r'
 Empty                  = ''
 Space                  = ' '
 Dot                    = '.'
+Colon                  = ':'
+Dash                   = '-'

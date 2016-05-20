@@ -22,10 +22,13 @@
 from resources.lib.ext import *
 from resources.lib.progress import *
 
+
 def confirm (tag, tvsName=Empty, srcName=Empty):
-    if   tag == TAG_MNU_RESCAN     : text = tl(TAG_CFR_RESCAN) % (srcName)
-    elif tag == TAG_MNU_REMSRC     : text = tl(TAG_CFR_REMSRC) % (srcName)
+    if   tag == TAG_MNU_RESCAN     : text = tl(TAG_CFR_RESCAN)   % (srcName)
+    elif tag == TAG_MNU_REMSRC     : text = tl(TAG_CFR_REMSRC)   % (srcName)
+    elif tag == TAG_ACT_RESTBACK   : text = tl(TAG_CFR_RESTBACK) % (srcName)
     
+    elif tag == TAG_ACT_REMBACK    : text = tl(TAG_CFR_REMBACK)
     elif tag == TAG_ACT_RENAMER    : text = tl(TAG_CFR_RENAMER)
     elif tag == TAG_MNU_RESCANFULL : text = tl(TAG_CFR_RESCANFULL)
     elif tag == TAG_MNU_RESCANALLS : text = tl(TAG_CFR_RESCANALLS)
@@ -35,6 +38,8 @@ def confirm (tag, tvsName=Empty, srcName=Empty):
     elif tag == TAG_MNU_TVSREN     : text = tl(TAG_CFR_TVSREN)
     elif tag == TAG_MNU_JOIN       : text = tl(TAG_CFR_JOIN)
     elif tag == TAG_MNU_DEFNM      : text = tl(TAG_CFR_DEFNM)  % (tvsName); tvsName = Empty
+    
+    elif tag == TAG_CFR_UNLOCK     : text = tl(TAG_CFR_UNLOCK); tvsName = Empty
     
     if tvsName : kwargs = {'title': tvsName}
     else       : kwargs = dict()  
@@ -49,21 +54,204 @@ def errord (error, error_ok=Empty, tvsName=Empty, exten=Empty):
    
     if error == TAG_ERR_OK: GUI.msg (txtTTL, tl(error_ok)); return False
         
-    elif error == TAG_ERR_NOTFILE     : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTFILE),  nottype=GUI.notWarning)
-    elif error == TAG_ERR_NOTOJOIN    : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTOJOIN), nottype=GUI.notWarning)
-    elif error == TAG_ERR_DEDLINK     : GUI.msgf  (txtTTL, tl(TAG_ERR_DEDLINK),  nottype=GUI.notWarning)
+    elif error == TAG_ERR_NOTFILE     : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTFILE),   nottype=GUI.notWarning)
+    elif error == TAG_ERR_NOTOJOIN    : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTOJOIN),  nottype=GUI.notWarning)
+    elif error == TAG_ERR_DEDLINK     : GUI.msgf  (txtTTL, tl(TAG_ERR_DEDLINK),   nottype=GUI.notWarning)
+    elif error == TAG_ERR_LIBACT      : GUI.msgf  (txtTTL, tl(TAG_ERR_LIBACT),    nottype=GUI.notError)
+    elif error == TAG_ERR_LOCK        : GUI.msgf  (txtTTL, tl(TAG_ERR_LOCK),      nottype=GUI.notWarning)
+    elif error == TAG_ERR_NOBCKPATHM  : GUI.msgf  (txtTTL, tl(TAG_ERR_NOBCKPATHM),nottype=GUI.notError)         
                 
     elif error == TAG_ERR_INCINPUT    : GUI.dlgOk (tl(TAG_ERR_INCINPUT),  tl(TAG_ERR_ABORT),   title=tvsName)
     elif error == TAG_ERR_LISTEMPTY   : GUI.dlgOk (tl(TAG_ERR_LISTEMPTY), tl(TAG_ERR_ABORT),   title=tvsName)
     elif error == TAG_ERR_NONAME      : GUI.dlgOk (tl(TAG_ERR_NONAME),    tl(TAG_ERR_NONAME2), title=tvsName)
     
     elif error == TAG_ERR_BROKENLINK  : GUI.dlgOk (tl(TAG_ERR_BROKENLINK), tl(TAG_ERR_BROKENLINK2) % (NewLine, exten), title=tvsName)
+    elif error == TAG_ERR_LIB         : GUI.dlgOk (tl(TAG_ERR_LIB))
+    elif error == TAG_ERR_OL          : GUI.dlgOk (tl(TAG_ERR_OL))
+    elif error == TAG_ERR_BADZIP      : GUI.dlgOk (tl(TAG_ERR_BADZIP))
+    elif error == TAG_ERR_NOBCKPATH   : GUI.dlgOk (tl(TAG_ERR_NOBCKPATH))
     
     return True 
 
 
 titName        = lambda tag, tvsName=Empty : '%s  ( %s )' % (tla(tag), normName(tvsName)) if tvsName else tla(tag)
 normTargetName = lambda path               :  normName(DOS.getdir(path)) 
+
+
+def backup(auto=False):
+    
+    extpath = Empty if DOS.isvfs(LIB.lib) == 0 else LIB.lib
+        
+    if DOS.isvfs(addon.BKUPPATH) == -1 : DOS.mkdirs(addon.BKUPPATH)
+    isvfs = DOS.isvfs(addon.BKUPPATH)
+        
+    if isvfs == -1 : return TAG_ERR_NOBCKPATHM if auto else TAG_ERR_NOBCKPATH
+       
+    extbckpath = Empty if isvfs == 0 else addon.BKUPPATH
+    
+    _backup(extpath, extbckpath, auto)
+    
+    return TAG_ERR_OK
+    
+
+def _backup(extpath, extbckpath, auto=False):
+    
+    steps = 140
+    if extpath    : steps += 20
+    if extbckpath : steps += 15 
+    
+    progress = CProgress(steps, bg=addon.BGUPD if not auto else True)
+    if not addon.HIDEBCKPRGS or not auto : progress.show(tla(TAG_TTL_BACKUP))
+    
+    remtmp(progress, 20)
+    
+    if not extpath : libpath = LIB.lib
+    else:
+        tmp = DOS.join(addon.profile, TAG_PAR_TMP)
+        DOS.mkdirs(tmp)
+        libpath = tmp
+        progress.step(tla(TAG_TTL_RESTATC), 10)
+        DOS.copyfls(extpath, tmp)
+    
+    if not extbckpath : bckpath = addon.BKUPPATH
+    else:
+        tmpa = DOS.join(addon.profile, TAG_PAR_TMPA)
+        DOS.mkdirs(tmpa)
+        bckpath = tmpa  
+    
+    zipname  = TAG_PAR_ZIPTMPL % (getdate(), getunftime())
+    fullname = DOS.join(bckpath, zipname)
+    
+    zipfile  = ZIP.CZIP(fullname)
+    #flcount  = zipfile.zipdir(libpath, progress, tla(TAG_TTL_PACK) if extpath or extbckpath else Empty)
+    flcount  = zipfile.zipdir(libpath, progress, tla(TAG_TTL_PACK))
+    
+    zipfile.close
+    del zipfile
+    
+    newname     = zipname.replace(TAG_PAR_ZIPCN, str(flcount))
+    newfullname = fullname.replace(zipname, newname) 
+    DOS.rename(fullname, newfullname)
+    
+    if extbckpath:
+        progress.step(tla(TAG_TTL_RESTAT), 10) 
+        DOS.copyfls(tmpa, extbckpath)
+        progress.step(tla(TAG_TTL_RESTRTMP), 5)
+        DOS.remove(tmpa)
+    
+    if extpath:
+        progress.step(tla(TAG_TTL_RESTRTMP), 10) 
+        DOS.remove(tmp)
+    
+    progress.step(tla(TAG_TTL_REMOLDBCK), 10)
+    if addon.BKUPREMOLD : remove_old_backups()
+    
+    progress.step(Empty, 10)  
+
+        
+def restore_lib(bckname):
+    extpath    = Empty if DOS.isvfs(LIB.lib)        == 0 else LIB.lib
+    extbckpath = Empty if DOS.isvfs(addon.BKUPPATH) == 0 else addon.BKUPPATH
+    return _restore_lib(bckname, extpath, extbckpath)
+
+
+def _restore_lib(bckname, extpath, extbckpath):
+
+    def maskfnc(path, fls):
+        return False if fls.startswith(Dot) else True
+    
+    steps = 6
+    if extpath    : steps += 2
+    if extbckpath : steps += 1 
+    
+    progress = CProgress(steps, bg=False)
+    progress.show(tla(TAG_TTL_RESTLIB))
+    
+    remtmp(progress, 2)
+    
+    if not extpath : rlibpath = libpath = LIB.lib
+    else:
+        tmp = DOS.join(addon.profile, TAG_PAR_TMP)
+        DOS.mkdirs(tmp)
+        libpath  = tmp
+        rlibpath = extpath 
+    
+    if not extbckpath : bckpath = addon.BKUPPATH
+    else:
+        tmpa = DOS.join(addon.profile, TAG_PAR_TMPA)
+        DOS.mkdirs(tmpa)
+        bckpath = tmpa
+        progress.step(tla(TAG_TTL_RESTAT))
+        DOS.copyf(DOS.join(extbckpath, bckname), DOS.join(tmpa, bckname))  
+    
+    zipfile = ZIP.CZIP(DOS.join(bckpath, bckname), FRead)
+    
+    progress.step(tla(TAG_TTL_RESTCHK))
+    if not zipfile.crc() : return TAG_ERR_BADZIP
+
+    progress.step(tla(TAG_TTL_RESTRL))
+    DOS.remove(rlibpath, delDir=False, maskfn=maskfnc)
+    
+    progress.step(tla(TAG_TTL_RESTUL))
+    zipfile.unzip(libpath)
+    
+    zipfile.close
+    del zipfile
+    
+    if extpath:
+        progress.step(tla(TAG_TTL_RESTATC))
+        DOS.copyfls(tmp, extpath)
+        progress.step(tla(TAG_TTL_RESTRTMP)) 
+        DOS.remove(tmp)
+    
+    if extbckpath : DOS.remove(tmpa)
+    progress.step(Empty) 
+    
+    return TAG_ERR_OK
+
+
+_bid = lambda name : '%s%s%s%s%s%s' % (parse_backupname(name)[:6])
+
+
+def get_all_sort_backups():
+    bcklist = get_all_backups()
+    if bcklist == -1 : return -1
+    
+    bckbids = [(_bid(file), file) for file in bcklist]
+    bckbids.sort(); bckbids.reverse()  
+    return [file for bid, file in bckbids]
+
+
+def get_all_backups():
+    if DOS.isvfs(addon.BKUPPATH) == -1 : return -1
+    return [file for file in DOS.listdir(addon.BKUPPATH)[1] if file.startswith(TAG_PAR_ZIPST)]
+
+
+def remove_all_backups():
+    if DOS.isvfs(addon.BKUPPATH) == -1 : return TAG_ERR_NOBCKPATH
+    for file in get_all_backups() : DOS.delf(DOS.join(addon.BKUPPATH, file))
+    return TAG_ERR_OK
+
+
+def remove_old_backups():
+    bcklist = get_all_backups()
+    if bcklist == -1 : return
+    
+    if len(bcklist) <= addon.BKUPNUM : return
+    
+    bckbids = [(_bid(file), file) for file in bcklist]; bckbids.sort()
+    wlist   = [file for bid, file in bckbids[addon.BKUPNUM*-1:]]
+    for file in bcklist:
+        if file not in wlist : DOS.delf(DOS.join(addon.BKUPPATH, file)) 
+     
+
+def parse_backupname(name):
+    if not name : return Empty
+    parts = name.split(Dot)
+    d = parts[2].split(Dash)
+    t = parts[3].split(Dash)
+    c = parts[4]
+    return d[2], d[1], d[0], t[0], t[1], t[2], c
 
 
 def srcRenamer():
@@ -97,6 +285,21 @@ def srcRenamer():
     del progress
               
 
+def remtmp(progress, stepv):
+    tmp  = DOS.join(addon.profile, TAG_PAR_TMP)
+    tmpa = DOS.join(addon.profile, TAG_PAR_TMPA)
+    
+    prt = 0.0
+    if not DOS.exists(tmp) : prt += 1
+    if not DOS.exists(tmpa): prt += 1
+    if not prt : progress.step(tla(TAG_TTL_CLRERRDT), stepv); return
+    
+    progress.step(tla(TAG_TTL_CLRERRD), stepv / prt)
+    DOS.remove(tmp)
+    progress.step(tla(TAG_TTL_CLRERRD), stepv / prt)
+    DOS.remove(tmpa)
+
+
 def check_lib_folders(now=True):
 
     fname = TAG_PAR_FSET_FILE
@@ -107,11 +310,10 @@ def check_lib_folders(now=True):
     if now:
         oldtvsfol = LIB.tvsf
         oldmovfol = LIB.mov
-        resetfol()
         
     else:
         try:
-            oldmovfol, oldtvsfol = DOS.file(fname, LIB.lib, fType=FRead).split(fSep)
+            oldmovfol, oldtvsfol = DOS.file(fname, LIB.lib, fType=FRead).replace(CR, Empty).split(fSep)
         except : err = True 
             
     pack  = fSep.join([LIB.mov, LIB.tvsf]) 
@@ -452,8 +654,10 @@ def checkfile(items, linkTable, recurse=False):
     elif  containerPath.startswith (TAG_CON_STARTSW_PVD) : container  = TAG_CON_PVD
     else                                                 : container  = TAG_CON_LOCAL
     
-    if not items.vidIsFolder: localPath = items.vidPath
-    else                    : localPath = items.vidPath if container == TAG_CON_VID else items.vidFPath 
+    if container != TAG_CON_EXT:
+        if not items.vidIsFolder: localPath = items.vidPath
+        else                    : localPath = items.vidPath if container == TAG_CON_VID else items.vidFPath
+    else : localPath = Empty 
      
     ltPath    = Empty
     linkLocal = linkTable.find(localPath)
@@ -502,7 +706,7 @@ def checkfile(items, linkTable, recurse=False):
         externalPath2   = LIB.tvs(nameByFirst)
         externalPath3   = LIB.tvs(nameByLink)
         
-        isFound = True; Path = Empty
+        isFound = True; Path = Empty 
         if    DOS.exists(DOS.join(localPath    , fname)) : path = localPath 
         elif  DOS.exists(DOS.join(externalPath1, fname)) : path = externalPath1
         elif  DOS.exists(DOS.join(externalPath2, fname)) : path = externalPath2 
@@ -510,10 +714,15 @@ def checkfile(items, linkTable, recurse=False):
         else: isFound = False; path = externalPath2 if not noTamplate else Empty
         
         del cmpFolderName
+           
+    isOL = False
+    if not path.startswith(LIB.lib) and isFound:
+        isFound = False 
+        if container == TAG_CON_VID : isOL = True
     
     items.vidPath = path
          
-    return (isFound, container, path)
+    return (isFound, container, path, isOL)
     
     
 def globalUpdateCheck(shadbg=False):

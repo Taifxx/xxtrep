@@ -41,7 +41,7 @@ class showHelp(xbmcgui.WindowDialog):
         
         self.pos      = 0
         self.scrstep  = TAG_PAR_HLPSCROLL
-        self.lncount  = self.helpText.count(NewLine)-1
+        self.lncount  = self.helpText.count(NewLine)+15
         
         xE = TAG_PAR_RESX   
         yE = TAG_PAR_RESY

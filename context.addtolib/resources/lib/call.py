@@ -45,9 +45,9 @@ class CPlayer(xbmc.Player):
         
     def seek(self, pos):
         if addon.WAITBSEEK : wait(addon.WAITBSEEK) 
-        #self.seekTime(pos)
-        GUI.seekPlay(pos) 
-        
+        self.seekTime(pos)
+        #GUI.seekPlay(pos)     
+    
         
 def simplerun(strmurl):
     listitem = xbmcgui.ListItem (path=strmurl)
@@ -113,7 +113,9 @@ def callSTRM(strmtype, strmurl, strmfile):
         
         xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
         
-        if not player.wait_openlink() : return 
+        if not player.wait_openlink() : return
+         
+        GUI.FocusPayer()
         
         wtime1 = 0
         possleep = True
