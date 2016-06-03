@@ -31,11 +31,17 @@ class CPlayer(xbmc.Player):
     def __init__(self):
         xbmc.Player.__init__( self, xbmc.PLAYER_CORE_AUTO )
     
-    def wait_openlink(self):
+    def wait_openlink(self, splash):
+        spath = setLower(splash)
         wtime = 0
-        while not self.isPlaying():
+        errc  = 0
+        while True: 
+            #if self.isPlayingVideo() and spath != setLower(self.getPlayingFile()) : break
+            if self.isPlaying() and spath != setLower(self.getPlayingFile()) : break  
             wait(1); wtime += 1
             if wtime > addon.LNKTIMEOUT : return False
+            #if self.isPlaying() and not self.isPlayingVideo() : errc += 1 
+            if errc > 2 : return False
             
         return True
     
@@ -45,7 +51,7 @@ class CPlayer(xbmc.Player):
         
     def seek(self, pos):
         if addon.WAITBSEEK : wait(addon.WAITBSEEK) 
-        self.seekTime(pos)
+        if self.isPlaying() : self.seekTime(pos)
         #GUI.seekPlay(pos)     
     
         
@@ -59,6 +65,8 @@ def simplerun(strmurl):
 def callSTRM(strmtype, strmurl, strmfile):
 
     GUI.stopPlay()
+    
+    CLASSICPLAY = not addon.NEWPLAYS
 
     player = CPlayer()
     
@@ -77,15 +85,13 @@ def callSTRM(strmtype, strmurl, strmfile):
          
             medinfo = CMedInfo(strmfldrS, strmfileS, strmtype)
             
-            #GUI.dlgOk(str( medinfo.art ))
-            #GUI.dlgOk(str( LI.getLi('artist') ))
-            #return
-            
             listitem = xbmcgui.ListItem (path=strmurl)
             listitem.setProperty('IsPlayable', 'true')
             listitem.setArt(medinfo.art)
             listitem.setIconImage(medinfo.img)
             listitem.setThumbnailImage(medinfo.img)
+            
+            splashPath = Empty
             
             if strmtype == str(TAG_TYP_TVS):
                 infpar = {'Title': medinfo.title, 'Genre': medinfo.genre, 'Year': medinfo.year, 'Rating': medinfo.rating, 'Plot': medinfo.plot, 
@@ -101,27 +107,48 @@ def callSTRM(strmtype, strmurl, strmfile):
                           'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
             
             listitem.setInfo('video', infpar)
-            
-            if addon.PLAYBCONT:
-                fargs = timefromsec(medinfo.pos, TAG_PAR_TIMENUMFORMAT, TAG_PAR_TIMESEP)
-                if addon.RESDLG and medinfo.pos and not addon.AUTORES and \
-                GUI.dlgSel([tl(TAG_MNU_RFROM) % (fargs[0],fargs[1],fargs[2],fargs[3],fargs[4]), tl(TAG_MNU_SFRBEGIN)], title=medinfo.title) == 1 : medinfo.resetpos()
         
-        except : simplerun(strmurl); return 
+        except : simplerun(strmurl); return
         
-        if addon.EODGEN : xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        if not CLASSICPLAY:
+            splashPath = DOS.join(addon.path, *TAG_PAR_SPLASH_FILE)
+            splashLI = xbmcgui.ListItem (path=splashPath)
+            splashLI.setProperty('IsPlayable', 'true')
+            splashLI.setArt(medinfo.art)
+            splashLI.setIconImage(medinfo.img)
+            splashLI.setThumbnailImage(medinfo.img)
+            splashLI.setInfo('video', infpar)
+            splashLI.setInfo('video', {'Title':Space}) 
+            xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, splashLI)
+            GUI.FocusPayer()
+            wait(1) 
         
-        xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
+        if CLASSICPLAY  : xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
+        else            : player.play(strmurl, listitem)
         
-        if not player.wait_openlink() : return
-         
-        GUI.FocusPayer()
+        if not player.wait_openlink(splashPath) : 
+            GUI.dlgOk(tl(TAG_ERR_DEDLINK), title=medinfo.title)
+            return
         
+        wait(1); GUI.FocusPayer()
+        
+        eodgenMethod = addon.EODGENM 
+        if   eodgenMethod == 'Handle reset' : xbmcplugin.endOfDirectory(int(sys.argv[1]), True, False, False)
+        elif eodgenMethod == 'Suppression'  : GUI.closeDlgs()
+    
         wtime1 = 0
         possleep = True
         if addon.PLAYBCONT:
         
-            if (addon.AUTORES or addon.RESDLG) and medinfo.pos : player.seek(medinfo.pos) 
+            pbSet = False
+            fargs = timefromsec(medinfo.pos, TAG_PAR_TIMENUMFORMAT, TAG_PAR_TIMESEP)
+            if addon.RESDLG and medinfo.pos and not addon.AUTORES:
+                pbm = GUI.dlgResume([tl(TAG_MNU_SFRBEGIN), tl(TAG_MNU_RFROM) % (fargs[0],fargs[1],fargs[2],fargs[3],fargs[4]), tl(TAG_MNU_CLOSEDLG)], title=medinfo.title)     
+                if   pbm == 0 : pbSet = True; medinfo.resetpos()
+                elif pbm == 1 : pbSet = True
+                elif pbm == 2 : pbSet = False
+            
+            if (addon.AUTORES or pbSet) and medinfo.pos : player.seek(medinfo.pos) 
             
             player.wait_buffering()
               

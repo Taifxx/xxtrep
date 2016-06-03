@@ -1,6 +1,6 @@
 ﻿<strings>
     <!-- Label -->
-    <string id="29999">ADD to [COLOR darkorange]Lib[/COLOR]</string>
+    <string id="29999">ADD to [COLOR cornflowerblue]Lib[/COLOR]</string>
     <!-- Language ID -->
     <string id="30000">EN</string>
     <!-- Menue Items -->
@@ -59,13 +59,21 @@
     <string id="30052">[COLOR ##COLOR##]Continue[/COLOR] last update</string>
     <string id="30053">[COLOR ##COLOR##]Rescann all[/COLOR] sources</string>
     <string id="30054">[COLOR ##COLOR##]Global[/COLOR] rescann</string>
+    <string id="30055">Yes</string>
+    <string id="30056">No</string>
+    <string id="30057">[COLOR ##COLOR##]Close dialog[/COLOR]</string>
+    <string id="30058">[COLOR ##COLOR##]Items sort order:[/COLOR]  </string>
+    <string id="30059">From the top down</string>
+    <string id="30060">From the bottom up</string>
+    <string id="30061">[COLOR ##COLOR##]Edit list of episodes[/COLOR]</string>
+    <string id="30062">[COLOR ##COLOR##]Numbering correction[/COLOR]</string>
     <!-- Static Menue Items -->
-    <string id="30090">...</string>
-    <string id="30091">[COLOR ##COLOR##]*[/COLOR] Back</string>
-    <string id="30092">[COLOR ##COLOR##]*[/COLOR] Ok</string>
+    <string id="30090">[COLOR ##COLOR##]...[/COLOR]</string>
+    <string id="30091">[COLOR ##COLOR##]&lt;[/COLOR] Back</string>
+    <string id="30092">[COLOR ##COLOR##]Ok[/COLOR]</string>
     <string id="30096">Help</string>
     <string id="30097">Addon settings</string>
-    <string id="30098">[COLOR ##COLOR##]*[/COLOR] Back</string>
+    <string id="30098">[COLOR ##COLOR##]&lt;[/COLOR] Back</string>
     <string id="30099">Cancel</string>
     <!-- Confirms -->
     <string id="30071">Do you want to [COLOR ##COLOR##]rescann[/COLOR] %s source?</string>
@@ -87,8 +95,9 @@
     <string id="30100">OK</string>  
     <string id="30101">></string>
     <string id="30102">&lt;</string>
-    <string id="30103">Enter the [COLOR ##COLOR##]TV Show name[/COLOR]</string>
-    <string id="30104">Enter the [COLOR ##COLOR##]number[/COLOR] of the season</string>
+    <string id="30103">Enter the TV Show name</string>
+    <string id="30104">Enter the number of the season</string>
+    <string id="30105">- Empty -</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
@@ -122,6 +131,10 @@
     <string id="30179">Removing old backups</string>
     <string id="30180">Clearing</string>
     <string id="30181">Cleaning erroneous data</string>
+    <string id="30182">[B]ADD TO [COLOR ##COLOR##]LIBRARY[/COLOR] (ADD TO LIB)  Addon Help:[/B]</string>
+    <string id="30183">Main menue</string>
+    <string id="30184">Choose skin:</string>
+    <string id="30185">Select episodes for adding</string>
     <!-- Errors messages -->
     <string id="30201">[COLOR red]Item is not a file[/COLOR]</string>
     <string id="30202">Entered incorrect data.</string>
@@ -194,7 +207,7 @@
     <string id="30422">> Set add-on library path as default</string>
     <string id="30423">> Update video library</string>
     <string id="30424">> Clean video library</string>
-    <string id="30425">'Opening Stream' dialog suppressing</string>
+    <string id="30425">Alternate playback method</string>
     <string id="30426">Silent method to update sources</string>
     <string id="30427">Automatically update TV Show sources when check launched</string>
     <string id="30428">Automatically update all TV Shows when global check launched</string>
@@ -218,6 +231,12 @@
     <string id="30446">> Restore backup</string>
     <string id="30447">> Set backup path as default</string>
     <string id="30448">Don't show progress during automatically backup</string>
+    <string id="30449">Use skins</string>
+    <string id="30450">Dim background</string>
+    <string id="30451">Current skin</string>
+    <string id="30452">> Change skin</string>
+    <string id="30453">Current color</string>
+    <string id="30454">Force dialogs closing</string>
     <!-- Settings categories -->
     <string id="30480">General</string>
     <string id="30481">Main menue</string>

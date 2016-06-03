@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+    <defaultcontrol>200</defaultcontrol>
+    <zorder>-1</zorder>
+    <coordinates>
+        <system>0</system>
+        <posx>340</posx>
+        <posy>100</posy>
+    </coordinates>
+    
+    <controls>
+    
+        <control type="image" id="90">
+            <description>Dim Background</description>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="700" delay="0" tween="line"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" start="100" end="0" time="1000" delay="170" tween="line"/>
+            </animation>
+            <posx>-340</posx>
+            <posy>-100</posy>
+            <width>1280</width>
+            <height>720</height>
+            <texture>dim.png</texture>
+            <visible>true</visible>
+        </control>
+    
+        <control type="group">
+        
+            <animation type="WindowOpen">
+                    <effect type="fade" start="0" end="90" time="700" delay="200" tween="circle" easing="inout"/>
+                    <effect type="slide" start="0,-20" end="0,0" time="700" delay="200" tween="circle" easing="inout"/>
+            </animation>  
+            <animation type="WindowClose">
+                    <effect type="fade" start="90" end="0" time="400" delay="0" tween="line" easing="inout"/>
+                    <effect type="slide" start="0,0" end="100,0" time="400" delay="0" tween="line" easing="inout"/>
+            </animation>
+        
+            <control type="image">
+                <description>Dialog BackgroundTTL</description>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>600</width>
+                <height>50</height>
+                <texture>dialog_background.png</texture>
+            </control>
+                <control type="label" id="100">
+                
+                <animation type="WindowOpen">
+                        <effect type="fade" start="0" end="100" time="400" delay="400" tween="line" easing="inout"/>
+                </animation>  
+                <animation type="WindowClose">
+                        <effect type="fade" start="100" end="0" time="400" delay="400" tween="line" easing="inout"/>
+                </animation>
+                
+                <description>Caption</description>
+                <posx>0</posx>
+                <posy>3</posy>
+                <width>600</width>
+                <height>45</height>
+                <font>font12</font>
+                <aligny>center</aligny>
+                <align>center</align>
+                <scroll>True</scroll>
+                <wrapmultiline>false</wrapmultiline>
+                <scrollspeed>50</scrollspeed>
+            </control>
+        </control> 
+    
+      <control type="group">      
+        
+        <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
+                <effect type="slide" start="0,-50" end="0,0" time="700" delay="0" tween="circle" easing="inout"/>
+        </animation>  
+        <animation type="WindowClose">
+                <effect type="fade" start="100" end="0" time="400" delay="0" tween="circle" easing="inout"/>
+                <effect type="slide" start="0,0" end="0,100" time="700" delay="0" tween="circle" easing="inout"/>
+        </animation>
+        
+        <control type="label" id="1">
+            <description>Animation flag</description>
+            <visible>true</visible>
+        </control>
+        
+        <control type="image">
+            <description>Dialog Background</description>
+            <posx>0</posx>
+            <posy>55</posy>
+            <width>600</width>
+            <height>467</height>
+            <texture>dialog_background.png</texture>
+        </control>
+        <control type="list" id="200">
+            <description>Select list</description>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
+                <effect type="slide" start="0,-50" end="0,0" time="700" delay="0" tween="circle" easing="out"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" start="100" end="0,0" time="400" delay="0" tween="line" easing="inout"/>
+                <effect type="slide" start="0,0" end="0,100" time="400" delay="0" tween="line" easing="out"/>
+            </animation>
+            <left>20</left>
+            <top>65</top>
+            <width>560</width>
+            <height>450</height>
+            <orientation>vertical</orientation>
+            <focusposition>0</focusposition>
+            <scrolltime tween="sine" easing="out">200</scrolltime>
+            <itemlayout width="580" height="50"> 
+               <control type="image">
+                    <description>sel_bk</description>
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <width>560</width>
+                    <height>45</height>
+                    <texture>itmbkg.png</texture>
+               </control> 
+	           <control type="label">
+                    <left>20</left>
+                    <top>0</top>
+                    <width>560</width>
+                    <height>45</height>
+                    <font>font12</font>
+                    <aligny>center</aligny>
+                    <selectedcolor>green</selectedcolor>
+                    <align>left</align>
+                    <textcolor>dimgray</textcolor>
+                    <info>ListItem.Label</info>
+                </control>
+            </itemlayout>
+            <focusedlayout height="50" width="580">
+               <control type="image">
+                    <description>sel_bk</description>
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <width>560</width>
+                    <height>45</height>
+                    <texture>itmbkg.png</texture>
+               </control> 
+               <control type="image">
+                    <description>sel_bk</description>
+                    <animation effect="fade" start="0" end="80" time="200" delay="0" tween="circle" easing="inout">Visible</animation>
+                    <animation effect="fade" start="80" end="0" time="200" delay="0" tween="circle" easing="inout">Hidden</animation>
+                    <animation effect="fade" start="80" end="40" time="400" delay="200" tween="line">Focus</animation>
+                    <posx>0</posx>
+                    <posy>0</posy>
+                    <width>560</width>
+                    <height>45</height>
+                    <visible>Control.HasFocus(200)</visible>
+                    <texture>itmbkg_f.png</texture>
+               </control>
+               <control type="label">
+                    <left>20</left>
+                    <top>0</top>
+                    <width>560</width>
+                    <height>45</height>
+                    <font>font12</font>
+                    <aligny>center</aligny>
+                    <selectedcolor>green</selectedcolor>
+                    <align>left</align>
+                    <textcolor>dimgray</textcolor>
+                    <info>ListItem.Label</info>
+                </control>
+            </focusedlayout>
+        </control>
+      </control>  
+    </controls>
+</window>

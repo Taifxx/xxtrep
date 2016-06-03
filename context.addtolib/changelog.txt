@@ -1,4 +1,25 @@
-﻿v1.0.6
+﻿v1.0.7
+BugFix:
+    - Fixed issue with availability check of library on some OS
+    - Fixed prevent simultaneous startup of background processes
+    - Fixed problem with menu color change 
+    - Fixed problem with removing tags from files names on adding
+    - Fixed problem with automark of new episodes on update raw added source
+    - Other small bugfixes
+Remove:
+    - Removed 'Opening stream' dialog suppression option
+New:
+    - Added Skins
+    - Added methods for forced closing of dialogs (including 'Opening stream' dialog)
+    - Added (change) new algorithm for playback control
+    - Added new playback method
+    - Added ability to define how a script add-on (for external launching)
+    - Added items sort order for advanced adding 
+    - Added list of episodes editor for advanced adding
+    - Added numbering correction for advanced adding
+
+
+v1.0.6
 BugFix:
     - Fixed problem with false positives when checking for new episodes 
     - Other small bugfixes

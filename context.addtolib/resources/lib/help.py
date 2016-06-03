@@ -22,86 +22,39 @@ import xbmcgui, xbmc
 
 from resources.lib.ext       import *
 
-
 ##### Show help ...
-class showHelp(xbmcgui.WindowDialog):
-
+class showHelp (GUI.CAltDTmpl):
     def __init__(self):
     
-        xbmcgui.WindowDialog.__init__(self)
-    
-        border        = TAG_PAR_HLPBORDERSIZE
-        Lng           = tl(TAG_LNG_ID)
-        HelpFile      = TAG_PAR_HELPFILE + tl(TAG_LNG_ID)
-        hPath         = DOS.join(addon.path, TAG_PAR_RESFOLDER, TAG_PAR_HLPFOLDER)
-        bkgImgPath    = DOS.join(addon.path, TAG_PAR_RESFOLDER, TAG_PAR_IMGFOLDER, TAG_PAR_BKG)
-        bkgImgLnPath  = DOS.join(addon.path, TAG_PAR_RESFOLDER, TAG_PAR_IMGFOLDER, TAG_PAR_LN)
+        self.helpText = DOS.file(TAG_PAR_HELPFILE + tl(TAG_LNG_ID), DOS.join(addon.path, *TAG_PAR_HELPPATH), fType=FRead)
         
-        self.helpText = DOS.file(HelpFile, hPath, fType=FRead)
+        lines      = CMP.compsRemtag(self.helpText).split(NewLine)
+        linescount = self.helpText.count(NewLine)
+        for line in lines:
+            linescount += int(len(line) / 350.0)  
         
-        self.pos      = 0
-        self.scrstep  = TAG_PAR_HLPSCROLL
-        self.lncount  = self.helpText.count(NewLine)+15
+        self.tblen    = linescount
+        self.tbpos    = 0  
         
-        xE = TAG_PAR_RESX   
-        yE = TAG_PAR_RESY
-        
-        x = border 
-        y = border + 45
-        
-        width  = xE - x - border
-        height = yE - y - border 
-        
-        bkgImg              = xbmcgui.ControlImage(0, 0,   xE, yE,  bkgImgPath)
-        bkgImgLine          = xbmcgui.ControlImage(0, -15, xE, 134, bkgImgLnPath)
-        
-        self.txtControl     = xbmcgui.ControlTextBox(x, y, width, height)
-        self.btnControlOk   = xbmcgui.ControlButton(border, 10, 100, 40,     tl(TAG_DLG_OK),  alignment=6)
-        self.btnControlPrev = xbmcgui.ControlButton(border+105, 10, 100, 40, tl(TAG_DLG_PR),  alignment=6)
-        self.btnControlNext = xbmcgui.ControlButton(border+210, 10, 100, 40, tl(TAG_DLG_NX),  alignment=6)
-        self.lblPos         = xbmcgui.ControlLabel (border+550, 10, 150, 40, Empty,           alignment=6)
-        
-        self.addControl(bkgImg)
-        self.addControl(bkgImgLine)
-        
-        self.addControl(self.txtControl)
-        self.addControl(self.btnControlOk)
-        self.addControl(self.btnControlNext)
-        self.addControl(self.btnControlPrev)
-        self.addControl(self.lblPos)
-        
-        self.txtControl.setText(self.helpText)
-        self.setlblpos()
-        
-        bkgImg.setAnimations([('windowopen', 'effect=fade start=0 end=100 time=400',), ('windowclose', 'effect=fade start=100 end=0 easing=in time=400',)])
-        bkgImgLine.setAnimations([('windowopen', 'effect=fade start=0 end=100 time=400 delay=200',), ('windowclose', 'effect=fade start=100 end=0 easing=in time=400',)])
-        
-        self.btnControlOk.setAnimations([('windowopen', 'effect=fade start=0 end=100 time=400 delay=100',), ('windowclose', 'effect=fade start=100 end=0 easing=in time=400',)])  
-        self.btnControlPrev.setAnimations([('windowopen', 'effect=fade start=0 end=100 time=400 delay=100',), ('windowclose', 'effect=fade start=100 end=0 easing=in time=400',)])
-        self.btnControlNext.setAnimations([('windowopen', 'effect=fade start=0 end=100 time=400 delay=100',), ('windowclose', 'effect=fade start=100 end=0 easing=in time=400',)])
-        self.lblPos.setAnimations([('windowopen', 'effect=fade start=0 end=100 time=400 delay=100',), ('windowclose', 'effect=fade start=100 end=0 easing=in time=400',)])        
-        
-        self.txtControl.setAnimations([('windowopen', 'effect=fade start=0 end=100 time=400 delay=300',), ('windowclose', 'effect=fade start=100 end=0 easing=in time=400',)]) 
-        
-        self.doModal()
-        
-        
-    def setlblpos(self):
-        self.lblPos.setLabel(tl(TAG_TTL_POSHLP) % (self.pos, self.lncount))    
+        GUI.CAltDTmpl.__init__(self, xmlFile=TAG_PAG_HELPXML)
     
     
-    def onControl(self, control):
-        if   control == self.btnControlPrev: 
-            if self.pos > self.scrstep : self.pos -= self.scrstep
-            elif self.pos > 0 : self.pos = 0
-            self.txtControl.scroll(self.pos)
-            self.setlblpos()
-                
-        elif control == self.btnControlNext: 
-            if self.pos < self.lncount - self.scrstep : self.pos += self.scrstep
-            elif self.pos < self.lncount : self.pos = self.lncount
-            self.txtControl.scroll(self.pos)
-            self.setlblpos() 
-                
-        else: 
-            self.close()  
+    def onInit(self, xml):
+        xml.getControl(100).setLabel(tl(TAG_TTL_HELP))
+        xml.getControl(200).setText (decolor(self.helpText))
+        
+    
+    
+    def onClick(self, controlID, xml):
+        if controlID == 150 : xml.stop()
+    
+    
+    def onAction(self, action, xml):
+        actID = action.getId()
+        if actID == 105 : 
+            if self.tbpos < self.tblen : self.tbpos += 1; xml.getControl(200).scroll(self.tbpos)         
+        if actID == 104 : 
+            if self.tbpos > 0          : self.tbpos -= 1; xml.getControl(200).scroll(self.tbpos)
+        
+        xml.reAction(action)
+  

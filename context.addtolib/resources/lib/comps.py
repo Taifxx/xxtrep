@@ -37,6 +37,9 @@ class PATTERN:
     season_only         = ur'([\d]+)'   
     clear_name_by_file  = ur'[^a-zA-ZА-Яа-я\d)]+$'
     remove_fdots        = ur'^[.]+'
+    remove_multidots    = ur'[.]{2,}'
+    @staticmethod
+    def file_remove_ext2 () : return '(\\'+'$)|(\\'.join(TAG_PAR_VIDEOSEXT)+'$)'
     @staticmethod
     def add_season (season, episode): return 's{:0>2}e{:0>2}.'.format(season, episode)
     @staticmethod
@@ -53,12 +56,14 @@ def create_name (comps_item, *args, **kwargs):
         
         if sw.issuperset({TAG_TYP_ALL}):
                 
-                comps_item.lower()   
+                comps_item.lower()
+                comps_item.sub (PATTERN.remove_tags)   
         
         
         if sw.issuperset({TAG_TYP_ALL, TAG_TYP_TVS}):
         
-                comps_item.sub   (PATTERN.remove_tags)
+                #comps_item.sub   (PATTERN.remove_tags)
+                pass
         
         
         if sw.issuperset({TAG_TYP_FOLDER}):
@@ -106,12 +111,16 @@ def create_name (comps_item, *args, **kwargs):
         
         if sw.issuperset({TAG_TYP_FILE}):
         
-                comps_item.sub    (PATTERN.file_remove_ext)
+                #comps_item.sub   (PATTERN.file_remove_ext)
+                comps_item.sub   (PATTERN.file_remove_ext2())
                 
                 if kwargs:
                         if   kwargs['Seq']    == True  : comps_item.add(PATTERN.add_seq   (kwargs['Episode']))
                         elif kwargs['Season'] != Empty : comps_item.add(PATTERN.add_season(kwargs['Season'], kwargs['Episode'])) 
                 comps_item.sub_compiled(Dot, toself=True)
+                
+                comps_item.sub   (PATTERN.remove_multidots, rep_text=Dot) 
+                comps_item.sub   (PATTERN.remove_fdots)
 
 
 def create_name_once (notFormatedName, *args, **kwargs):

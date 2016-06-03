@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+    <defaultcontrol>201</defaultcontrol>
+    <coordinates>
+        <system>1</system>
+        <posx>0</posx>
+        <posy>0</posy>
+    </coordinates>
+    <controls>
+        <control type="image">
+            <description>Dialog Background</description>
+            <animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1280</width>
+            <height>720</height>
+            <!--texture>bkg.png</texture-->
+            <texture>dim.png</texture>
+        </control>
+        <control type="image">
+            <description>Top line</description>
+            <animation effect="fade" start="0" end="100" time="400" delay="200">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+            <posx>165</posx>
+            <posy>-25</posy>
+            <width>950</width>
+            <height>134</height>
+            <texture>linet.png</texture>
+        </control>
+        <control type="image">
+            <description>Bottom line</description>
+            <animation effect="fade" start="0" end="100" time="400" delay="200">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+            <posx>165</posx>
+            <posy>600</posy>
+            <width>950</width>
+            <height>134</height>
+            <texture>lineb.png</texture>
+        </control>
+        
+        
+        
+        <control type="group">
+             <animation effect="fade" start="0" end="100" time="400" delay="100">WindowOpen</animation>
+             <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+                    
+             <control type="image">       
+                    <description>Ok button bckg</description>
+	                
+	                <left>590</left>
+	                <top>670</top>
+	                <width>100</width>
+	                <height>40</height>
+	                <texture>btn_nof.png</texture>
+             </control>
+             <control type="image">
+                    <description>No button focus</description>
+	                
+	                <left>590</left>
+	                <top>670</top>
+	                <width>100</width>
+	                <height>40</height>
+	                <visible>Control.HasFocus(150)</visible>
+	                <texture>btn_f.png</texture>
+             </control>
+             <control type="label">
+                    <description>Ok button label</description>
+	                
+	                <left>590</left>
+	                <top>670</top>
+	                <width>100</width>
+	                <height>40</height>
+	                <label>Ok</label>
+	                <font>font12</font>
+	                <align>center</align>
+	                <aligny>center</aligny>
+             </control>
+             <control type="button" id="150">         
+                    <description>Ok button</description>
+	                
+	                <left>590</left>
+	                <top>670</top>
+	                <width>100</width>
+	                <height>40</height>
+	                <texturenofocus>-</texturenofocus>
+	                <texturefocus>-</texturefocus>
+             </control>
+         </control>
+        <control type="label" id="100">
+            <animation effect="fade" start="0" end="100" time="400" delay="100">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+            <description>Caption</description>
+            <posx>0</posx>
+            <posy>0</posy>
+            <width>1280</width>
+            <height>60</height>
+            <font>font13</font>
+            <textcolor>FFFFFFFF</textcolor>
+            <aligny>center</aligny>
+            <align>center</align>
+        </control>
+        <control type="textbox" id="200">
+            <animation effect="fade" start="0" end="100" time="400" delay="300">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+            <posx>20</posx>
+            <posy>60</posy>
+            <width>1230</width>
+            <height>585</height>
+            <pagecontrol>201</pagecontrol>
+            <font>font13</font>
+            <textcolor>FFFFFFFF</textcolor>
+            <align>justify</align>
+        </control>
+        <control type="scrollbar" id="201">
+            <animation effect="fade" start="0" end="100" time="400" delay="100">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+            <description>Text Scrollbar</description>
+            <posx>1270</posx>
+            <posy>60</posy>
+            <width>10</width>
+            <height>585</height>
+            <texturesliderbackground>-</texturesliderbackground>
+            <texturesliderbar>slider_bar.png</texturesliderbar>
+            <texturesliderbarfocus>slider_bar_focus.png</texturesliderbarfocus>
+            <textureslidernib>-</textureslidernib>
+            <textureslidernibfocus>-</textureslidernibfocus>
+            <orientation>vertical</orientation>
+        </control>
+    </controls>
+</window>

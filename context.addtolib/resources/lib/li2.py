@@ -46,10 +46,11 @@ getFname       = lambda            idx=currentItemPos() : getLi('FileName',     
 getFolpath     = lambda            idx=currentItemPos() : getLi('FolderPath',      idx)
 getTitle       = lambda            idx=currentItemPos() : getLi('Label',           idx)
 
-def getTitleF (idx=currentItemPos()):
-    tmpTitle = getTitle(idx)
-    tmpFname = getFname(idx)
-    return tmpFname if tmpFname else tmpTitle     
+getTitleF      = lambda            idx=currentItemPos() : getLi('Label',           idx)
+# def getTitleF (idx=currentItemPos()):
+#     tmpTitle = getTitle(idx)
+#     tmpFname = getFname(idx)
+#     return tmpFname if tmpFname else tmpTitle     
 
 def isFolder (idx=currentItemPos()): 
     if DETVIDEXT and isVidExt(getTitle(idx)) : return False
@@ -147,7 +148,11 @@ class vidItems:
         if self.vidListItems : 
             self.vidIsEmpty = False
             ## Set as default first nofolder item, if current item is a folder ...
-            if self.vidFolderNameDef == Empty : self.vidFolderNameDef = self.vidListItems[0][0] 
+            if self.vidFolderNameDef == Empty : self.vidFolderNameDef  = self.vidListItems[0][0] 
         
     def setmanually(self, manlist):
-        self.vidListItems = [itm for idx, itm in enumerate(self.vidListItemsRaw) if idx in manlist]
+        self.vidListItems  = [itm for idx, itm in enumerate(self.vidListItemsRaw) if idx in manlist]
+    
+    def reverse(self):
+        self.vidListItems.reverse()
+        self.vidListItemsRaw.reverse()

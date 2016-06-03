@@ -63,6 +63,7 @@ class TVS:
         self._folsources = []
         self._rawlist    = []
         self.seq         = 0
+        self._sn_add     = 1
     
     ### Inside append ... 
     def _append(self, template, mark, var, appdict):
@@ -75,7 +76,7 @@ class TVS:
     def append_episode(self, original_name, new_name, link, src_id):
         if self._append(original_name, 'original_name', self._episodes, {'original_name':original_name, 'new_name':new_name, 'link':link, 'src_id':src_id}):
             for src in self._sources:
-                if src['src_id'] == src_id : src['src_numb'] += 1; break
+                if src['src_id'] == src_id : src['src_numb'] += self._sn_add; self._sn_add = 1; break
             if self.seq : self.seq += 1  
         
     def append_fsource(self, fsrc_name, fsrc_link, fsrc_inum, fsrc_upd=True):
@@ -86,6 +87,11 @@ class TVS:
         self._append(src_link, 'src_link', self._sources, {'src_name':getUniqname(src_name, [itm['src_name'] for itm in self._sources]), 'src_link':src_link, 'src_id':src_id, 'src_upd':src_upd, 'src_season':src_season, 'src_numb':0})
         return src_id 
     
+    def incSeq(self):
+        self.seq += 1
+    
+    def incSN(self):
+        self._sn_add += 1
     
     ### Exclude ...
     def _exclude(self, value, mark, var):  
@@ -157,6 +163,9 @@ class TVS:
         
     def get_raw_link_list(self):
         return [itm[0] for itm in self._rawlist]
+    
+    def get_raw_eps(self):
+        return [itm[1] for itm in self._rawlist]
     
     ### Add target TVS to current TVS ...
     def join_tvs(self, TVS):

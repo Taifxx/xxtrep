@@ -38,4 +38,5 @@ LIB   = lib.libPaths(addon, TAG_PAR_LIB_FOLDER)
    
 ### Remove tags in text ...
 tl  = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) if not addon.COLORIZE else addon.tlraw(textTag).replace(TAG_PAR_COLORTAG, addon.COLOR)
-tla = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag)) 
+tla = lambda textTag : CMP.compsRemtag(addon.tlraw(textTag))
+decolor = lambda text: CMP.compsRemtag(text) if not addon.COLORIZE else text.replace(TAG_PAR_COLORTAG, addon.COLOR) 

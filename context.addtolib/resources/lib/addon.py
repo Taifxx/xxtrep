@@ -92,7 +92,7 @@ class CAddon:
     @property
     def WAITBSEEK      (self) : return int(self.addon.getSetting('waitbseek')) 
     @property
-    def EODGEN         (self) : return _sbool(self.addon.getSetting('eodgen'))  
+    def EODGENM        (self) : return self.addon.getSetting('eodgenm')  
     @property
     def movFolder      (self) : return self.addon.getSetting('fldrmov')
     @property
@@ -133,7 +133,15 @@ class CAddon:
     def BKUPTIME       (self) : return int(self.addon.getSetting('bkuptime'))  
     @property
     def HIDEBCKPRGS    (self) : return _sbool(self.addon.getSetting('hidebckprgs'))
-
+    @property
+    def USESKINS       (self) : return _sbool(self.addon.getSetting('useskins'))
+    @property
+    def DIMBCKG        (self) : return _sbool(self.addon.getSetting('dimbckg'))
+    @property
+    def SKIN           (self) : return self.addon.getSetting('skin')
+    @property
+    def NEWPLAYS       (self) : return _sbool(self.addon.getSetting('newplays'))
+    
     
     def getlibpath(self): _libpath  = self.addon.getSetting('libpath');  return _libpath  if _libpath  != TAG_PAR_SETDEF else self.profile
     def getbckpath(self): _bkuppath = self.addon.getSetting('bkuppath'); return _bkuppath if _bkuppath != TAG_PAR_SETDEF else self.profile

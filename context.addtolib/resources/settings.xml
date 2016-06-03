@@ -9,13 +9,18 @@
         <setting id="actclnvl"   type="action"    label="30424" action="RunScript(special://home/addons/context.addtolib/context.py, action=30027)" option="close"/>
     </category>
     <category label="30481">
+        <setting id="useskins"   type="bool"      label="30449" default="true"/>
+        <setting id="dimbckg"    type="bool"      label="30450" default="true" enable="eq(-1,true)"/>
+        <setting id="skin"       type="text"      label="30451" default="Default" visible="false"/>
+        <setting id="actskin"    type="action"    label="30452" action="RunScript(special://home/addons/context.addtolib/context.py, action=10210)" option="close" enable="eq(-3,true)" default="Default"/>
+        <setting                 type="sep"       label=""/>
         <setting id="colorize"   type="bool"      label="30401" default="true"/>
-        <setting id="actcolor"   type="action"    label="30435" action="RunScript(special://home/addons/context.addtolib/context.py, action=10203)" option="close" enable="eq(-1,true)"/>
-        <setting id="mnucolor"   type="text"      label=""      default="darkorange" visible="false"/>
+        <setting id="mnucolor"   type="text"      label="30453" default="darkorange" visible="false"/>
+        <setting id="actcolor"   type="action"    label="30435" action="RunScript(special://home/addons/context.addtolib/context.py, action=10203)" option="close" enable="eq(-2,true)" default="darkorange"/>
         <setting                 type="sep"       label=""/>
         <setting id="addupd"     type="bool"      label="30403" default="false"/>
         <setting                 type="sep"       label=""/>
-        <setting id="mnuitmnum"  type="select"    label="30407" default="7" values="5|6|7|8|9|10|11|12"/>
+        <setting id="mnuitmnum"  type="select"    label="30407" default="8" values="5|6|7|8|9|10|11|12"/>
         <setting id="setpage"    type="select"    label="30408" default="1" values="1|2"/>
     </category>
     <category label="30483">
@@ -38,10 +43,13 @@
         <setting id="waitbseek"    type="number"    label="30418" default="3"     enable="eq(-4,true)"/>
         <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-5,true)"/>
         <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-6,true)+eq(-1,false)"/>
-        <setting id="eodgen"       type="bool"      label="30425" default="false"/>
         <setting                   type="sep"       label=""/>
-        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-9,true)"/>
-        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-10,true)+eq(-1,true)" range="1,100" option="int"/>
+        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-8,true)"/>
+        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-9,true)+eq(-1,true)" range="1,100" option="int"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="eodgenm"      type="select"    label="30454" default="Don't use" enable="eq(-11,true)" values="Don't use|Handle reset|Suppression"/>
+        <setting id="newplays"     type="bool"      label="30425" default="false"/>
+        
     </category>
     <category label="30484">
         <setting id="silentupd"    type="bool"      label="30426" default="true"/>

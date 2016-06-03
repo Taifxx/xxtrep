@@ -30,6 +30,7 @@ class tagMenue:
         self._backTag   = kwargs['backTag']
         self._nextTag   = kwargs['nextTag']
         self._title     = kwargs.get('title', Empty)
+        self._addict    = kwargs.get('addict', Empty)
         
         visCond         = kwargs['visCond']
         pageCLimit      = kwargs['pageLimit'] 
@@ -133,7 +134,9 @@ class tagMenue:
             mnuNames = [tl(itm) for itm in self._mnuPages[pageNum]]
             if self._title : args = [mnuNames, self._title]
             else           : args = [mnuNames]
-            return mnuVals[GUI.dlgSel(*args)] 
+            _plen = len(self._mnuPages)   
+            _msg  = self._addict + (TAG_PAR_LNPAGE % (str(pageNum+1), str(_plen)) if _plen > 1 else Empty) 
+            return mnuVals[GUI.dlgSel(*args, lnmsg=_msg)] 
         else: return self._cancelTag
     
     def show(self, pageNum = 0):

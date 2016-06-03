@@ -41,12 +41,28 @@ __language__     = addon.localize
 ##### Call ...
 def Main():
 
+    #help.dlgHelp()
+    #s = GUI.dlgSel(['Item1', 'Item2', 'Item3'], title='TEST')
+    #s = GUI.dlgSelXSub('msg','X CAP', ['Item1', 'Item2', 'Item3']).position
+    
+    #s = DOS.exists(DOS.join(addon.profile, TAG_PAR_LOCKF))
+    
+    #GUI.dlgOk(DOS.join(addon.profile, TAG_PAR_LOCKF).replace('AppData\\Roaming','')+' : '+str( s ))
+    
+    #GUI.dlgOk('TESR')
+
+    #GUI.messageX('Text','Caption')
+    #GUI.tt('Text','Caption')
+    #GUI.dlgOk('>>')
+
+    #return
+
     arg = parseArgs()
     if   arg == TAG_CND_NOACTION : plgMain()
     elif arg != TAG_CND_PLAY     : plgMain(arg)
 
 ##### Main ...
-class plgMain():        
+class plgMain(GUI.CAltDTmpl):        
     
     def _cleanObject(self, obj):
         try    : del obj 
@@ -187,7 +203,8 @@ class plgMain():
                                   backTag   = TAG_MNU_BACK, 
                                   nextTag   = TAG_MNU_MORE,
                                   visCond   = curVisCond,
-                                  title     = normName(self.TVS.lib_name)) 
+                                  title     = normName(self.TVS.lib_name),
+                                  addict    = tla(TAG_TTL_MAINMNU)) 
          
         ## Define Sub Menues ... 
         self.tvsmMenue = tagMenue({'pos':0, 'tag':TAG_MNU_SHOWALL,    'hideCond':{}},
@@ -204,7 +221,8 @@ class plgMain():
                                   backTag   = TAG_MNU_BACK, 
                                   nextTag   = TAG_MNU_MORE,
                                   visCond   = curVisCond,
-                                  title     = titName(TAG_MNU_TVSMAN, self.TVS.lib_name))
+                                  title     = titName(TAG_MNU_TVSMAN, self.TVS.lib_name),
+                                  addict    = tla(TAG_TTL_MAINMNU)+TAG_PAR_LNSEP+tla(TAG_MNU_TVSMAN))
         
         self.srcmMenue = tagMenue({'pos':0, 'tag':TAG_MNU_ADDFOL,    'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_OLDFRC}},
                                   #{'pos':0, 'tag':TAG_MNU_UPDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NEWFRC}},
@@ -219,7 +237,8 @@ class plgMain():
                                   backTag   = TAG_MNU_BACK, 
                                   nextTag   = TAG_MNU_MORE,
                                   visCond   = curVisCond,
-                                  title     = titName(TAG_MNU_SRCMAN, self.TVS.lib_name))
+                                  title     = titName(TAG_MNU_SRCMAN, self.TVS.lib_name),
+                                  addict    = tla(TAG_TTL_MAINMNU)+TAG_PAR_LNSEP+tla(TAG_MNU_SRCMAN))
         
         self.updtMenue = tagMenue({'pos':0, 'tag':TAG_MNU_TVSU,     'hideCond':{}},
                                   {'pos':0, 'tag':TAG_MNU_SHDIR,    'hideCond':{}},  
@@ -228,7 +247,8 @@ class plgMain():
                                   backTag   = TAG_MNU_BACK, 
                                   nextTag   = TAG_MNU_MORE,
                                   visCond   = curVisCond,
-                                  title     = titName(TAG_TTL_NEWEPS, self.TVS.lib_name))
+                                  title     = titName(TAG_TTL_NEWEPS, self.TVS.lib_name),
+                                  addict    = tla(TAG_TTL_MAINMNU)+TAG_PAR_LNSEP+tla(TAG_MNU_UPDMAN))
     
         ## Show Main menue ...
         if self.result not in [TAG_MNU_TVS,     TAG_MNU_TVSU,   TAG_MNU_TVSMAN, TAG_MNU_SRCMAN, TAG_MNU_DELETE, 
@@ -242,7 +262,7 @@ class plgMain():
         if   self.result == TAG_MNU_SRCMAN : self.srcmPage, self.result = self.srcmMenue.show(self.srcmPage)  
         elif self.result == TAG_MNU_TVSMAN : self.tvsmPage, self.result = self.tvsmMenue.show(self.tvsmPage)
         
-        if self.updlock(check=True) : self.result == TAG_MNU_CANCEL
+        if self.updlock(action, check=True) : self.result == TAG_MNU_CANCEL
         
         ## Parse results ...
         if   self.result == TAG_MNU_CANCEL      : pass
@@ -285,6 +305,7 @@ class plgMain():
         elif self.result == TAG_ACT_RESTBACK    : self.result = self.act_restback()
         elif self.result == TAG_ACT_RESETTBU    : self.result = self.act_resettbu()
         elif self.result == TAG_ACT_AUTOBACKUP  : self.result = self.act_autobackup()
+        elif self.result == TAG_ACT_RESKIN      : self.result = self.act_reskin()
     
     
     def __init__(self, action=Empty):
@@ -864,8 +885,19 @@ class plgMain():
             eplist = [itm[0] for itm in self.items.vidListItemsRaw]
             idxs   = range(len(eplist))
             
-            selitems = subMenue(eplist, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, title=normName(self.TVS.lib_name),
-                                selMarkm=tl(TAG_MNU_SMM), multiSelDefList=idxs)
+            if update:
+                newraw = []
+                tvsraw = self.TVS.get_raw_eps() 
+                for idx, itm in enumerate(eplist):
+                    if itm not in tvsraw : newraw.append(idx)
+                
+                idxsDef = newraw
+                rTTL    = TAG_PAR_TTLQ % (tla(TAG_TTL_RAWADDEPS), normName(self.TVS.lib_name))
+                
+            else : idxsDef = idxs; rTTL = tla(TAG_TTL_RAWADDEPS)
+               
+            selitems = subMenue(eplist, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, title=rTTL,
+                                selMarkm=tl(TAG_MNU_SMM), multiSelDefList=idxsDef)
             
             if not selitems : return rd
             
@@ -955,6 +987,10 @@ class plgMain():
         
         result  = 0
         newPath = TAG_MNU_NEW if aTVS == newtvs else Empty
+        aSortOd = TAG_MNU_ADVLSORTDOWN
+        diflist = []
+        cornum  = []
+        skip    = 0
         
         while int(result) != -1:
         
@@ -974,9 +1010,18 @@ class plgMain():
             if aSeqT == TAG_MNU_SEANUM and aNumbT == TAG_MNU_SERTPL:
                 mList += [tl(TAG_MNU_SEASON)   + aSeason]        ; mVals += [4]
             
-            mList += [tl(TAG_MNU_STARTADD)]                      ; mVals += [5]
+            if aNumbT == TAG_MNU_SERTPL or aSeqT == TAG_MNU_SEQNUM:    
+                mList += [tl(TAG_MNU_ADVLSORT) + tl(aSortOd)]    ; mVals += [5]
+            
+            if aNumbT == TAG_MNU_SERTPL or aSeqT == TAG_MNU_SEQNUM:
+                mList += [tl(TAG_MNU_NUMBCORR)]                  ; mVals += [6]
+            
+            mList += [tl(TAG_MNU_EPSLISTCORR)]                   ; mVals += [7]
+            
+            mList += [tl(TAG_MNU_STARTADD)]                      ; mVals += [8]
         
-            result = subMenue(mList, mVals, cancelVal=-1, title=tl(TAG_TTL_ADVADD))
+            if not skip : result = subMenue(mList, mVals, cancelVal=-1, title=tl(TAG_TTL_ADVADD))
+            else        : result = skip; skip = 0
         
             if   result == 0:
                 tvsNames, tvsPaths = getAllTVS()
@@ -991,6 +1036,7 @@ class plgMain():
                 
             elif result == 1: 
                 aSeqT   = TAG_MNU_SEANUM if aSeqT  == TAG_MNU_SEQNUM else TAG_MNU_SEQNUM
+                if cornum and (aNumbT == TAG_MNU_SERTPL or aSeqT == TAG_MNU_SEQNUM) : skip = 6
                 
             elif result == 2: 
                 while True  : 
@@ -999,30 +1045,89 @@ class plgMain():
             
             elif result == 3: 
                 aNumbT  = TAG_MNU_SERDEF if aNumbT == TAG_MNU_SERTPL else TAG_MNU_SERTPL
+                if cornum and (aNumbT == TAG_MNU_SERTPL or aSeqT == TAG_MNU_SEQNUM) : skip = 6
             
             elif result == 4: 
                 while True  : 
                     aSeason = GUI.dlgInnum(tl(TAG_DLG_INSE), aSeason) 
                     if aSeason : break
-                
+            
             elif result == 5: 
+                aSortOd = TAG_MNU_ADVLSORTUP if aSortOd == TAG_MNU_ADVLSORTDOWN else TAG_MNU_ADVLSORTDOWN
+                self.items.reverse()
+                
+            elif result == 6:
+                eplist  = [itm[0] for itm in self.items.vidListItems]
+                if not cornum : cornum = range(1, len(eplist)+1)    
+        
+                numList = []
+                while True: 
+                  
+                    numList = []
+                    cidx    = 0
+                    for itm in eplist:
+                        while True:
+                            cidx += 1
+                            if cidx in cornum    : break
+                            if cidx > max(cornum): cornum.append(cidx); break  
+                            
+                            numList.append(str(cidx)+Space+Space+tl(TAG_DLG_NUMSKIP))
+                            
+                        numList.append(str(cidx)+Colon+Space+Space+itm)
+                    
+                    idxs    = range(1, len(numList)+1)
+                    idxsDef = [itm for itm in range(len(numList)) if itm+1 in cornum]
+                    
+                    selitem = subMenue(numList, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, title=tla(TAG_MNU_NUMBCORR))
+                    if selitem == -1 : break
+                    if selitem: 
+                        if selitem in cornum: 
+                            cornum.remove(selitem)
+                            cornum.append(len(numList))
+                        else: 
+                            numList.pop(selitem-1)
+                            cornum.append(selitem) 
+                                                
+            elif result == 7:    
+                eplist    = [itm[0] for itm in self.items.vidListItemsRaw]
+                seleplist = [itm[0] for itm in self.items.vidListItems]
+                idxs      = range(len(eplist))
+                idxsDef   = [idx for idx, itm in enumerate(eplist) if itm in seleplist]
+                
+                selitems = subMenue(eplist, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, title=normName(self.TVS.lib_name),
+                                    selMarkm=tl(TAG_MNU_SMM), multiSelDefList=idxsDef)
+                
+                if selitems: 
+                    self.items.setmanually(selitems)
+                    diflistA = [itm for itm in selitems if itm not in idxsDef]  
+                    diflistB = [itm for itm in idxsDef  if itm not in selitems]
+                    diflist  = diflistA + diflistB  
+                
+                if cornum and (aNumbT == TAG_MNU_SERTPL or aSeqT == TAG_MNU_SEQNUM) : skip = 6
+                
+            elif result == 8: 
                 if aName2 == tl(TAG_MNU_DEFNM) and newPath == TAG_MNU_NEW and not confirm(TAG_MNU_DEFNM, aName) : continue
                 
                 if aSeqT  == TAG_MNU_SEQNUM :
                     if aSeq < 1 : aSeq = 1 
                     self.TVS.seq = aSeq
-                if aNumbT == TAG_MNU_SERDEF : aSeason      = Empty 
+                if aNumbT == TAG_MNU_SERDEF : aSeason = Empty 
                 
                 if newPath == TAG_MNU_NEW   : 
                     self.TVS.lib_name = aName
                     self.TVS.lib_path = LIB.tvs(aName)
                     
                 prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
-                errn = addTVS(self.items, self.TVS, prefix, aSeason, aNumb)
+                errn = addTVS(self.items, self.TVS, prefix, aSeason, aNumb, cornum)
                 
                 if not errord(errn, TAG_ERR_OK_TVSADD, normName(self.TVS.lib_name)):
                     self.linkTable.add(self.TVS.lib_path, self.items.vidCPath)
                     self.libUpdate()
+                    
+                    if diflist:
+                        rawlist = [itm[0] for itm in self.items.vidListItemsRaw]
+                        self.TVS.os_addraw(self.items.vidCPath, rawlist)
+                    
                     return TAG_MNU_CANCEL
                     
         return rd
@@ -1086,13 +1191,15 @@ class plgMain():
     
     def act_chcolor(self):
         pckdcolors = DOS.file(TAG_PAR_COLORS_FILE, DOS.join(addon.path, TAG_PAR_RESFOLDER, TAG_PAR_BSFOLDER), fType=FRead)
-        colors     = pckdcolors.split(NewLine)
+        colors     = [color.replace(CR, Empty) for color in pckdcolors.split(NewLine)]
         colnames   = [TAG_PAR_MNUCOLORFORMAT % (color, color) for color in colors]
         defcolor   = addon.getcolor() 
-        
+
         newcolor = subMenue(colnames, colors, cancelVal=Empty, default=defcolor, title=tl(TAG_TTL_COLORIZE))
         
-        if newcolor : addon.addon.setSetting('mnucolor', newcolor)
+        if newcolor : 
+            addon.addon.setSetting('mnucolor', newcolor)
+            addon.addon.setSetting('actcolor', newcolor)
         
         path       = DOS.join(addon.path, *TAG_PAR_STRINGSXML_PATH)
         stringsxml = DOS.file(TAG_PAR_STRINGSXML_FILE, path, fType=FRead)
@@ -1102,6 +1209,21 @@ class plgMain():
         
         return TAG_MNU_CANCEL
         
+    
+    def act_reskin(self):
+        
+        skins      = DOS.listdir(DOS.join(addon.path, *TAG_PAR_SKINSFOLDER))[0]
+        skinsnames = [itm for itm in skins] 
+        defskin    = addon.SKIN 
+
+        skin = subMenue(skinsnames, skins, cancelVal=Empty, default=defskin, title=tl(TAG_TTL_RESKIN))
+        
+        if skin : 
+            addon.addon.setSetting('skin', skin)
+            addon.addon.setSetting('actskin', skin)
+        
+        return TAG_MNU_CANCEL
+    
     
     def act_renamer(self):
         rd = TAG_MNU_CANCEL

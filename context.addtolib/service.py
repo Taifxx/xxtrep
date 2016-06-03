@@ -55,9 +55,9 @@ class CAction:
 
 ### Skip functions ... 
 def skip():
-    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LIB_FOLDER, context.TAG_PAR_LOCKF))   : return True
-    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LIB_FOLDER, context.TAG_PAR_STRARTF)) : return True
-    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LIB_FOLDER, context.TAG_PAR_STRARTAF)): return True
+    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LOCKF))   : return True
+    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTF)) : return True
+    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTAF)): return True
     return False
 
 
@@ -74,8 +74,8 @@ def service():
     while not monitor.abortRequested():
         if monitor.waitForAbort(10) : break
 
-        if context.DOS.exists(context.DOS.join(context.addon.profile, '.nos'))   : break
-        if context.DOS.exists(context.DOS.join(context.addon.profile, '.cont'))  : continue
+        if context.DOS.exists(context.DOS.join(context.addon.profile, 'nos'))   : break
+        if context.DOS.exists(context.DOS.join(context.addon.profile, 'cont'))  : continue
         
         backup()
         shadowupd()

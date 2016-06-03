@@ -19,6 +19,7 @@
 
 ### Import modules ...
 import os
+import xbmc
 import xbmcvfs
 
 from resources.lib.deecode import *
@@ -128,7 +129,7 @@ def compath(path1, path2):
     return setLower(unsl(path1)) == setLower(unsl(path2))
 
 
-def exists(path):
+def existsVFS(path):
     def _exists(path):
         try    : result = xbmcvfs.exists(esys(de(path)))
         except : result = False
@@ -139,6 +140,26 @@ def exists(path):
     elif _exists(path+Slash)   : return True
     elif _exists(path+BkSlash) : return True
     return False
+
+
+def exists(path):
+    path = setLower(path)
+    
+    base_path   = gettail(path)
+    element     = getdir(path)
+    list_of_dir = listdir(path)
+    elements    = list_of_dir[0] + list_of_dir[1] 
+    
+    if elements : return True
+    
+    list_of_dir = listdir(base_path)
+    elements    = list_of_dir[0] + list_of_dir[1]
+
+    if not elements : return False
+    
+    low_elements = [setLower(itm) for itm in elements]
+      
+    return True if element in low_elements else False
 
 
 ### JSP functions ...

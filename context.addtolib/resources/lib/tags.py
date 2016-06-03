@@ -17,62 +17,81 @@
 #
 ########## DEFINE TAGS:
 
-### Params ...
+
+#### System param's ...
+
+### Library folder name ...
 TAG_PAR_LIB_FOLDER          = 'LIB'
 
-TAG_PAR_TMP                 = '.TMP'
-TAG_PAR_TMPA                = '.TMPA'
+### TMP folders names ...
+TAG_PAR_TMP                 = 'TMP'
+TAG_PAR_TMPA                = 'TMPA'
 
-TAG_PAR_DEFAULT_DEBUG_FILE  = '__debug1'
-TAG_PAR_DEFAULT_DEBUG_EXT   = '.debf'
-
+### Addon ...
 TAG_PAR_SCRIPT_ID           = 'context.addtolib'
 TAG_PAR_SERVICE_PY          = 'service.py'
 TAG_PAR_ADDON_PY            = 'context.py'
+TAG_PAR_COLORS_FILE         = 'colors'
+
+### Addon folders ...
+TAG_PAR_RESFOLDER           = 'resources'
+TAG_PAR_BSFOLDER            = 'bs'
+TAG_PAR_SKINSFOLDER         = [TAG_PAR_RESFOLDER,'skins']
+
+TAG_PAR_SPLASH_FILE         = [TAG_PAR_RESFOLDER, TAG_PAR_BSFOLDER, 'splash.mp4'] 
+
+### RunScript's ...
 TAG_PAR_SERVICE             = 'special://home/addons/%s/%s' % (TAG_PAR_SCRIPT_ID, TAG_PAR_SERVICE_PY)
 TAG_PAR_ADDON               = 'special://home/addons/%s/%s' % (TAG_PAR_SCRIPT_ID, TAG_PAR_ADDON_PY)
-TAG_PAR_STRINGSXML_PATH     = ['resources','language','english']
+
+### Strinsg XML (as default) ...
+TAG_PAR_STRINGSXML_PATH     = [TAG_PAR_RESFOLDER,'language','english']
 TAG_PAR_STRINGSXML_FILE     = 'strings.xml'
+
+### Addon work files ...
 TAG_PAR_TVSPACK_FILE        = 'tvs.pack'
 TAG_PAR_TVSRAWFILE          = 'tvs.eraw'
 TAG_PAR_STL_FILE            = 'linktable'
-TAG_PAR_TVSUPD_FILE         = '.tvsupd'
-TAG_PAR_TVSUPDNOW_FILE      = '.updnow'
-TAG_PAR_LOCKF               = '.lock'
-TAG_PAR_STRARTF             = '.start'
-TAG_PAR_STRARTAF            = '.act'
 TAG_PAR_FSET_FILE           = 'fset'
-TAG_PAR_COLORS_FILE         = 'colors'
-TAG_PAR_TVSDEFSEASON        = '01' 
+
+### Addon work files (tmp) ...
+TAG_PAR_TVSUPD_FILE         = 'tvsupd'
+TAG_PAR_TVSUPDNOW_FILE      = 'updnow'
+TAG_PAR_LOCKF               = 'lock'
+TAG_PAR_STRARTF             = 'start'
+TAG_PAR_STRARTAF            = 'act'
+
+### Video extensions ...
 TAG_PAR_VIDEOSEXT           = ['.avi', '.mpeg', '.wmv', 'asf', '.flv', '.mkv', '.mka', '.mp4', '.m4a', '.aac', '.ogg', '.ogm', '.ram', '.rm', '.rv', '.ra', '.rmvb', '.3gp']
+
+### Default tmpl ...
+TAG_PAR_TVSDEFSEASON        = '01'
 TAG_PAR_SETDEF              = 'Default'
-TAG_PAR_RESFOLDER           = 'resources'
-TAG_PAR_IMGFOLDER           = 'img'
-TAG_PAR_BSFOLDER            = 'bs'
 TAG_PAR_MNUCOLORFORMAT      = '[COLOR %s]%s[/COLOR]'
 TAG_PAR_COLORTAG            = '##COLOR##'
 TAG_PAR_ADDONLABEL_TMPL     = '<string id="29999">%s</string>'
 TAG_PAR_ADDONLABEL_PATT     = TAG_PAR_ADDONLABEL_TMPL % ('(.*)')
 TAG_PAR_ADDONLABEL          = TAG_PAR_ADDONLABEL_TMPL % ('ADD to [COLOR %s]Lib[/COLOR]')
+TAG_PAR_LNPAGE              = '  -  (%s/%s)'
+TAG_PAR_LNSEP               = ' > '
+TAG_PAR_TTLQ                = '%s  ( %s ):'
+
+### Zip ...
 TAG_PAR_ZIPCN               = 'CN'
 TAG_PAR_ZIPST               = 'atl.backup.'
 TAG_PAR_ZIPTMPL             = TAG_PAR_ZIPST + '%s.%s.'+ TAG_PAR_ZIPCN + '.zip'
 
 ### XML
-TAG_PAR_XMLW_SELDLG         = 'XDialogSelect.xml' 
-
+TAG_PAR_XMLW_SELDLG         = 'XDialogSelect.xml'
+TAG_PAR_XMLW_SELDLGSUB      = 'XDialogSelectSub.xml'
+TAG_PAR_XMLW_OKDLG          = 'XDialogOk.xml'
+TAG_PAR_XMLW_YESNODLG       = 'XDialogYesNo.xml'
+TAG_PAR_XMLW_RESUMEDLG      = 'XDialogResume.xml'
 
 ### Help ...
-TAG_PAR_BKG                 = 'bkg.png'
-TAG_PAR_LN                  = 'line.png'
-TAG_PAR_XBMCTAGQ            = '[]'
+TAG_PAG_HELPXML             = 'DialogHelp.xml'
 TAG_PAR_HELPFILE            = 'help.'
-TAG_PAR_HLPFOLDER           = 'help'
-TAG_PAR_HLPBORDERSIZE       = 20
-TAG_PAR_HLPSCROLL           = 5
-
-TAG_PAR_RESX                = 1280
-TAG_PAR_RESY                = 720
+TAG_PAR_HELPPATH            = [TAG_PAR_RESFOLDER, 'help']
 
 ### Time ...
 TAG_PAR_TIMENUMFORMAT       = '{:0>2}'
@@ -95,9 +114,11 @@ TAG_CON_STARTSW_EXT         =  'plugin:'
 TAG_CON_STARTSW_VID         =  'videodb:'
 TAG_CON_STARTSW_PVD         =  'playlistvideo:'
 
-### Const Tags ...
+
+#### Const Tags ...
+
+### Default ...
 DEFAULT                 = 10000
-TAG_DEBUG_FILE_PATH     = DEFAULT
 
 ### Types ...
 TAG_TYP_ALL             = 10001
@@ -114,6 +135,7 @@ TAG_CON_EXT             = 10072
 TAG_CON_VID             = 10073
 TAG_CON_PVD             = 10074
 
+### Condidions ... 
 TAG_CND_FOUND           = 10075
 TAG_CND_NOTFOUND        = 10076
 TAG_CND_LISTEMPTY       = 10077
@@ -139,6 +161,10 @@ TAG_ACT_REMBACK         = 10206
 TAG_ACT_RESTBACK        = 10207
 TAG_ACT_RESETTBU        = 10208
 TAG_ACT_AUTOBACKUP      = 10209
+TAG_ACT_RESKIN          = 10210
+
+
+#### Strings Tags ...
 
 ### Language ...
 TAG_LNG_ID              = 30000
@@ -198,7 +224,16 @@ TAG_MNU_BRWSREN         = 30051
 TAG_MNU_CONTUPD         = 30052
 TAG_MNU_RESCANALLS      = 30053
 TAG_MNU_RESCANFULL      = 30054
+TAG_MNU_YES             = 30055
+TAG_MNU_NO              = 30056
+TAG_MNU_CLOSEDLG        = 30057
+TAG_MNU_ADVLSORT        = 30058
+TAG_MNU_ADVLSORTDOWN    = 30059
+TAG_MNU_ADVLSORTUP      = 30060
+TAG_MNU_EPSLISTCORR     = 30061
+TAG_MNU_NUMBCORR        = 30062
 
+### Static mnu ...
 TAG_MNU_MORE            = 30090
 TAG_MNU_BACKMAIN        = 30091
 TAG_MNU_OK              = 30092
@@ -230,6 +265,7 @@ TAG_DLG_NX              = 30101
 TAG_DLG_PR              = 30102
 TAG_DLG_INNM            = 30103 
 TAG_DLG_INSE            = 30104
+TAG_DLG_NUMSKIP         = 30105
 
 ### Titles ...
 TAG_TTL_NM              = 30150
@@ -264,7 +300,12 @@ TAG_TTL_PACK            = 30178
 TAG_TTL_REMOLDBCK       = 30179
 TAG_TTL_CLRERRDT        = 30180
 TAG_TTL_CLRERRD         = 30181
+TAG_TTL_HELP            = 30182
+TAG_TTL_MAINMNU         = 30183
+TAG_TTL_RESKIN          = 30184
+TAG_TTL_RAWADDEPS       = 30185
 
+### Set ...
 TAG_SET_RENAMER         = 30436
 
 ### Ok messages ...

@@ -603,7 +603,7 @@ def addMOV(items, newName, prefix, rawadd=False):
     return TAG_ERR_OK
     
       
-def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty): 
+def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty, cornum=Empty): 
 
     if not items.vidListItems : return TAG_ERR_LISTEMPTY
     
@@ -619,16 +619,29 @@ def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty):
     src_id    = TVS.append_source    (src_name, items.vidCPath, defSeason)
       
     CMP.create_name(file_name, TAG_TYP_PREFILE)
-    for eps, item in enumerate(items.vidListItems):
+    maxcorn = max(cornum) if cornum else 0 
+    eps     = 0 
+    for item in items.vidListItems:
     
         if TVS.seq or defSeason : file_name(TVS.lib_name)
         else                    : file_name(item[0]) 
         
-        if   TVS.seq : season = Empty;     seq = True;  episode = TVS.seq  
-        else         : season = defSeason; seq = False; episode = inte(defNumb) + eps + 1             
+        season = Empty if TVS.seq else defSeason 
+        seq    = True  if TVS.seq else False 
+        
+        while True:
+            episode = TVS.seq if TVS.seq else inte(defNumb) + eps + 1  
+            if not cornum        : break 
+            if episode in cornum : break
+            if episode > maxcorn : break
+            
+            if TVS.seq : TVS.incSeq()
+            else       : TVS.incSN(); eps += 1                         
            
         CMP.create_name(file_name, TAG_TYP_FILE, Season=season, Episode=episode, Seq=seq)
         TVS.append_episode(item[0], file_name(), item[1], src_id)
+        
+        eps += 1
         
     del file_name
          
