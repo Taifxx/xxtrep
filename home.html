@@ -137,7 +137,7 @@ a.Blue_style_bold:hover
 {
    border-width: 0;
 }
-#h2Img
+#h2Logo
 {
    border: 0px #000000 solid;
    -moz-box-shadow: 0px 0px 10px #000000;
@@ -331,6 +331,31 @@ a.Blue_style_bold:hover
 {
    background-color: #000000;
    background-image: none;
+}
+#h2Sh3
+{
+   border-width: 0;
+}
+#h2Sh2
+{
+   border-width: 0;
+}
+#h2Sh
+{
+   border-width: 0;
+}
+#wb_h2Txt3 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: right;
+}
+#wb_h2Txt3 div
+{
+   text-align: right;
 }
 #footBLayer
 {
@@ -667,13 +692,9 @@ a.Blue_style_bold:hover
 {
    border-width: 0;
 }
-#Layer3
+#ShBk2
 {
-   background-color: #000000;
-   background-image: none;
-   border: 1px #CCCCCC none;
-   filter: alpha(opacity=20);
-   opacity: 0.20;
+   border-width: 0;
 }
 #Image2
 {
@@ -966,20 +987,22 @@ $(document).ready(function()
       }, 250);
    });
    var hmNews_Data = new Array();
-   hmNews_Data[0] = ["./addtolib/addtolib-about.html", "ADD TO LIB V1.0.6 Avaliable", "", "<br>BugFix:<br>&nbsp;&nbsp;&nbsp; - Fixed problem with false positives when checking for new episodes <br>&nbsp;&nbsp;&nbsp; - Other small bugfixes<br><br>New:<br>&nbsp;&nbsp;&nbsp; - Added SMB path support<br>&nbsp;&nbsp;&nbsp; - Added library avaliable control<br>&nbsp;&nbsp;&nbsp; - Added &apos;Hide forced adding during background scanning&apos; option<br>&nbsp;&nbsp;&nbsp; - Added update control (shadow update does not start if add-on menu is open, add-on locked if episodes update or backup was started)<br>&nbsp;&nbsp; &nbsp;&nbsp; * Start addon thrice for unlocking, if it was locked in error<br>&nbsp;&nbsp;&nbsp; - Added &apos;Backup&apos; settings category<br>&nbsp;&nbsp;&nbsp; - Added automatically backup"];
+   hmNews_Data[0] = ["./addtolib/addtolib-about.html", "ADD TO LIB V1.0.8 Available", "", "<br><br>BugFix:<br>&nbsp;&nbsp;&nbsp; - Fixed problem with menu key navigation when skins was used <br>&nbsp;&nbsp;&nbsp; - Other small bugfixes<br><br>New:<br>&nbsp;&nbsp;&nbsp; - New skin: Simple dark"];
    hmNews_Data[1] = ["./forums.html", "FIND US", "", "<br>Find us on Kodi.tv (English) and Xbmc.ru (Russian) forums."];
+   hmNews_Data[2] = ["./addtolib/addtolib-about.html", "ADD TO LIB with SKINS now!", "", "<br>Since 1.0.7 version ADD To Lib can be used whith skins "];
+   hmNews_Data[3] = ["./addtolib/addtolib-launch.html", "LAUNCHING BY KEY Available", "", "<br>Since version 1.0.7&nbsp; you can launch ADD To Lib or it some actions by key"];
    $("#hmNews").newsviewer({ mode: 'rotate', pause: 5000, pause: 5000, animation: 1, animationDuration: 1500, sortOrder: 0, dataSource: 'local', param: hmNews_Data, target: '_self', includeDate: false, maxItems: 10});
 });
 </script>
 </head>
 <body data-spy="scroll">
 <div id="pFooter" style="position:absolute;overflow:hidden;text-align:left;left:0px;top:549px;width:100%;height:326px;z-index:-1;">
-<div id="footLayerA" style="position:absolute;text-align:center;left:0px;top:1px;width:99.7506%;height:169px;z-index:69;">
+<div id="footLayerA" style="position:absolute;text-align:center;left:0px;top:1px;width:99.7506%;height:169px;z-index:77;">
 <div id="footLayerA_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
-<div id="wb_moFootA" style="position:absolute;left:0px;top:0px;width:800px;height:169px;z-index:65;">
-<div id="footALayer" style="position:absolute;text-align:center;left:0px;top:0px;width:100%;height:169px;z-index:64;">
+<div id="wb_moFootA" style="position:absolute;left:0px;top:0px;width:800px;height:169px;z-index:73;">
+<div id="footALayer" style="position:absolute;text-align:center;left:0px;top:0px;width:100%;height:169px;z-index:72;">
 <div id="footALayer_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
-<div id="wb_footAM3" style="position:absolute;left:383px;top:47px;width:150px;height:80px;z-index:54;">
+<div id="wb_footAM3" style="position:absolute;left:383px;top:47px;width:150px;height:80px;z-index:62;">
 <ul>
 <li class="firstmain"><a href="javascript:displaylightbox('./parts/lbtranslate.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">Translation</a>
 </li>
@@ -989,9 +1012,9 @@ $(document).ready(function()
 </li>
 </ul>
 </div>
-<div id="wb_footACapM3" style="position:absolute;left:387px;top:26px;width:132px;height:15px;z-index:55;text-align:left;">
+<div id="wb_footACapM3" style="position:absolute;left:387px;top:26px;width:132px;height:15px;z-index:63;text-align:left;">
 &nbsp;</div>
-<div id="wb_footAM2" style="position:absolute;left:235px;top:47px;width:150px;height:80px;z-index:56;">
+<div id="wb_footAM2" style="position:absolute;left:235px;top:47px;width:150px;height:80px;z-index:64;">
 <ul>
 <li class="firstmain"><a href="javascript:displaylightbox('./parts/lbsuported.html',{width:450,height:150,overlayShow:true,overlayColor:'#1E1E1E'})" target="_self">Supported&nbsp;platforms</a>
 </li>
@@ -1003,9 +1026,9 @@ $(document).ready(function()
 </li>
 </ul>
 </div>
-<div id="wb_footACapM2" style="position:absolute;left:235px;top:26px;width:147px;height:15px;z-index:57;text-align:left;">
+<div id="wb_footACapM2" style="position:absolute;left:235px;top:26px;width:147px;height:15px;z-index:65;text-align:left;">
 &nbsp;</div>
-<div id="wb_footAM1" style="position:absolute;left:13px;top:47px;width:200px;height:80px;z-index:58;">
+<div id="wb_footAM1" style="position:absolute;left:13px;top:47px;width:200px;height:80px;z-index:66;">
 <ul>
 <li class="firstmain"><a href="https://kodi.tv/about/" target="_blank">What&nbsp;is&nbsp;Kodi?</a>
 </li>
@@ -1015,15 +1038,15 @@ $(document).ready(function()
 </li>
 </ul>
 </div>
-<div id="wb_footACapM1" style="position:absolute;left:16px;top:26px;width:250px;height:15px;z-index:59;text-align:left;">
+<div id="wb_footACapM1" style="position:absolute;left:16px;top:26px;width:250px;height:15px;z-index:67;text-align:left;">
 <span style="color:#FFFFFF;font-family:Arial;font-size:12px;"><strong>QUICK ANSWERS</strong></span></div>
-<div id="wb_footASearch" style="position:absolute;left:527px;top:20px;width:269px;height:108px;z-index:60;">
+<div id="wb_footASearch" style="position:absolute;left:527px;top:20px;width:269px;height:108px;z-index:68;">
 <form name="Search" method="get" action="javascript:searchPage();" id="footASearch">
-<div id="wb_footASCap" style="position:absolute;left:18px;top:6px;width:137px;height:15px;z-index:51;text-align:left;">
+<div id="wb_footASCap" style="position:absolute;left:18px;top:6px;width:137px;height:15px;z-index:59;text-align:left;">
 <span style="color:#FFFFFF;font-family:Arial;font-size:12px;"><strong>SEARCH</strong></span></div>
 <form name="footASEdBox_form" id="footASEdBox_form" accept-charset="UTF-8" onsubmit="return searchPage(features)">
-<input type="text" id="footASEdBox" style="position:absolute;left:18px;top:29px;width:243px;height:23px;line-height:23px;z-index:52;" name="SiteSearch1" value="" placeholder="Search this website"></form>
-<input type="button" id="footASBtn" onclick="searchPage();return false;" name="Search" value="GO!" style="position:absolute;left:155px;top:64px;width:108px;height:25px;z-index:53;">
+<input type="text" id="footASEdBox" style="position:absolute;left:18px;top:29px;width:243px;height:23px;line-height:23px;z-index:60;" name="SiteSearch1" value="" placeholder="Search this website"></form>
+<input type="button" id="footASBtn" onclick="searchPage();return false;" name="Search" value="GO!" style="position:absolute;left:155px;top:64px;width:108px;height:25px;z-index:61;">
 </form>
 </div>
 </div>
@@ -1031,11 +1054,11 @@ $(document).ready(function()
 </div>
 </div>
 </div>
-<div id="footLayerB" style="position:absolute;text-align:center;left:0px;top:172px;width:99.7506%;height:152px;z-index:70;">
+<div id="footLayerB" style="position:absolute;text-align:center;left:0px;top:172px;width:99.7506%;height:152px;z-index:78;">
 <div id="footLayerB_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
-<div id="wb_moFootB" style="position:absolute;left:0px;top:0px;width:800px;height:152px;z-index:68;">
-<div id="footBLayer" style="position:absolute;text-align:left;left:0px;top:0px;width:100%;height:24.7154%;z-index:67;">
-   <div id="wb_footBTxt" style="position:absolute;left:0%;top:9%;width:99%;height:89%;text-align:center;z-index:66;">
+<div id="wb_moFootB" style="position:absolute;left:0px;top:0px;width:800px;height:152px;z-index:76;">
+<div id="footBLayer" style="position:absolute;text-align:left;left:0px;top:0px;width:100%;height:24.7154%;z-index:75;">
+   <div id="wb_footBTxt" style="position:absolute;left:0%;top:9%;width:99%;height:89%;text-align:center;z-index:74;">
       <span class="Shad_8">Copyright © 2016 by Taifxx<br></span><span class="Shad"><br>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. <br><br>This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.&nbsp; See the GNU General Public License for more details. <br><br> </span><span style="color:#F5F5F5;font-family:'Trebuchet MS';font-size:9.3px;"><strong><a href="http://www.gnu.org/licenses" class="Blue_style_bold">http://www.gnu.org/licenses</a></strong></span></div>
 </div>
 </div>
@@ -1043,27 +1066,27 @@ $(document).ready(function()
 </div>
 </div>
 <div id="container">
-<div id="wb_Shape2" style="position:absolute;left:6px;top:278px;width:800px;height:294px;filter:alpha(opacity=70);opacity:0.70;z-index:71;">
+<div id="wb_Shape2" style="position:absolute;left:5px;top:278px;width:800px;height:294px;filter:alpha(opacity=70);opacity:0.70;z-index:79;">
 <img src="images/img0021.gif" id="Shape2" alt="" style="width:800px;height:294px;"></div>
-<div id="Layer3" style="position:absolute;text-align:left;left:16px;top:288px;width:776px;height:251px;z-index:72;">
-</div>
-<div id="wb_Image2" style="position:absolute;left:16px;top:339px;width:150px;height:150px;z-index:73;">
-<img src="images/flag.png" id="Image2" alt=""></div>
-<div id="hmNews" style="overflow:hidden;position:absolute;left:194px;top:289px;width:582px;height:234px;z-index:74;">
+<div id="wb_ShBk2" style="position:absolute;left:17px;top:289px;width:777px;height:252px;filter:alpha(opacity=20);opacity:0.20;z-index:80;">
+<img src="images/img0008.png" id="ShBk2" alt="" style="width:777px;height:252px;"></div>
+<div id="wb_Image2" style="position:absolute;left:29px;top:308px;width:150px;height:150px;z-index:81;">
+<img src="images/img0009.png" id="Image2" alt=""></div>
+<div id="hmNews" style="overflow:hidden;position:absolute;left:194px;top:289px;width:582px;height:234px;z-index:82;">
 </div>
 </div>
 <div id="pHeader" style="position:absolute;overflow:hidden;text-align:center;left:0px;top:0px;width:100%;height:279px;z-index:7777;">
 <div id="pHeader_Container" style="width:802px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
-<div id="wb_moHead" style="position:absolute;left:0px;top:0px;width:805px;height:278px;z-index:8;">
+<div id="wb_moHead" style="position:absolute;left:0px;top:0px;width:805px;height:278px;z-index:12;">
 <div id="wb_h2Bkg" style="position:absolute;left:5px;top:81px;width:800px;height:197px;z-index:2;">
 <img src="images/img0016.gif" id="h2Bkg" alt="" style="width:800px;height:197px;"></div>
-<div id="wb_h2TxtBkg" style="position:absolute;left:5px;top:100px;width:369px;height:69px;filter:alpha(opacity=50);opacity:0.50;z-index:3;">
-<img src="images/img0017.gif" id="h2TxtBkg" alt="" style="width:369px;height:69px;"></div>
-<div id="wb_h2Img" style="position:absolute;left:5px;top:183px;width:800px;height:95px;z-index:4;">
-<img src="images/img0018.png" id="h2Img" alt=""></div>
-<div id="wb_h2TxtA" style="position:absolute;left:39px;top:113px;width:335px;height:14px;z-index:5;text-align:left;">
-<span style="color:#DCDCDC;font-family:Arial;font-size:11px;">I</span><span style="color:#F5F5F5;font-family:Arial;font-size:11px;">nstall Add-ons from XXTREP KODI add-ons Repository by </span><span style="color:#1E90FF;font-family:Arial;font-size:11px;"><strong>Taifxx</strong>.</span></div>
-<div id="wb_h2TxtB" style="position:absolute;left:39px;top:139px;width:246px;height:15px;z-index:6;text-align:left;">
+<div id="wb_h2TxtBkg" style="position:absolute;left:5px;top:100px;width:370px;height:69px;filter:alpha(opacity=50);opacity:0.50;z-index:3;">
+<img src="images/img0017.gif" id="h2TxtBkg" alt="" style="width:370px;height:69px;"></div>
+<div id="wb_h2Logo" style="position:absolute;left:518px;top:69px;width:235px;height:209px;z-index:4;">
+<img src="images/kodi-logo-b.png" id="h2Logo" alt=""></div>
+<div id="wb_h2TxtA" style="position:absolute;left:39px;top:118px;width:335px;height:14px;z-index:5;text-align:left;">
+<span style="color:#DCDCDC;font-family:Arial;font-size:11px;">Install Add-ons from XXTREP KODI add-ons Repository by <strong>Taifxx</strong></span></div>
+<div id="wb_h2TxtB" style="position:absolute;left:39px;top:136px;width:246px;height:15px;z-index:6;text-align:left;">
 <span style="color:#F5F5F5;font-family:Arial;font-size:12px;"><strong>Download: <a href="https://github.com/Taifxx/xxtrep/blob/master/repository.xxtrep.zip?raw=true" class="Blue_style">xxtrep.repository</a></strong> </span></div>
 <div id="h1Layer" style="position:absolute;text-align:center;left:5px;top:1px;width:800px;height:80px;z-index:7;">
 <div id="h1Layer_Container" style="width:800px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
@@ -1086,6 +1109,8 @@ $(document).ready(function()
 </li>
 <li><a href="./addtolib/addtolib-more.html" target="_self">More&nbsp;information</a>
 </li>
+<li><a href="./addtolib/addtolib-launch.html" target="_self">Launchers</a>
+</li>
 <li class="lastitem"><a href="./addtolib/addtolib-faq.html" target="_self">FAQ</a>
 </li>
 </ul>
@@ -1105,6 +1130,14 @@ $(document).ready(function()
 </div>
 </div>
 </div>
+<div id="wb_h2Sh3" style="position:absolute;left:208px;top:175px;width:167px;height:21px;filter:alpha(opacity=30);opacity:0.30;z-index:8;">
+<img src="images/img0007.png" id="h2Sh3" alt="" style="width:167px;height:21px;"></div>
+<div id="wb_h2Sh2" style="position:absolute;left:39px;top:169px;width:337px;height:8px;z-index:9;">
+<img src="images/img0010.png" id="h2Sh2" alt="" style="width:337px;height:8px;"></div>
+<div id="wb_h2Sh" style="position:absolute;left:5px;top:169px;width:34px;height:8px;z-index:10;">
+<img src="images/img0011.gif" id="h2Sh" alt="" style="width:34px;height:8px;"></div>
+<div id="wb_h2Txt3" style="position:absolute;left:255px;top:180px;width:105px;height:14px;text-align:right;z-index:11;">
+<span style="color:#DCDCDC;font-family:Arial;font-size:11px;"> </span><span style="color:#1E90FF;font-family:Arial;font-size:11px;"><strong>&gt;&gt;</strong></span><span style="color:#9ACD32;font-family:Arial;font-size:11px;"><strong> </strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:11px;">Make it Easy</span><span style="color:#FFFFFF;font-family:Arial;font-size:11px;">!</span></div>
 </div>
 </div>
 </div>

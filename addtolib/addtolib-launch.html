@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>XXTREP: ADD TO Lib - F.A.Q.</title>
+<title>XXTREP: ADD TO Lib - About</title>
 <meta name="keywords" content="xxtrep kodi addtolib xbmc strm video library">
 <meta name="author" content="Taifxx">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +21,7 @@ body
    background-image: url(../images/wallpaper-339894.jpg);
    background-attachment: scroll;
    background-position: left top;
-   background-repeat: repeat-x;
+   background-repeat: repeat-y;
    color: #000000;
    font-family: Arial;
    font-weight: normal;
@@ -95,9 +95,9 @@ a.Blue_style_bold:hover
    font-weight: bold;
    text-decoration: underline;
 }
-a.WGStyle
+a.Blue_style_gan
 {
-   color: #F5F5F5;
+   color: #1E90FF;
    text-decoration: none;
    -webkit-transition: all 300ms linear;
    -moz-transition: all 300ms linear;
@@ -105,34 +105,78 @@ a.WGStyle
    position: relative;
    display: inline-block;
 }
-a.WGStyle::after
+a.Blue_style_gan::after
 {
    background: transparent;
    content: "";
    display: block;
-   width: 0;
+   margin: auto;
    height: 2px;
+   width: 0;
    margin-top: 2px;
    -webkit-transition: all 300ms linear;
    -moz-transition: all 300ms linear;
    transition: all 300ms linear;
 }
-a.WGStyle:hover::after
+a.Blue_style_gan:hover::after
 {
    background: #6EC401;
    width: 100%;
 }
-a.WGStyle:visited
+a.Blue_style_gan:visited
 {
-   color: #F5F5F5;
+   color: #1E90FF;
    text-decoration: none;
 }
-a.WGStyle:active
+a.Blue_style_gan:active
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style_gan:hover
 {
    color: #6EC401;
    text-decoration: none;
 }
-a.WGStyle:hover
+a.Blue_style_gan_1
+{
+   color: #1E90FF;
+   text-decoration: none;
+   -webkit-transition: all 300ms linear;
+   -moz-transition: all 300ms linear;
+   transition: all 300ms linear;
+   position: relative;
+   display: inline-block;
+}
+a.Blue_style_gan_1::after
+{
+   background: transparent;
+   content: "";
+   display: block;
+   margin: auto;
+   height: 1px;
+   width: 0;
+   margin-top: 1px;
+   -webkit-transition: all 300ms linear;
+   -moz-transition: all 300ms linear;
+   transition: all 300ms linear;
+}
+a.Blue_style_gan_1:hover::after
+{
+   background: #6EC401;
+   width: 100%;
+}
+a.Blue_style_gan_1:visited
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style_gan_1:active
+{
+   color: #1E90FF;
+   text-decoration: none;
+}
+a.Blue_style_gan_1:hover
 {
    color: #6EC401;
    text-decoration: none;
@@ -735,29 +779,6 @@ a.WGStyle:hover
 {
    border-width: 0;
 }
-#Shp2
-{
-   border-width: 0;
-}
-#wb_faqList
-{
-   background-color: transparent;
-   background-image: none;
-   color :#000000;
-   font-family: Arial;
-   font-weight: normal;
-   font-size: 12px;
-}
-#wb_faqList span
-{
-   display: block;
-   margin: 0 0 4px 0;
-   line-height: 15px;
-}
-#faqFrame
-{
-   border: 0px #C0C0C0 solid;
-}
 #wb_Text1 
 {
    background-color: transparent;
@@ -770,6 +791,23 @@ a.WGStyle:hover
 #wb_Text1 div
 {
    text-align: left;
+}
+#wb_Text2 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px #000000 solid;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text2 div
+{
+   text-align: left;
+}
+#TextArt1
+{
+   border-width: 0;
 }
 #pFooter
 {
@@ -820,7 +858,7 @@ a.WGStyle:hover
    overflow: hidden;
    text-align: left;
    left: 0px;
-   top: 845px;
+   top: 533px;
    width: 100%;
    height: 326px;
    z-index: -1;
@@ -852,11 +890,11 @@ a.WGStyle:hover
 #wb_Text1
 {
    position: absolute;
-   left: 23px;
-   top: 292px;
-   width: 174px;
-   height: 22px;
-   z-index: 83;
+   left: 51px;
+   top: 276px;
+   width: 507px;
+   height: 198px;
+   z-index: 80;
    text-align: left;
 }
 #footASBtn
@@ -878,10 +916,20 @@ a.WGStyle:hover
    z-index: 59;
    text-align: left;
 }
+#wb_Text2
+{
+   position: absolute;
+   left: 85px;
+   top: 482px;
+   width: 263px;
+   height: 42px;
+   z-index: 81;
+   text-align: left;
+}
 #Shape2
 {
    width: 800px;
-   height: 577px;
+   height: 282px;
 }
 #h2TxtBkg
 {
@@ -908,17 +956,6 @@ a.WGStyle:hover
    height: 54px;
    z-index: 0;
 }
-#wb_Shp2
-{
-   position: absolute;
-   left: 12px;
-   top: 286px;
-   width: 238px;
-   height: 553px;
-   filter: alpha(opacity=40);
-   opacity: 0.40;
-   z-index: 80;
-}
 #wb_footASearch
 {
    position: absolute;
@@ -927,15 +964,6 @@ a.WGStyle:hover
    width: 269px;
    height: 108px;
    z-index: 68;
-}
-#faqFrame
-{
-   position: absolute;
-   left: 259px;
-   top: 292px;
-   width: 534px;
-   height: 546px;
-   z-index: 82;
 }
 #wb_footAM1
 {
@@ -1017,11 +1045,6 @@ a.WGStyle:hover
    height: 56px;
    z-index: 1;
 }
-#Shp2
-{
-   width: 238px;
-   height: 553px;
-}
 #wb_h2TxtA
 {
    position: absolute;
@@ -1031,6 +1054,15 @@ a.WGStyle:hover
    height: 14px;
    z-index: 5;
    text-align: left;
+}
+#wb_TextArt1
+{
+   position: absolute;
+   left: 589px;
+   top: 334px;
+   width: 188px;
+   height: 132px;
+   z-index: 82;
 }
 #footASEdBox
 {
@@ -1113,14 +1145,10 @@ a.WGStyle:hover
    width: 800px;
    height: 197px;
 }
-#wb_faqList
+#TextArt1
 {
-   position: absolute;
-   left: 19px;
-   top: 322px;
-   width: 240px;
-   height: 517px;
-   z-index: 81;
+   width: 188px;
+   height: 132px;
 }
 #wb_footBTxt
 {
@@ -1170,9 +1198,9 @@ a.WGStyle:hover
 {
    position: absolute;
    left: 5px;
-   top: 276px;
+   top: 278px;
    width: 800px;
-   height: 577px;
+   height: 282px;
    filter: alpha(opacity=70);
    opacity: 0.70;
    z-index: 79;
@@ -1225,7 +1253,7 @@ body
    background-image: url(../images/wallpaper-339894.jpg);
    background-attachment: scroll;
    background-position: left top;
-   background-repeat: repeat-x;
+   background-repeat: repeat-y;
 }
 #pHeader
 {
@@ -1238,18 +1266,18 @@ body
 }
 #pHeader
 {
-   width: 100%;
+   width: 250%;
 }
 #pHeader_Container
 {
-   width: 320px;
+   width: 800px;
 }
 #wb_moHead
 {
    left: 178px;
    top: 440px;
-   width: 805px;
-   height: 336px;
+   width: 434px;
+   height: 177px;
    visibility: visible;
    display: inline;
 }
@@ -1354,10 +1382,10 @@ body
 }
 #wb_moFootB
 {
-   left: 0px;
-   top: 0px;
-   width: 800px;
-   height: 930px;
+   left: -2px;
+   top: -355px;
+   width: 100px;
+   height: 100px;
    visibility: visible;
    display: inline;
 }
@@ -1389,25 +1417,25 @@ body
 {
    left: 0px;
    top: -248px;
-   height: 993px;
+   height: 196px;
    visibility: visible;
    display: inline;
    font-size: 13px;
 }
 #footLayerA
 {
-   width: 254.375%;
+   width: 250%;
 }
 #footLayerA_Container
 {
-   width: 814px;
+   width: 800px;
 }
 #wb_moFootA
 {
    left: 12px;
    top: 108px;
-   width: 800px;
-   height: 883px;
+   width: 100px;
+   height: 100px;
    visibility: visible;
    display: inline;
 }
@@ -1533,9 +1561,9 @@ body
 }
 #footLayerB
 {
-   left: -1px;
-   top: -105px;
-   height: 932px;
+   left: 1px;
+   top: 250px;
+   height: 154px;
    visibility: visible;
    display: inline;
    font-size: 13px;
@@ -1544,11 +1572,11 @@ body
 }
 #footLayerB
 {
-   width: 251.875%;
+   width: 251.25%;
 }
 #footLayerB_Container
 {
-   width: 806px;
+   width: 804px;
 }
 #wb_Shape2
 {
@@ -1557,39 +1585,16 @@ body
    visibility: visible;
    display: inline;
 }
-#wb_faqList
+#wb_TextArt1
 {
-   left: 23px;
-   top: 290px;
-   width: 186px;
-   height: 234px;
-   visibility: visible;
-   display: inline;
-   font-size: 13px;
-   text-decoration: none;
-}
-#faqFrame
-{
-   left: 259px;
-   top: 322px;
-   width: 534px;
-   height: 517px;
-   visibility: visible;
-   display: inline;
-   color: #FFFFFF;
-}
-#wb_Text1
-{
-   left: 23px;
-   top: 292px;
-   width: 174px;
-   height: 22px;
+   left: 614px;
+   top: 337px;
    visibility: visible;
    display: inline;
 }
 #pFooter
 {
-   top: 842px;
+   top: 665px;
    height: 100px;
    visibility: visible;
    font-size: 13px;
@@ -1598,7 +1603,7 @@ body
 }
 #pFooter
 {
-   width: 100%;
+   width: 250%;
 }
 }
 </style>
@@ -1835,7 +1840,7 @@ $(document).ready(function()
 });
 </script>
 </head>
-<body data-spy="scroll" onunload="document.getElementById('faqFrame').src=url.query('fsrc');return false;">
+<body data-spy="scroll">
 <div id="pFooter">
 <div id="footLayerA">
 <div id="footLayerA_Container">
@@ -1907,17 +1912,13 @@ $(document).ready(function()
 </div>
 <div id="container">
 <div id="wb_Shape2">
-<img src="../images/img0024.gif" id="Shape2" alt=""></div>
-<div id="wb_Shp2">
-<img src="../images/img0012.png" id="Shp2" alt=""></div>
-<div id="wb_faqList">
-<span>[<a href="./faq-aeonpost.html" class="WGStyle" target="faqFrame">Problems with posters in Aeon MQ6</a>]</span>
-<span>[<a href="./faq-launchers.html" class="WGStyle" target="faqFrame">Launching ADD To Lib by key</a>]</span>
-<span>[<a href="./faq-launchers2.html" class="WGStyle" target="faqFrame">How to use launchers (update &amp; backup)</a>]</span>
-</div>
-<iframe name="faqFrame" id="faqFrame" src="" scrolling="no" frameborder="0"></iframe>
+<img src="../images/img0005.gif" id="Shape2" alt=""></div>
 <div id="wb_Text1">
-<span style="color:#1E90FF;font-family:Arial;font-size:19px;"><strong>F.A.Q.</strong></span></div>
+<span style="color:#FFFFFF;font-family:Arial;font-size:21px;"><strong><br>ADD TO LIB</strong></span><span style="color:#C0C0C0;font-family:Arial;font-size:21px;"><strong> </strong></span><span style="color:#1E90FF;font-family:Arial;font-size:21px;">LAUNCHERS<br><br></span><span style="color:#D3D3D3;font-family:Arial;font-size:13px;">You need add launchers scripts to Keymap editor for launching ADD To Lib update or backup actions by keys. Install launchers scripts from xxtrep repository (ATL: Update launcher, ATL: Backup launcher).<br> <br></span><span style="color:#1E90FF;font-family:Arial;font-size:12px;"><strong>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </strong><a href="http://kodi.wiki/view/Add-on:Keymap_Editor" target="_blank" class="Blue_style_gan_1">what is Keymap editor?</a><strong><br><br>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </strong><a href="./addtolib-faq.html" class="Blue_style_gan_1">more information in FAQ &gt;&gt;<strong><br></a></strong></span></div>
+<div id="wb_Text2">
+<span style="color:#F5F5F5;font-family:Arial;font-size:13px;"><strong>Download </strong></span><span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong><a href="https://github.com/Taifxx/xxtrep/blob/master/repository.xxtrep.zip?raw=true" class="Blue_style_gan">xxtrep repository (recomend)</a></strong></span><span style="color:#1E90FF;font-family:Arial;font-size:8px;"><strong><br><br></strong></span></div>
+<div id="wb_TextArt1">
+<img src="../images/img0006.png" id="TextArt1" alt="ATL" title="ATL"></div>
 </div>
 <div id="pHeader">
 <div id="pHeader_Container">
@@ -1953,9 +1954,9 @@ $(document).ready(function()
 </li>
 <li><a href="./addtolib-more.html" target="_self">More&nbsp;information</a>
 </li>
-<li><a href="./addtolib-launch.html" target="_self">Launchers</a>
+<li><a class="active" href="./addtolib-launch.html" target="_self">Launchers</a>
 </li>
-<li class="lastitem"><a class="active" href="./addtolib-faq.html" target="_self">FAQ</a>
+<li class="lastitem"><a href="./addtolib-faq.html" target="_self">FAQ</a>
 </li>
 </ul>
 </li>
