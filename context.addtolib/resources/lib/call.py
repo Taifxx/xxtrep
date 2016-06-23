@@ -148,7 +148,8 @@ def callSTRM(strmtype, strmurl, strmfile):
                 elif pbm == 1 : pbSet = True
                 elif pbm == 2 : pbSet = False
             
-            if (addon.AUTORES or pbSet) and medinfo.pos : player.seek(medinfo.pos) 
+            #if (addon.AUTORES or pbSet) and medinfo.pos : player.seek(medinfo.pos) 
+            if (addon.AUTORES and medinfo.pos) or pbSet : player.seek(medinfo.pos)
             
             player.wait_buffering()
               

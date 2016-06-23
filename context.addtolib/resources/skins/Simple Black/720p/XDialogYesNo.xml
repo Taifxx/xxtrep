@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-    <defaultcontrol>251</defaultcontrol>
+    <defaultcontrol>261</defaultcontrol>
     <zorder>-1</zorder>
     <coordinates>
         <system>1</system>
@@ -13,10 +13,10 @@
         <control type="image" id="90">
             <description>Dim Background</description>
             <animation type="WindowOpen">
-                <effect type="fade" start="0" end="100" time="700" delay="0" tween="line"/>
+                <effect type="fade" start="0" end="10" time="700" delay="0" tween="line"/>
             </animation>
             <animation type="WindowClose">
-                <effect type="fade" start="100" end="0" time="1000" delay="170" tween="line"/>
+                <effect type="fade" start="10" end="0" time="1000" delay="170" tween="line"/>
             </animation>
             <posx>-340</posx>
             <posy>-220</posy>
@@ -29,21 +29,21 @@
         <control type="group">
         
             <animation type="WindowOpen">
-                    <effect type="fade" start="0" end="100" time="700" delay="200" tween="circle" easing="inout"/>
-                    <effect type="slide" start="0,-20" end="0,0" time="700" delay="200" tween="circle" easing="inout"/>
+                    <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
+                    <effect type="slide" start="-200,0" end="0,0" time="700" delay="0" tween="circle" easing="inout"/>
             </animation>  
             <animation type="WindowClose">
                     <effect type="fade" start="100" end="0" time="400" delay="0" tween="line" easing="inout"/>
-                    <effect type="slide" start="0,0" end="0,-100" time="400" delay="0" tween="line" easing="inout"/>
+                    <effect type="slide" start="0,0" end="-200,0" time="400" delay="0" tween="line" easing="inout"/>
             </animation>
         
             <control type="image">
                 <description>Dialog BackgroundTTL</description>
-                <posx>0</posx>
+                <posx>-340</posx>
                 <posy>0</posy>
-                <width>600</width>
+                <width>940</width>
                 <height>50</height>
-                <texture>title2.png</texture>
+                <texture>dim.png</texture>
             </control>
             <control type="label" id="100">
                 
@@ -72,21 +72,21 @@
       <control type="group">      
         
         <animation type="WindowOpen">
-                <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
-                <effect type="slide" start="0,-50" end="0,0" time="700" delay="0" tween="circle" easing="inout"/>
+                <effect type="fade" start="0" end="100" time="700" delay="200" tween="circle" easing="inout"/>
+                <effect type="slide" start="-200,0" end="0,0" time="700" delay="200" tween="circle" easing="inout"/>
         </animation>  
         <animation type="WindowClose">
-                <effect type="fade" start="100" end="0" time="400" delay="0" tween="circle" easing="inout"/>
-                <effect type="slide" start="0,0" end="0,100" time="700" delay="0" tween="circle" easing="inout"/>
+                <effect type="fade" start="100" end="0" time="400" delay="0" tween="line" easing="inout"/>
+                <effect type="slide" start="0,0" end="-200,0" time="400" delay="0" tween="line" easing="inout"/>
         </animation>
         
         <control type="image">
             <description>Dialog Background</description>
-            <posx>0</posx>
+            <posx>-340</posx>
             <posy>55</posy>
-            <width>600</width>
+            <width>1280</width>
             <height>115</height>
-            <texture>dialog_background.png</texture>
+            <texture>dim.png</texture>
         </control>
         <control type="image">
             <description>Info icon</description>
@@ -113,46 +113,51 @@
          
          <control type="group">
              <animation type="WindowOpen"> 
-                        <effect type="fade" start="0" end="100" time="400" delay="600"/>
-                        <effect type="slide" start="20,0" end="0,0" time="400" delay="600"/>
+                        <effect type="fade" start="0" end="100" time="400" delay="400"/>
+                        <effect type="slide" start="-100,0" end="0,0" time="400" delay="400"/>
              </animation>
                     
              <control type="image">       
-                    <description>Ok button bckg</description>
+                    <description>No button bckg</description>
 	                
 	                <left>498</left>
-                    <top>170</top>
-	                <width>100</width>
+                    <top>175</top>
+	                <width>442</width>
 	                <height>35</height>
-	                <texture>title2.png</texture>
+	                <texture>dim.png</texture>
              </control>
              <control type="image">
                     <description>No button focus</description>
 	                
 	                <left>498</left>
-                    <top>170</top>
+                    <top>175</top>
 	                <width>100</width>
 	                <height>35</height>
 	                <visible>Control.HasFocus(251)</visible>
-	                <texture>btn_f.png</texture>
+	                <texture>ran.png</texture>
              </control>
              <control type="label" id="250">
-                    <description>Ok button label</description>
+                    <description>No button label</description>
 	                
 	                <left>498</left>
-                    <top>170</top>
+                    <top>175</top>
 	                <width>100</width>
 	                <height>35</height>
-	                <label>Ok</label>
+	                <label></label>
 	                <font>font12</font>
 	                <align>center</align>
 	                <aligny>center</aligny>
              </control>
              <control type="button" id="251">         
-                    <description>Ok button</description>
+                    <description>No button</description>
+                    
+                    <onleft>Control.SetFocus(261)</onleft>
+	                <onright>Control.SetFocus(261)</onright>
+	                <onup>Control.SetFocus(261)</onup>
+	                <ondown>Control.SetFocus(261)</ondown>
 	                
 	                <left>498</left>
-                    <top>170</top>
+                    <top>175</top>
 	                <width>100</width>
 	                <height>35</height>
 	                <texturenofocus>-</texturenofocus>
@@ -160,6 +165,58 @@
              </control>
          </control>
          
+         <control type="group">
+             <animation type="WindowOpen"> 
+                        <effect type="fade" start="0" end="100" time="400" delay="400"/>
+                        <effect type="slide" start="-100,0" end="0,0" time="400" delay="400"/>
+             </animation>
+             
+             <control type="image">
+                    <description>Yes button bckg</description>
+	                
+	                <left>-340</left>
+                    <top>175</top>
+	                <width>840</width>
+	                <height>35</height>
+	                <texture>dim.png</texture>
+             </control>
+             <control type="image">           
+                    <description>Yes button focus</description>
+	     
+	                <left>397</left>
+                    <top>175</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <visible>Control.HasFocus(261)</visible>
+	                <texture>ran.png</texture>
+             </control>
+             <control type="label" id="260">
+                    <description>Yes button label</description>
+	                
+	                <left>397</left>
+                    <top>175</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <font>font12</font>
+	                <align>center</align>
+	                <aligny>center</aligny>
+             </control>
+             <control type="button" id="261">
+                    <description>Yes button</description>
+	                
+	                <onleft>Control.SetFocus(251)</onleft>
+	                <onright>Control.SetFocus(251)</onright>
+	                <onup>Control.SetFocus(251)</onup>
+	                <ondown>Control.SetFocus(251)</ondown>
+	                
+	                <left>397</left>
+                    <top>175</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <texturenofocus>-</texturenofocus>
+	                <texturefocus>-</texturefocus>
+             </control>
+         </control>
       </control>  
     </controls>
 </window>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon
+    id="script.atl.upd"
+    name="ATL: Update launcher"
+    version="1.0.0"
+    provider-name="Taifxx"
+    >
+  <requires>
+    <import 
+        addon="xbmc.python"
+        version="2.1.0"
+    />
+    <import 
+        addon="context.addtolib"
+        version="1.0.7"
+    />
+  </requires>
+  <extension point="xbmc.python.script" library="default.py"/>
+  <extension point="xbmc.addon.metadata">
+  
+    <summary lang="en">ADD To Lib update action launcher</summary>
+    <summary lang="ru">Модуль запуска проверки обновлений ADD To Lib</summary>
+    
+    <description lang="en">Add this script to Keymap editor for launching ADD To Lib update action by key.</description>
+    <description lang="ru">Добавьте этот скрипт в Keymap editor для запуска проверки обновлений ADD To Lib по клавише.</description>
+     
+    <disclaimer lang="en">NEED ADD TO LIB 1.0.7+</disclaimer>
+    <disclaimer lang="ru">НЕОБХОДИМ ADD TO LIB 1.0.7+</disclaimer>
+    
+    <platform>all</platform>
+    
+    <website>http://taifxx.github.io/xxtrep</website>
+    <source>https://github.com/Taifxx/xxtrep/tree/master/context.addtolib</source>
+    
+    <forum lang="en">http://forum.kodi.tv/showthread.php?tid=268997</forum>
+    <forum lang="ru">http://xbmc.ru/forum/showthread.php?t=12708</forum>
+    
+    <email>xxtrep@yandex.ru</email>
+    
+    <license>GNU GENERAL PUBLIC LICENSE V3</license>
+    
+  </extension>
+</addon>

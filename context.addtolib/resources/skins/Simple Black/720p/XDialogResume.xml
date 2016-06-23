@@ -12,10 +12,10 @@
         <control type="image" id="90">
             <description>Dim Background</description>
             <animation type="WindowOpen">
-                <effect type="fade" start="0" end="100" time="700" delay="0" tween="line"/>
+                <effect type="fade" start="0" end="10" time="700" delay="0" tween="line"/>
             </animation>
             <animation type="WindowClose">
-                <effect type="fade" start="100" end="0" time="1000" delay="170" tween="line"/>
+                <effect type="fade" start="10" end="0" time="1000" delay="170" tween="line"/>
             </animation>
             <posx>-340</posx>
             <posy>-240</posy>
@@ -28,21 +28,21 @@
         <control type="group">
         
             <animation type="WindowOpen">
-                    <effect type="fade" start="0" end="100" time="700" delay="200" tween="circle" easing="inout"/>
-                    <effect type="slide" start="0,-20" end="0,0" time="700" delay="200" tween="circle" easing="inout"/>
+                    <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
+                    <effect type="slide" start="-200,0" end="0,0" time="700" delay="0" tween="circle" easing="inout"/>
             </animation>  
             <animation type="WindowClose">
                     <effect type="fade" start="100" end="0" time="400" delay="0" tween="line" easing="inout"/>
-                    <effect type="slide" start="0,0" end="100,0" time="400" delay="0" tween="line" easing="inout"/>
+                    <effect type="slide" start="0,0" end="-200,0" time="400" delay="0" tween="line" easing="inout"/>
             </animation>
         
             <control type="image">
                 <description>Dialog BackgroundTTL</description>
-                <posx>0</posx>
+                <posx>-340</posx>
                 <posy>0</posy>
-                <width>600</width>
+                <width>1280</width>
                 <height>50</height>
-                <texture>title2.png</texture>
+                <texture>dim.png</texture>
             </control>
                 <control type="label" id="100">
                 
@@ -71,12 +71,12 @@
       <control type="group">      
         
         <animation type="WindowOpen">
-                <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
-                <effect type="slide" start="0,-50" end="0,0" time="700" delay="0" tween="circle" easing="inout"/>
+                <effect type="fade" start="0" end="100" time="700" delay="400" tween="circle" easing="inout"/>
+                <effect type="slide" start="-200,0" end="0,0" time="700" delay="400" tween="circle" easing="inout"/>
         </animation>  
         <animation type="WindowClose">
-                <effect type="fade" start="100" end="0" time="400" delay="0" tween="circle" easing="inout"/>
-                <effect type="slide" start="0,0" end="0,100" time="700" delay="0" tween="circle" easing="inout"/>
+                <effect type="fade" start="100" end="0" time="400" delay="0" tween="line" easing="inout"/>
+                <effect type="slide" start="0,0" end="-200,0" time="700" delay="0" tween="line" easing="inout"/>
         </animation>
         
         <control type="label" id="1">
@@ -86,21 +86,19 @@
         
         <control type="image">
             <description>Dialog Background</description>
-            <posx>0</posx>
+            <posx>-340</posx>
             <posy>55</posy>
-            <width>600</width>
+            <width>1280</width>
             <height>168</height>
-            <texture>title2.png</texture>
+            <texture>dim.png</texture>
         </control>
         <control type="list" id="200">
             <description>Select list</description>
             <animation type="WindowOpen">
-                <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
-                <effect type="slide" start="0,-50" end="0,0" time="700" delay="0" tween="circle" easing="out"/>
+                <effect type="fade" start="0" end="100" time="700" delay="0" tween="line" easing="inout"/>
             </animation>
             <animation type="WindowClose">
                 <effect type="fade" start="100" end="0,0" time="400" delay="0" tween="line" easing="inout"/>
-                <effect type="slide" start="0,0" end="0,100" time="400" delay="0" tween="line" easing="out"/>
             </animation>
             <left>20</left>
             <top>65</top>
@@ -110,14 +108,7 @@
             <focusposition>0</focusposition>
             <scrolltime tween="sine" easing="out">200</scrolltime>
             <itemlayout width="580" height="50"> 
-               <control type="image">
-                    <description>sel_bk</description>
-                    <posx>0</posx>
-                    <posy>0</posy>
-                    <width>560</width>
-                    <height>45</height>
-                    <texture>itmbkg.png</texture>
-               </control> 
+                
 	           <control type="label">
                     <left>20</left>
                     <top>0</top>
@@ -131,25 +122,15 @@
                 </control>
             </itemlayout>
             <focusedlayout height="50" width="580">
+                
                <control type="image">
                     <description>sel_bk</description>
-                    <posx>0</posx>
-                    <posy>0</posy>
-                    <width>560</width>
-                    <height>45</height>
-                    <texture>itmbkg.png</texture>
-               </control> 
-               <control type="image">
-                    <description>sel_bk</description>
-                    <animation effect="fade" start="0" end="80" time="200" delay="0" tween="circle" easing="inout">Visible</animation>
-                    <animation effect="fade" start="80" end="0" time="200" delay="0" tween="circle" easing="inout">Hidden</animation>
-                    <animation effect="fade" start="80" end="40" time="400" delay="200" tween="line">Focus</animation>
                     <posx>0</posx>
                     <posy>0</posy>
                     <width>560</width>
                     <height>45</height>
                     <visible>Control.HasFocus(200)</visible>
-                    <texture>itmbkg_f.png</texture>
+                    <texture>ran.png</texture>
                </control>
                <control type="label">
                     <left>20</left>

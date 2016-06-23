@@ -1,4 +1,12 @@
-﻿v1.0.7
+﻿v1.0.8
+BugFix:
+    - Fixed problem with menu key navigation when skins was used 
+    - Other small bugfixes
+New:
+    - New skin: Simple dark
+    
+
+v1.0.7
 BugFix:
     - Fixed issue with availability check of library on some OS
     - Fixed prevent simultaneous startup of background processes

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-    <defaultcontrol>250</defaultcontrol>
+    <defaultcontrol>251</defaultcontrol>
     <zorder>-1</zorder>
     <coordinates>
         <system>1</system>

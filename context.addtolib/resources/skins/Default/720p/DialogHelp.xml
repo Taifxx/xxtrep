@@ -78,6 +78,9 @@
              </control>
              <control type="button" id="150">         
                     <description>Ok button</description>
+                    
+                    <onleft>Control.SetFocus(201)</onleft>
+	                <onright>Control.SetFocus(201)</onright>
 	                
 	                <left>590</left>
 	                <top>670</top>
@@ -116,6 +119,10 @@
             <animation effect="fade" start="0" end="100" time="400" delay="100">WindowOpen</animation>
             <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
             <description>Text Scrollbar</description>
+            
+            <onleft>Control.SetFocus(150)</onleft>
+	        <onright>Control.SetFocus(150)</onright>
+            
             <posx>1270</posx>
             <posy>60</posy>
             <width>10</width>

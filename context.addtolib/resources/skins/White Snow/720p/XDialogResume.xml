@@ -89,7 +89,7 @@
             <posx>0</posx>
             <posy>55</posy>
             <width>600</width>
-            <height>118</height>
+            <height>168</height>
             <texture>title2.png</texture>
         </control>
         <control type="list" id="200">
@@ -105,7 +105,7 @@
             <left>20</left>
             <top>65</top>
             <width>560</width>
-            <height>100</height>
+            <height>150</height>
             <orientation>vertical</orientation>
             <focusposition>0</focusposition>
             <scrolltime tween="sine" easing="out">200</scrolltime>

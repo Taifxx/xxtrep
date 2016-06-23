@@ -9,14 +9,14 @@
     <controls>
         <control type="image">
             <description>Dialog Background</description>
-            <animation effect="fade" start="0" end="100" time="400">WindowOpen</animation>
-            <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
+            <animation effect="fade" start="0" end="90" time="400">WindowOpen</animation>
+            <animation effect="fade" start="90" end="0" time="400" easing="in">WindowClose</animation>
             <posx>0</posx>
             <posy>0</posy>
             <width>1280</width>
             <height>720</height>
             <!--texture>bkg.png</texture-->
-            <texture>back.png</texture>
+            <texture>dim.png</texture>
         </control>
         <control type="image">
             <description>Top line</description>
@@ -45,15 +45,6 @@
              <animation effect="fade" start="0" end="100" time="400" delay="100">WindowOpen</animation>
              <animation effect="fade" start="100" end="0" time="400" easing="in">WindowClose</animation>
                     
-             <control type="image">       
-                    <description>Ok button bckg</description>
-	                
-	                <left>590</left>
-	                <top>670</top>
-	                <width>100</width>
-	                <height>40</height>
-	                <texture>btn_nof.png</texture>
-             </control>
              <control type="image">
                     <description>No button focus</description>
 	                
@@ -62,7 +53,7 @@
 	                <width>100</width>
 	                <height>40</height>
 	                <visible>Control.HasFocus(150)</visible>
-	                <texture>btn_f.png</texture>
+	                <texture>ran.png</texture>
              </control>
              <control type="label">
                     <description>Ok button label</description>
@@ -75,7 +66,6 @@
 	                <font>font12</font>
 	                <align>center</align>
 	                <aligny>center</aligny>
-	                <textcolor>dimgray</textcolor>
              </control>
              <control type="button" id="150">         
                     <description>Ok button</description>
@@ -100,9 +90,9 @@
             <width>1280</width>
             <height>60</height>
             <font>font13</font>
+            <textcolor>FFFFFFFF</textcolor>
             <aligny>center</aligny>
             <align>center</align>
-            <textcolor>dimgray</textcolor>
         </control>
         <control type="textbox" id="200">
             <animation effect="fade" start="0" end="100" time="400" delay="300">WindowOpen</animation>
@@ -113,9 +103,8 @@
             <height>585</height>
             <pagecontrol>201</pagecontrol>
             <font>font13</font>
+            <textcolor>FFFFFFFF</textcolor>
             <align>justify</align>
-            <textcolor>dimgray</textcolor>
-            
         </control>
         <control type="scrollbar" id="201">
             <animation effect="fade" start="0" end="100" time="400" delay="100">WindowOpen</animation>

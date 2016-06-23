@@ -1,6 +1,6 @@
 ﻿<strings>
     <!-- Label -->
-    <string id="29999">ADD to [COLOR cornflowerblue]Lib[/COLOR]</string>
+    <string id="29999">ADD to [COLOR deepskyblue]Lib[/COLOR]</string>
     <!-- Language ID -->
     <string id="30000">EN</string>
     <!-- Menue Items -->
@@ -61,7 +61,7 @@
     <string id="30054">[COLOR ##COLOR##]Global[/COLOR] rescann</string>
     <string id="30055">Yes</string>
     <string id="30056">No</string>
-    <string id="30057">[COLOR ##COLOR##]Close dialog[/COLOR]</string>
+    <string id="30057">[COLOR ##COLOR##]Continue playback[/COLOR]</string>
     <string id="30058">[COLOR ##COLOR##]Items sort order:[/COLOR]  </string>
     <string id="30059">From the top down</string>
     <string id="30060">From the bottom up</string>

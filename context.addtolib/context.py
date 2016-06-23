@@ -54,6 +54,7 @@ def Main():
     #GUI.messageX('Text','Caption')
     #GUI.tt('Text','Caption')
     #GUI.dlgOk('>>')
+    #GUI.dlgYn('>>')
 
     #return
 
@@ -583,7 +584,8 @@ class plgMain(GUI.CAltDTmpl):
             self.usrc(subMenue(remnames, idxs, cancelVal=-1, default=mdefault, 
                                defidx=mdefidx, title=titName(TAG_TTL_NEWEPS, self.TVS.lib_name)))
                             
-            if not self.usrc.isidx : del self.usrc; return TAG_MNU_BACKMAIN
+            #if not self.usrc.isidx : del self.usrc; return TAG_MNU_BACKMAIN
+            if not self.usrc.isidx : del self.usrc; return rd
         
         else: 
             if not self.usrc.nextsidx():

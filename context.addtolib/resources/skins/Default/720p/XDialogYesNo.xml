@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <window>
-    <defaultcontrol>250</defaultcontrol>
+    <defaultcontrol>261</defaultcontrol>
     <zorder>-1</zorder>
     <coordinates>
         <system>1</system>
@@ -150,6 +150,11 @@
              </control>
              <control type="button" id="251">         
                     <description>No button</description>
+                    
+                    <onleft>Control.SetFocus(261)</onleft>
+	                <onright>Control.SetFocus(261)</onright>
+	                <onup>Control.SetFocus(261)</onup>
+	                <ondown>Control.SetFocus(261)</ondown>
 	                
 	                <left>498</left>
                     <top>170</top>
@@ -198,6 +203,11 @@
              </control>
              <control type="button" id="261">
                     <description>Yes button</description>
+	                
+	                <onleft>Control.SetFocus(251)</onleft>
+	                <onright>Control.SetFocus(251)</onright>
+	                <onup>Control.SetFocus(251)</onup>
+	                <ondown>Control.SetFocus(251)</ondown>
 	                
 	                <left>397</left>
                     <top>170</top>

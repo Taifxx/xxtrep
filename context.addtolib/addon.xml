@@ -2,7 +2,7 @@
 <addon
     id="context.addtolib"
     name="Add to Lib"
-    version="1.0.7"
+    version="1.0.8"
     provider-name="Taifxx"
     >
   <requires>
@@ -29,9 +29,13 @@
     <summary lang="ru">Добавляет ссылки на фильмы и сериалы из других дополнений в библиотеку Kodi</summary>
     
     <description lang="en">Context menu item to add links to TV shows and movies from other add-ons in Kodi library, as .strm files. The addition allows you to check for new episodes and seasons, manage added content, and to receive full information from the library to playable .strm files. 
-More information can be found in the help section.</description>
+More information can be found in the help section.
+
+Details on http://taifxx.github.io/xxtrep</description>
     <description lang="ru">Элемент контекстного меню для добавления ссылок на сериалы и фильмы из других дополнений в библиотеку Kodi, как .strm файлов. Дополнение позволяет проверять наличие новых эпизодов и сезонов, управлять добавленным контентом, а также получать полноценную информацию из библиотеки для воспроизводимых .strm файлов. 
-Больше информации можно получить в разделе Помощи дополнения.</description>
+Больше информации можно получить в разделе Помощи дополнения.
+
+Детали на http://taifxx.github.io/xxtrep.ru</description>
      
     <disclaimer lang="en"></disclaimer>
     <disclaimer lang="ru"></disclaimer>
