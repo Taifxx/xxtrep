@@ -47,8 +47,11 @@
         <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-8,true)"/>
         <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-9,true)+eq(-1,true)" range="1,100" option="int"/>
         <setting                   type="sep"       label=""/>
-        <setting id="eodgenm"      type="select"    label="30454" default="Don't use" enable="eq(-11,true)" values="Don't use|Handle reset|Suppression"/>
+        <setting id="dedlptime"    type="number"    label="30457" default="360"   enable="eq(-11,true)"/>
+        <setting id="eodgenm"      type="select"    label="30454" default="Don't use" enable="eq(-12,true)" values="Don't use|Suppression"/>
         <setting id="newplays"     type="bool"      label="30425" default="false"/>
+        <setting id="pcore"        type="select"    label="30455" default="Default" enable="eq(-14,true)" values="Default|Auto|VideoPlayer|DVDPlayer|MPlayer|Custom"/>
+        <setting id="pcoreval"     type="number"    label="30456" default="0" enable="eq(-15,true)+eq(-1,Custom)" />
         
     </category>
     <category label="30484">

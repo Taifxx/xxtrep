@@ -29,8 +29,14 @@ from resources.lib.ext import *
 class CPlayer(xbmc.Player):
 
     def __init__(self):
-        xbmc.Player.__init__( self, xbmc.PLAYER_CORE_AUTO )
-    
+        Core = addon.PCORE
+        if   Core == 'Auto'        : xbmc.Player.__init__( self, xbmc.PLAYER_CORE_AUTO ) 
+        elif Core == 'VideoPlayer' : xbmc.Player.__init__( self, xbmc.PLAYER_CORE_VideoPlayer )
+        elif Core == 'DVDPlayer'   : xbmc.Player.__init__( self, xbmc.PLAYER_CORE_DVDPLAYER )
+        elif Core == 'MPlayer'     : xbmc.Player.__init__( self, xbmc.PLAYER_CORE_MPLAYER ) 
+        elif Core == 'Custom'      : xbmc.Player.__init__( self, addon.PCOREVAL )
+        else : xbmc.Player.__init__( self )
+        
     def wait_openlink(self, splash):
         spath = setLower(splash)
         wtime = 0
@@ -39,9 +45,9 @@ class CPlayer(xbmc.Player):
             #if self.isPlayingVideo() and spath != setLower(self.getPlayingFile()) : break
             if self.isPlaying() and spath != setLower(self.getPlayingFile()) : break  
             wait(1); wtime += 1
-            if wtime > addon.LNKTIMEOUT : return False
+            if wtime > addon.DEDLPTIME : return False
             #if self.isPlaying() and not self.isPlayingVideo() : errc += 1 
-            if errc > 2 : return False
+            #if errc > 2 : return False
             
         return True
     
@@ -123,7 +129,8 @@ def callSTRM(strmtype, strmurl, strmfile):
             GUI.FocusPayer()
             wait(1) 
         
-        if CLASSICPLAY  : xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
+        
+        if CLASSICPLAY  : xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem) 
         else            : player.play(strmurl, listitem)
         
         if not player.wait_openlink(splashPath) : 
@@ -133,9 +140,8 @@ def callSTRM(strmtype, strmurl, strmfile):
         wait(1); GUI.FocusPayer()
         
         eodgenMethod = addon.EODGENM 
-        if   eodgenMethod == 'Handle reset' : xbmcplugin.endOfDirectory(int(sys.argv[1]), True, False, False)
-        elif eodgenMethod == 'Suppression'  : GUI.closeDlgs()
-    
+        if eodgenMethod == 'Suppression' : GUI.dlgOk(tl(TAG_DLG_SUPPRES)); wait(3); GUI.closeDlgs(); wait(3)
+            
         wtime1 = 0
         possleep = True
         if addon.PLAYBCONT:

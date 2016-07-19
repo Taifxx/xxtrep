@@ -60,9 +60,16 @@ def skip():
     if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTAF)): return True
     return False
 
+def remover():
+    rFile = context.DOS.join(context.addon.profile, context.TAG_PAR_LOCKF);    context.DOS.delf(rFile)
+    rFile = context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTF);  context.DOS.delf(rFile)
+    rFile = context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTAF); context.DOS.delf(rFile) 
+
 
 ### Main ...
 def service():
+    
+    remover()
     
     monitor = context.xbmc.Monitor()
     shadowupd = CAction(10201, context.addon.STARTUPSHAD, skip, context.addon.getautime, 'Background scanning started ...', context.addon.getshad, context.addon.getsilent)
@@ -74,8 +81,8 @@ def service():
     while not monitor.abortRequested():
         if monitor.waitForAbort(10) : break
 
-        if context.DOS.exists(context.DOS.join(context.addon.profile, 'nos'))   : break
-        if context.DOS.exists(context.DOS.join(context.addon.profile, 'cont'))  : continue
+        #if context.DOS.exists(context.DOS.join(context.addon.profile, 'nos'))   : break
+        #if context.DOS.exists(context.DOS.join(context.addon.profile, 'cont'))  : continue
         
         backup()
         shadowupd()

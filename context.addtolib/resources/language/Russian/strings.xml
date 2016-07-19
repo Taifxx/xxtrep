@@ -95,6 +95,7 @@
     <string id="30103">Введите название сериала</string>
     <string id="30104">Введите номер сезона</string>
     <string id="30105">- Пусто -</string>
+    <string id="30106">Нажмите ОК после начала воспроизведения</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Введите название сериала:</string>
@@ -234,6 +235,9 @@
     <string id="30452">> Изменить скин</string>
     <string id="30453">Текущий цвет</string>
     <string id="30454">Принудительное закрытие диалогов</string>
+    <string id="30455">CORE плеера</string>
+    <string id="30456">Пользовательское значение CORE</string>
+    <string id="30457">Лимит ожидания воспроизведения (сек.)</string>
     <!-- Settings categories -->
     <string id="30480">Основные</string>
     <string id="30481">Меню</string>

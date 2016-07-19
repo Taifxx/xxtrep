@@ -37,6 +37,7 @@ class PATTERN:
     season_only         = ur'([\d]+)'   
     clear_name_by_file  = ur'[^a-zA-ZА-Яа-я\d)]+$'
     remove_fdots        = ur'^[.]+'
+    remove_edots        = ur'[.]+$'
     remove_multidots    = ur'[.]{2,}'
     @staticmethod
     def file_remove_ext2 () : return '(\\'+'$)|(\\'.join(TAG_PAR_VIDEOSEXT)+'$)'
@@ -121,6 +122,7 @@ def create_name (comps_item, *args, **kwargs):
                 
                 comps_item.sub   (PATTERN.remove_multidots, rep_text=Dot) 
                 comps_item.sub   (PATTERN.remove_fdots)
+                comps_item.sub   (PATTERN.remove_edots)
 
 
 def create_name_once (notFormatedName, *args, **kwargs):

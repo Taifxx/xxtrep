@@ -266,6 +266,7 @@ TAG_DLG_PR              = 30102
 TAG_DLG_INNM            = 30103 
 TAG_DLG_INSE            = 30104
 TAG_DLG_NUMSKIP         = 30105
+TAG_DLG_SUPPRES         = 30106
 
 ### Titles ...
 TAG_TTL_NM              = 30150

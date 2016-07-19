@@ -30,8 +30,8 @@ from resources.lib.tools   import *
 copyf   = lambda  fpSrc, fpDest: xbmcvfs.copy (fpSrc, fpDest)
 delf    = lambda  path: xbmcvfs.delete  (path)
 rmdir   = lambda  path: xbmcvfs.rmdir   (path)
-listdir = lambda  path: xbmcvfs.listdir (path)
 #listdir = lambda  path: os.listdir      (path)
+listdir = lambda  path: xbmcvfs.listdir (path)
 split   = lambda  path: os.path.split   (path)
 #unsl    = lambda  path: os.path.normpath(path)
 getdir  = lambda  path: os.path.split   (unsl(path))[1]
@@ -50,6 +50,7 @@ def unsl(path):
     if not path : return Empty
     return path[0:-1] if path[-1] in [BkSlash, Slash] else path     
 
+
 def join (*args):
     jargs  = jede(*args)
     sep    = BkSlash if jargs[0].find(BkSlash) != -1 else os.sep 
@@ -62,11 +63,13 @@ def join (*args):
     jr     = jr.replace(bdlsep, sep)
     jr     = jr.replace(protx_, protx)
     return jr 
+
          
 def mkdirs (path):
     #try    : os.makedirs(esys(de(path)))
     try    : xbmcvfs.mkdirs(esys(de(path)))
     except : pass
+
 
 def copyfls (pathSrc, pathDst, move=False):
     srcDirList, srcFlsList = listdir(pathSrc)
@@ -125,6 +128,7 @@ def file(fName, fPath, fContent=Empty, fType=FWrite, fRew = True):
     ofile.close() 
     return data
     
+    
 def compath(path1, path2):
     return setLower(unsl(path1)) == setLower(unsl(path2))
 
@@ -164,6 +168,7 @@ def exists(path):
 
 ### JSP functions ...
 _listdircmd = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"properties": ["file", "title"], "directory":"%s", "media":"files"}, "id": "1"}'
+
 
 def jexists(path):
     import xbmc

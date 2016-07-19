@@ -141,6 +141,12 @@ class CAddon:
     def SKIN           (self) : return self.addon.getSetting('skin')
     @property
     def NEWPLAYS       (self) : return _sbool(self.addon.getSetting('newplays'))
+    @property
+    def PCORE          (self) : return self.addon.getSetting('pcore')
+    @property
+    def PCOREVAL       (self) : return int(self.addon.getSetting('pcoreval'))
+    @property
+    def DEDLPTIME      (self) : return int(self.addon.getSetting('dedlptime'))
     
     
     def getlibpath(self): _libpath  = self.addon.getSetting('libpath');  return _libpath  if _libpath  != TAG_PAR_SETDEF else self.profile

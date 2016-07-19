@@ -1,4 +1,17 @@
-﻿v1.0.8
+﻿v1.0.9
+BugFix:
+    - Fixed problem with playback on Kodi 17 
+    - Other small bugfixes
+Remove:
+    - Handle reset mode
+New:
+    - Added Player Core selection
+    - Added automatically removing lock labels on add-on startup
+    - Suppression mode works in manual mode (*)
+      * CAUTION : On some systems this method can cause freeze of Kodi interface 
+
+
+v1.0.8
 BugFix:
     - Fixed problem with menu key navigation when skins was used 
     - Other small bugfixes

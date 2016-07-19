@@ -98,6 +98,7 @@
     <string id="30103">Enter the TV Show name</string>
     <string id="30104">Enter the number of the season</string>
     <string id="30105">- Empty -</string>
+    <string id="30106">Press OK after playback starting</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
@@ -237,6 +238,9 @@
     <string id="30452">> Change skin</string>
     <string id="30453">Current color</string>
     <string id="30454">Force dialogs closing</string>
+    <string id="30455">Player CORE</string>
+    <string id="30456">Player CORE custom value</string>
+    <string id="30457">Wait timeout of playback (sec.)</string>
     <!-- Settings categories -->
     <string id="30480">General</string>
     <string id="30481">Main menue</string>

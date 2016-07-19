@@ -41,23 +41,6 @@ __language__     = addon.localize
 ##### Call ...
 def Main():
 
-    #help.dlgHelp()
-    #s = GUI.dlgSel(['Item1', 'Item2', 'Item3'], title='TEST')
-    #s = GUI.dlgSelXSub('msg','X CAP', ['Item1', 'Item2', 'Item3']).position
-    
-    #s = DOS.exists(DOS.join(addon.profile, TAG_PAR_LOCKF))
-    
-    #GUI.dlgOk(DOS.join(addon.profile, TAG_PAR_LOCKF).replace('AppData\\Roaming','')+' : '+str( s ))
-    
-    #GUI.dlgOk('TESR')
-
-    #GUI.messageX('Text','Caption')
-    #GUI.tt('Text','Caption')
-    #GUI.dlgOk('>>')
-    #GUI.dlgYn('>>')
-
-    #return
-
     arg = parseArgs()
     if   arg == TAG_CND_NOACTION : plgMain()
     elif arg != TAG_CND_PLAY     : plgMain(arg)
@@ -871,7 +854,7 @@ class plgMain(GUI.CAltDTmpl):
                 
     def mnu_rawadd(self, update=False, rescan=False):
         
-        rd = TAG_MNU_BACKMAIN
+        rd = TAG_MNU_CANCEL
         
         ares = Empty
         
@@ -901,7 +884,7 @@ class plgMain(GUI.CAltDTmpl):
             selitems = subMenue(eplist, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, title=rTTL,
                                 selMarkm=tl(TAG_MNU_SMM), multiSelDefList=idxsDef)
             
-            if not selitems : return rd
+            if not selitems : return TAG_MNU_BACKMAIN
             
             self.items.setmanually(selitems)
             

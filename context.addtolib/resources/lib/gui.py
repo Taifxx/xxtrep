@@ -95,7 +95,8 @@ libUpdate   = lambda      : xbmc.executebuiltin('UpdateLibrary(video)', True)
 libClean    = lambda      : xbmc.executebuiltin('CleanLibrary(video)', True)
 openSet     = lambda      : xbmc.executebuiltin('Addon.OpenSettings(%s)' % (defScript), True)
 goTarget    = lambda link : xbmc.executebuiltin('container.update(%s)' % (link))
-closeDlgs   = lambda      : xbmc.executebuiltin('Dialog.Close(all, true)')
+#closeDlgs   = lambda      : xbmc.executebuiltin('Dialog.Close(all, true)')
+closeDlgs   = lambda      : xbmc.executebuiltin('Dialog.Close(%s, true)' % (str(xbmcgui.getCurrentWindowDialogId())))
 
 ### Service ...
 serviceOn   = lambda      : xbmc.executebuiltin('RunScript(%s)' % (TAG_PAR_SERVICE), False)
