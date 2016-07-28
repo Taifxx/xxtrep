@@ -30,10 +30,10 @@ class showHelp (GUI.CAltDTmpl):
         
         lines      = CMP.compsRemtag(self.helpText).split(NewLine)
         linescount = self.helpText.count(NewLine)
-        for line in lines:
-            linescount += int(len(line) / 350.0)  
-        
-        self.tblen    = linescount
+        # for line in lines:
+        #     linescount += int(len(line) / 340.0) 
+         
+        self.tblen    = 160
         self.tbpos    = 0  
         
         GUI.CAltDTmpl.__init__(self, xmlFile=TAG_PAG_HELPXML)

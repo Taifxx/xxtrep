@@ -95,8 +95,9 @@ libUpdate   = lambda      : xbmc.executebuiltin('UpdateLibrary(video)', True)
 libClean    = lambda      : xbmc.executebuiltin('CleanLibrary(video)', True)
 openSet     = lambda      : xbmc.executebuiltin('Addon.OpenSettings(%s)' % (defScript), True)
 goTarget    = lambda link : xbmc.executebuiltin('container.update(%s)' % (link))
-#closeDlgs   = lambda      : xbmc.executebuiltin('Dialog.Close(all, true)')
-closeDlgs   = lambda      : xbmc.executebuiltin('Dialog.Close(%s, true)' % (str(xbmcgui.getCurrentWindowDialogId())))
+closeDlgs   = lambda      : xbmc.executebuiltin('Dialog.Close(all, true)')
+
+#closeDlgs   = lambda      : xbmc.executebuiltin('Dialog.Close(%s, true)' % (str(xbmcgui.getCurrentWindowDialogId())))
 
 ### Service ...
 serviceOn   = lambda      : xbmc.executebuiltin('RunScript(%s)' % (TAG_PAR_SERVICE), False)
@@ -105,7 +106,7 @@ serviceOn   = lambda      : xbmc.executebuiltin('RunScript(%s)' % (TAG_PAR_SERVI
 seekPlay    = lambda pos  : xbmc.executebuiltin('seek(%s)' % (pos), True)
 stopPlay    = lambda      : xbmc.executebuiltin('PlayerControl(Stop)', True)
 FocusPayer  = lambda      : xbmc.executebuiltin('ActivateWindow(12005)')
-FocusPayerC = lambda      : xbmc.executebuiltin('ActivateWindow(10114)')
+FocusPayerC = lambda      : xbmc.executebuiltin('ActivateWindow(12901)')
 
     
 #### NEW GUI ...
@@ -115,6 +116,7 @@ class CAltDTmpl:
     def __init__(self, xmlFile, modal=True): 
         if modal : self._CAltDTmpl (xmlFile, adn().path, adn().SKIN, parent=self).doModal()
         else     : self._CAltDTmpl (xmlFile, adn().path, adn().SKIN, parent=self).start()
+        
     
     ## Reload interface ...
     def onInit(self, xml)             : xml.reInit()
@@ -233,9 +235,49 @@ class dlgYesNoX (CAltDTmpl):
     def onClick(self, controlID, xml):
         if controlID == 261 : self.yes = True  
         xml.stop()
+
+
+class dlgNowPlayX (CAltDTmpl):
+    def __init__(self, text, img=Empty, showtime=5, pretime=0, stopIf=None):
+        self.text     = text
+        self.showtime = showtime
+        self.pretime  = pretime
+        self.img      = img
+        self.stopIf   = stopIf
+        self.focusp   = False      
+        wait(self.pretime)
+        cwndd = xbmcgui.getCurrentWindowDialogId()
+        cwnd  = xbmcgui.getCurrentWindowId()
+        if cwndd == 12901 : back() 
+        if cwnd  == 12005 : CAltDTmpl.__init__(self, xmlFile=TAG_PAR_XMLW_NOWPLAYDLG, modal=True)
+    
+    def onInit(self, xml):
+        xml.getControl(200).setText(self.text)
+        if self.img : xml.getControl(300).setImage(self.img)     
+        Thrd(self.time_bomb, xml, self.showtime, self.stopIf) 
+    
+    def time_bomb(self, xml, showtime, stopIf):
+        wtime = 0
+        while True:
+            if wtime > showtime : break
+            if stopIf is not None and not stopIf() : break   
+            wait(0.5); wtime += 0.5
+            
+        xml.stop()
+    
+    def onAction(self, action, xml):
+        aid  = action.getId()
+        cwnd = xbmcgui.getCurrentWindowId()
+        if aid in [100, 101] : xml.stop()
+        if cwnd == 12005 : FocusPayerC()
+    
+    def __del__(self):
+        cwnd = xbmcgui.getCurrentWindowDialogId()
+        if cwnd == 12901 : back() 
         
 
 class Thrd(threading.Thread):
     def __init__(self, t, *args):
         threading.Thread.__init__(self, target=t, args=args)
-        self.start()        
+        self._stop = threading.Event()
+        self.start()

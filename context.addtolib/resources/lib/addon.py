@@ -139,14 +139,20 @@ class CAddon:
     def DIMBCKG        (self) : return _sbool(self.addon.getSetting('dimbckg'))
     @property
     def SKIN           (self) : return self.addon.getSetting('skin')
-    @property
-    def NEWPLAYS       (self) : return _sbool(self.addon.getSetting('newplays'))
+    #@property
+    #def NEWPLAYS       (self) : return _sbool(self.addon.getSetting('newplays'))
     @property
     def PCORE          (self) : return self.addon.getSetting('pcore')
     @property
     def PCOREVAL       (self) : return int(self.addon.getSetting('pcoreval'))
     @property
     def DEDLPTIME      (self) : return int(self.addon.getSetting('dedlptime'))
+    @property
+    def PBMETHOD       (self) : return self.addon.getSetting('pbmethod')
+    @property
+    def USENOWPLAY     (self) : return _sbool(self.addon.getSetting('usenowplay'))
+    @property
+    def NOWPLAYTIME    (self) : return int(self.addon.getSetting('nowplaytime'))
     
     
     def getlibpath(self): _libpath  = self.addon.getSetting('libpath');  return _libpath  if _libpath  != TAG_PAR_SETDEF else self.profile

@@ -41,6 +41,11 @@ __language__     = addon.localize
 ##### Call ...
 def Main():
 
+    # inf = '[COLOR deepskyblue][/COLOR] The Foringer (2014)\n\n[COLOR deepskyblue]Source:[/COLOR] Ex Ua Alternative\n[COLOR deepskyblue]Playback type:[/COLOR] Classic'
+    # GUI.dlgNowPlayX(inf, pretime=5)
+    # 
+    # return
+
     arg = parseArgs()
     if   arg == TAG_CND_NOACTION : plgMain()
     elif arg != TAG_CND_PLAY     : plgMain(arg)
@@ -179,7 +184,8 @@ class plgMain(GUI.CAltDTmpl):
                                   {'pos':11,'tag':TAG_MNU_VIDLIBCLN,'hideCond':{TAG_CND_NOUPD}},
                                   {'pos':12,'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
                                   {'pos':13,'tag':TAG_MNU_UPDMAN,   'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':14,'tag':TAG_MNU_TVSMAN,   'hideCond':{}},         
+                                  {'pos':14,'tag':TAG_MNU_TVSMAN,   'hideCond':{}},
+                                  {'pos':15,'tag':TAG_MNU_PBTYPES,  'hideCond':{}},         
                                   {'pos':1, 'tag':TAG_MNU_HELP,     'hideCond':{}, 'refPage':addon.SETPAGE-1},
                                   {'pos':2, 'tag':TAG_MNU_SET,      'hideCond':{}, 'refPage':addon.SETPAGE-1},
                                   pageLimit = addon.MNUITMNUM,
@@ -237,7 +243,7 @@ class plgMain(GUI.CAltDTmpl):
         ## Show Main menue ...
         if self.result not in [TAG_MNU_TVS,     TAG_MNU_TVSU,   TAG_MNU_TVSMAN, TAG_MNU_SRCMAN, TAG_MNU_DELETE, 
                                TAG_MNU_RESTORE, TAG_MNU_TVSREN, TAG_MNU_REMSRC, TAG_MNU_SRCREN, TAG_MNU_CHKNEW,
-                               TAG_MNU_BRWSREN] and not action:
+                               TAG_MNU_BRWSREN, TAG_MNU_PBTYPES] and not action:
                                              
                                              self.pageNum,  self.result = self.MainMenue.show(self.pageNum)
         elif action : self.result = action 
@@ -279,6 +285,7 @@ class plgMain(GUI.CAltDTmpl):
         elif self.result == TAG_MNU_VIDLIBCLN   : self.result = self.mnu_vidlibcln()
         elif self.result == TAG_MNU_RESCANALLS  : self.result = self.mnu_rescanalls()
         elif self.result == TAG_MNU_RESCANFULL  : self.result = self.mnu_rescanfull()
+        elif self.result == TAG_MNU_PBTYPES     : self.result = self.mnu_pbtypes()
         elif self.result == TAG_ACT_LPRESET     : self.result = self.act_lpreset()
         elif self.result == TAG_ACT_SHADOWUPD   : self.result = self.act_shadowupd()
         elif self.result == TAG_ACT_DONOTHING   : self.result = self.act_donothing()
@@ -1144,8 +1151,36 @@ class plgMain(GUI.CAltDTmpl):
         GUI.goTarget(subLink)
         if oldCont != subLink and not isWait(oldCont, LI.getCpath, addon.LNKTIMEOUT) : errord(TAG_ERR_DEDLINK); return rd
         
-        return TAG_MNU_CANCEL       
-                
+        return TAG_MNU_CANCEL  
+    
+    
+    def mnu_pbtypes(self):
+        
+        rd = TAG_MNU_BACKMAIN
+        
+        pTable = playersTable()
+        plugs, types = pTable.getall()
+        idxs = range(len(plugs))
+        
+        plugsNemes = [prefixToName(plg) for plg in plugs]
+        
+        plugin = subMenue(plugsNemes, idxs, cancelVal=-1, title=tla(TAG_MNU_PBTYPES))
+        
+        if plugin != -1:
+            rd = TAG_MNU_PBTYPES
+            PBTYPES_LIST_L = PBTYPES_LIST + [tl(TAG_DLG_PBTREM)]
+            lastel = len(PBTYPES_LIST_L)
+            idxs = range(1, lastel+1)
+
+            ptype = subMenue(PBTYPES_LIST_L, idxs, cancelVal=-1, default=int(types[plugin]), title=titName(TAG_DLG_PBT2, prefixToName(plugs[plugin])))
+            
+            if ptype != -1: 
+                if ptype == lastel : pTable.removePType(plugs[plugin])
+                else : pTable.setPType(plugs[plugin], ptype)
+                      
+        del pTable
+        return rd            
+        
         
     def mnu_help(self): 
         help.showHelp()

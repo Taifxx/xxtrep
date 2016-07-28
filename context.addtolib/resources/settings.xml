@@ -38,20 +38,24 @@
     <category label="30482">
         <setting id="playbcont"    type="bool"      label="30411" default="true"/>
         <setting                   type="sep"       label=""/>
-        <setting id="posupd"       type="number"    label="30412" default="10"    enable="eq(-2,true)"/>
-        <setting id="possleep"     type="number"    label="30413" default="60"    enable="eq(-3,true)"/>
-        <setting id="waitbseek"    type="number"    label="30418" default="3"     enable="eq(-4,true)"/>
-        <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-5,true)"/>
-        <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-6,true)+eq(-1,false)"/>
+        <setting id="pbmethod"     type="select"    label="30425" default="Source internal or Classic" values="Predefined|Classic only|Alternate only (CORE dependent)"/>
         <setting                   type="sep"       label=""/>
-        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-8,true)"/>
-        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-9,true)+eq(-1,true)" range="1,100" option="int"/>
+        <setting id="usenowplay"   type="bool"      label="30458" default="true" enable="eq(-4,true)"/>
+        <setting id="nowplaytime"  type="number"    label="30459" default="10" enable="eq(-5,true)+eq(-1,true)"/>
         <setting                   type="sep"       label=""/>
-        <setting id="dedlptime"    type="number"    label="30457" default="360"   enable="eq(-11,true)"/>
-        <setting id="eodgenm"      type="select"    label="30454" default="Don't use" enable="eq(-12,true)" values="Don't use|Suppression"/>
-        <setting id="newplays"     type="bool"      label="30425" default="false"/>
-        <setting id="pcore"        type="select"    label="30455" default="Default" enable="eq(-14,true)" values="Default|Auto|VideoPlayer|DVDPlayer|MPlayer|Custom"/>
-        <setting id="pcoreval"     type="number"    label="30456" default="0" enable="eq(-15,true)+eq(-1,Custom)" />
+        <setting id="dedlptime"    type="number"    label="30457" default="360"   enable="eq(-7,true)"/>
+        <setting id="posupd"       type="number"    label="30412" default="10"    enable="eq(-8,true)"/>
+        <setting id="possleep"     type="number"    label="30413" default="60"    enable="eq(-9,true)"/>
+        <setting id="waitbseek"    type="number"    label="30418" default="3"     enable="eq(-10,true)"/>
+        <setting id="autores"      type="bool"      label="30415" default="false" enable="eq(-11,true)"/>
+        <setting id="resdlg"       type="bool"      label="30416" default="true"  enable="eq(-12,true)+eq(-1,false)"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="wchf"         type="bool"      label="30417" default="true"  enable="eq(-14,true)"/>
+        <setting id="wperc"        type="slider"    label="30414" default="92"    enable="eq(-15,true)+eq(-1,true)" range="1,100" option="int"/>
+        <setting                   type="sep"       label=""/>
+        <setting id="eodgenm"      type="select"    label="30454" default="Don't use" visible="false" enable="eq(-17,true)" values="Don't use|Suppression"/>
+        <setting id="pcore"        type="select"    label="30455" default="Default" enable="eq(-18,true)" values="Default|Auto|VideoPlayer|DVDPlayer|MPlayer|Custom"/>
+        <setting id="pcoreval"     type="number"    label="30456" default="0" enable="eq(-19,true)+eq(-1,Custom)" />
         
     </category>
     <category label="30484">

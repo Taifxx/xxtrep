@@ -26,6 +26,8 @@ from resources.lib.const   import *
 ### Tools ...
 setLower       = lambda text : e(de(text).lower())
 setCap         = lambda text : e(de(text).capitalize())
+setUpper       = lambda text : e(de(text).upper())
+setCapAll      = lambda text : e(de(text).title()) 
                
 sbool          = lambda sval : True if sval in ['True', 'true'] else False
 

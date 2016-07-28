@@ -67,6 +67,7 @@
     <string id="30060">From the bottom up</string>
     <string id="30061">[COLOR ##COLOR##]Edit list of episodes[/COLOR]</string>
     <string id="30062">[COLOR ##COLOR##]Numbering correction[/COLOR]</string>
+    <string id="30063">[COLOR ##COLOR##]Playback[/COLOR] types</string>
     <!-- Static Menue Items -->
     <string id="30090">[COLOR ##COLOR##]...[/COLOR]</string>
     <string id="30091">[COLOR ##COLOR##]&lt;[/COLOR] Back</string>
@@ -99,6 +100,26 @@
     <string id="30104">Enter the number of the season</string>
     <string id="30105">- Empty -</string>
     <string id="30106">Press OK after playback starting</string>
+    <string id="30107">ADD To Lib can't define playback type for this source add-on. Please select it.</string>
+    <string id="30108">Playback type selection</string>
+    <string id="30109">Autodetect</string>
+    <string id="30110">Try to detect playback type</string>
+    <string id="30111">[COLOR red]Detect Time Out:[/COLOR] Try to continue?</string>
+    <string id="30112">[COLOR ##COLOR##]Classic[/COLOR] playback type was defined. Please run again for start playback.</string>
+    <string id="30113">[COLOR ##COLOR##]ISP[/COLOR] playback type was defined. Playback was started.</string>
+    <string id="30114">[COLOR ##COLOR##]Folder[/COLOR] playback type was defined. Select item for start playback.</string>
+    <string id="30115">Classic</string>
+    <string id="30116">ISP (Internal Source Player)</string>
+    <string id="30117">Folder (open folder with playeble item)</string>
+    <string id="30118">Alternate (CORE dependent)</string>
+    <string id="30119">[COLOR ##COLOR##]Autodetect[/COLOR]</string>
+    <string id="30120">[COLOR ##COLOR##]Alternate[/COLOR] playback type was defined. Press OK for start playback.</string>
+    <string id="30121">[COLOR red]Remove[/COLOR]</string>
+    <string id="30122">%s (%s)**[COLOR ##COLOR##]%s[/COLOR] %.1f**[COLOR ##COLOR##]%s[/COLOR] %s**[COLOR ##COLOR##]%s[/COLOR] %s</string>
+    <string id="30123">Rating:</string>
+    <string id="30124">Source:</string>
+    <string id="30125">Playback type:</string>
+    <string id="30126">Direct link</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
@@ -155,6 +176,7 @@
     <string id="30216">[COLOR red]Backup corrupted.[/COLOR] Restore impossible</string>
     <string id="30217">[COLOR red]Backup path is not available.[/COLOR] Verify correct path</string>
     <string id="30218">[COLOR red]Backup path is not available[/COLOR]</string>
+    <string id="30219">[COLOR red]Incorect[/COLOR] playback type. Source: %s</string>
     <!-- OK messages -->
     <string id="30301">Process completed [COLOR ##COLOR##]successfully[/COLOR]</string>
     <string id="30302">Movie added</string>
@@ -208,7 +230,7 @@
     <string id="30422">> Set add-on library path as default</string>
     <string id="30423">> Update video library</string>
     <string id="30424">> Clean video library</string>
-    <string id="30425">Alternate playback method</string>
+    <string id="30425">Playback type as default</string>
     <string id="30426">Silent method to update sources</string>
     <string id="30427">Automatically update TV Show sources when check launched</string>
     <string id="30428">Automatically update all TV Shows when global check launched</string>
@@ -241,12 +263,13 @@
     <string id="30455">Player CORE</string>
     <string id="30456">Player CORE custom value</string>
     <string id="30457">Wait timeout of playback (sec.)</string>
+    <string id="30458">Use NowPlaing notification</string>
+    <string id="30459">NowPlaing notification time (sec.)</string>
     <!-- Settings categories -->
     <string id="30480">General</string>
     <string id="30481">Main menue</string>
     <string id="30482">Playback</string>
     <string id="30483">Library</string>
     <string id="30484">Update</string>
-    
     <string id="30485">Backup</string>
 </strings>

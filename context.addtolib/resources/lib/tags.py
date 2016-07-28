@@ -53,6 +53,7 @@ TAG_PAR_TVSPACK_FILE        = 'tvs.pack'
 TAG_PAR_TVSRAWFILE          = 'tvs.eraw'
 TAG_PAR_STL_FILE            = 'linktable'
 TAG_PAR_FSET_FILE           = 'fset'
+TAG_PAR_PTYPETABLE_FILE     = 'pttable'
 
 ### Addon work files (tmp) ...
 TAG_PAR_TVSUPD_FILE         = 'tvsupd'
@@ -87,6 +88,7 @@ TAG_PAR_XMLW_SELDLGSUB      = 'XDialogSelectSub.xml'
 TAG_PAR_XMLW_OKDLG          = 'XDialogOk.xml'
 TAG_PAR_XMLW_YESNODLG       = 'XDialogYesNo.xml'
 TAG_PAR_XMLW_RESUMEDLG      = 'XDialogResume.xml'
+TAG_PAR_XMLW_NOWPLAYDLG     = 'XDialogNowPlay.xml'
 
 ### Help ...
 TAG_PAG_HELPXML             = 'DialogHelp.xml'
@@ -232,6 +234,7 @@ TAG_MNU_ADVLSORTDOWN    = 30059
 TAG_MNU_ADVLSORTUP      = 30060
 TAG_MNU_EPSLISTCORR     = 30061
 TAG_MNU_NUMBCORR        = 30062
+TAG_MNU_PBTYPES         = 30063
 
 ### Static mnu ...
 TAG_MNU_MORE            = 30090
@@ -267,6 +270,26 @@ TAG_DLG_INNM            = 30103
 TAG_DLG_INSE            = 30104
 TAG_DLG_NUMSKIP         = 30105
 TAG_DLG_SUPPRES         = 30106
+TAG_DLG_PBT1            = 30107
+TAG_DLG_PBT2            = 30108
+TAG_DLG_PBTAD1          = 30109
+TAG_DLG_PBTAD2          = 30110
+TAG_DLG_PBTADTIMEO      = 30111
+TAG_DLG_PBTADTCLAS      = 30112
+TAG_DLG_PBTADTISP       = 30113
+TAG_DLG_PBTADTFOLD      = 30114
+TAG_DLG_PBTT1           = 30115
+TAG_DLG_PBTT2           = 30116
+TAG_DLG_PBTT3           = 30117
+TAG_DLG_PBTT4           = 30118
+TAG_DLG_PBTT5           = 30119
+TAG_DLG_PBTALT          = 30120
+TAG_DLG_PBTREM          = 30121
+TAG_DLG_NPINFO          = 30122
+TAG_DLG_NPINFRAT        = 30123
+TAG_DLG_NPINFSRC        = 30124
+TAG_DLG_NPINFPBT        = 30125
+TAG_DLG_NPDIRL          = 30126
 
 ### Titles ...
 TAG_TTL_NM              = 30150
@@ -357,4 +380,5 @@ TAG_ERR_OL              = 30215
 TAG_ERR_BADZIP          = 30216
 TAG_ERR_NOBCKPATH       = 30217
 TAG_ERR_NOBCKPATHM      = 30218
+TAG_ERR_INCPBTYPE       = 30219
 

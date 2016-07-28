@@ -1,4 +1,17 @@
-﻿v1.0.9
+﻿v1.0.10
+BugFix:
+    - Fixed problem with files crossing during playback (set position information to another file)
+    - Fixed problem with resume dialog in movies   
+    - Other small bugfixes
+Remove:
+    - Suppression mode (not needed as there is Playback types)
+New:
+    - Added Playback types (*)
+    - Added NowPlaing notification
+    * See Help for more information
+    
+
+v1.0.9
 BugFix:
     - Fixed problem with playback on Kodi 17 
     - Other small bugfixes

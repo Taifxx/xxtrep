@@ -26,6 +26,13 @@ import subprocess
 
 from resources.lib.ext import *
 
+## Get handle ...
+try    : HANDLE = int(sys.argv[1])
+except : HANDLE = -1 
+
+PBTYPES_LIST = [tl(TAG_DLG_PBTT1), tl(TAG_DLG_PBTT2), tl(TAG_DLG_PBTT3), tl(TAG_DLG_PBTT4)]
+
+## Player ...
 class CPlayer(xbmc.Player):
 
     def __init__(self):
@@ -42,140 +49,356 @@ class CPlayer(xbmc.Player):
         wtime = 0
         errc  = 0
         while True: 
-            #if self.isPlayingVideo() and spath != setLower(self.getPlayingFile()) : break
             if self.isPlaying() and spath != setLower(self.getPlayingFile()) : break  
             wait(1); wtime += 1
             if wtime > addon.DEDLPTIME : return False
-            #if self.isPlaying() and not self.isPlayingVideo() : errc += 1 
-            #if errc > 2 : return False
-            
         return True
     
     def wait_buffering(self):
-        wait(1); _oldpos = self.getTime() if self.isPlaying() else 0 
-        while self.isPlaying() and _oldpos == self.getTime(): wait(1) 
+        wait(1) 
+        buflevel = 0
+        while buflevel < 3: 
+            _oldpos = self.getTime() if self.isPlaying() else 0
+            while self.isPlaying() and _oldpos == self.getTime(): wait(1)
+            buflevel += 1
         
     def seek(self, pos):
         if addon.WAITBSEEK : wait(addon.WAITBSEEK) 
         if self.isPlaying() : self.seekTime(pos)
-        #GUI.seekPlay(pos)     
+        #GUI.seekPlay(pos) 
     
+    def try_ISP(self, strmurl, currentCont, skipgo):
+        if not skipgo : GUI.goTarget(strmurl)
+            
+        wtime  = 0
+        errorn = 0
+        while True: 
+             if self.isPlaying() : break
+             if currentCont != LI.getCpath():
+                 if currentCont != Empty : errorn = 1; break
+             wait(1); wtime += 1
+             if wtime > addon.DEDLPTIME : errorn = 2; break
+        if errorn : wait(1); GUI.back(); 
+        return errorn
+    
+    def wait_folder(self, currentcont):
+        wtime  = 0
+        lopen  = False
+        while True:
+            if wtime > addon.DEDLPTIME : return 2
+            wait(1); wtime += 1
+            if not lopen:
+                if currentcont == LI.getCpath() : continue 
+                else:  
+                    currentcont = LI.getCpath()
+                    lopen = True
+                    if not LI.itemsCount() : return 1
+            
+            if self.isPlaying() : break  
+            if currentcont != LI.getCpath() : return 0
+        return 0
+    
+    ## Get playback type (manual) ... 
+    def pbTypeSelector(self, strmurl, url_prefix):
+        #xbmcplugin.endOfDirectory(HANDLE, True, False, False)
+        PBTYPES_LIST_L = PBTYPES_LIST + [tl(TAG_DLG_PBTT5)]
         
+        autodetect = False
+        tName      = prefixToName(url_prefix)
+        
+        GUI.dlgOk(tl(TAG_DLG_PBT1), title=tName)
+        result = GUI.dlgSel(PBTYPES_LIST_L, tl(TAG_DLG_PBT2))
+        if result == 4:
+            autodetect = True
+            GUI.msg(tl(TAG_DLG_PBTAD1), tl(TAG_DLG_PBTAD2))
+            wait(2)
+            currentCont = LI.getCpath()
+            GUI.goTarget(strmurl)
+            
+            PTYPE     = 0 
+            wtime     = 0
+            wplayback = False
+            while True: 
+                if self.isPlaying() : wplayback = True; break
+                if currentCont != LI.getCpath():
+                    if currentCont != Empty:
+                        if LI.itemsCount() > 0 : PTYPE = 3; break
+                        else : break 
+                wait(1); wtime += 1
+                if wtime > 30:
+                    if GUI.dlgYn(tl(TAG_DLG_PBTADTIMEO), title=tName) : wtime = 0  
+                    else : break
+            
+            if not PTYPE:
+                if not wplayback: 
+                    GUI.back()
+                    PTYPE = 1    
+                else : PTYPE = 2
+            else : GUI.back()
+                
+        else : PTYPE = result + 1
+        
+        wait(1)
+        if   PTYPE == 1 : GUI.dlgOk(tl(TAG_DLG_PBTADTCLAS), title=tName)
+        elif PTYPE == 2 : 
+            if autodetect == False : GUI.goTarget(strmurl)
+            GUI.dlgOk(tl(TAG_DLG_PBTADTISP), title=tName)
+        elif PTYPE == 3 : GUI.dlgOk(tl(TAG_DLG_PBTADTFOLD), title=tName)
+        elif PTYPE == 4 : GUI.dlgOk(tl(TAG_DLG_PBTALT), title=tName)
+        
+        return PTYPE
+            
+
+## Emegrency running ...        
 def simplerun(strmurl):
     listitem = xbmcgui.ListItem (path=strmurl)
     listitem.setProperty('IsPlayable', 'true')
-    xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem)
+    xbmcplugin.setResolvedUrl(HANDLE, True, listitem)
     GUI.msg(tl(TAG_ERR_DEFEPS))
 
 
+## Run splash video ...
+def runsplash(medinfo, infpar):
+    splashPath = DOS.join(addon.path, *TAG_PAR_SPLASH_FILE)
+    splashLI = xbmcgui.ListItem (path=splashPath)
+    splashLI.setProperty('IsPlayable', 'true')
+    splashLI.setArt(medinfo.art)
+    splashLI.setIconImage(medinfo.img)
+    splashLI.setThumbnailImage(medinfo.img)
+    splashLI.setInfo('video', infpar)
+    splashLI.setInfo('video', {'Title':Space}) 
+    xbmcplugin.setResolvedUrl(HANDLE, True, splashLI)
+    del splashLI   
+    return splashPath
+
+
+## Main function ...
 def callSTRM(strmtype, strmurl, strmfile):
 
+    ## Stop theme ...
     GUI.stopPlay()
+    wait(1)
     
-    CLASSICPLAY = not addon.NEWPLAYS
-
+    ## Exit if empty URL ...
+    if not strmurl : GUI.dlgOk(tl(TAG_ERR_DEDLINK)); return
+    
+    ## Get playback main type (0 - predefined) ...
+    SPBMETHOD = addon.PBMETHOD
+    if   SPBMETHOD == 'Classic only'                    : PBMETOD = 1
+    elif SPBMETHOD == 'Alternate only (CORE dependent)' : PBMETOD = 2
+    else : PBMETOD = 0 
+    
+    ## Init ...
+    PTYPE  = 0 
     player = CPlayer()
-    
     prePath = LIB.tvsf if strmtype == str(TAG_TYP_TVS) else LIB.mov
     
+    ## Check playback launching from Kodi library ...
     if not DOS.exists(DOS.join(prePath, strmfile)):
     
+        ## If not from library ...
         simplerun(strmurl)
+        del listitem, player
+        return
     
     else:
     
+        ## Get strm file ...
         strmfileS = DOS.getdir(strmfile)
         strmfldrS = DOS.getdir(DOS.gettail(strmfile))
         
+        ## Try get media info ...
         try:
          
+            ## Get medinfo ...
             medinfo = CMedInfo(strmfldrS, strmfileS, strmtype)
             
+            ## Init main listitem (playable element) ...
             listitem = xbmcgui.ListItem (path=strmurl)
             listitem.setProperty('IsPlayable', 'true')
             listitem.setArt(medinfo.art)
             listitem.setIconImage(medinfo.img)
             listitem.setThumbnailImage(medinfo.img)
             
-            splashPath = Empty
-            
+            splashPath    = Empty
+            skipgo        = False
+            keepcontainer = LI.getCpath()
+             
+            ## Transmit information to player ...
             if strmtype == str(TAG_TYP_TVS):
                 infpar = {'Title': medinfo.title, 'Genre': medinfo.genre, 'Year': medinfo.year, 'Rating': medinfo.rating, 'Plot': medinfo.plot, 
                           'Country': medinfo.country, 'tvshowtitle': medinfo.showtitle, 'director': medinfo.director,
                           'votes': medinfo.votes, 'mpaa': medinfo.mpaa, 'studio': medinfo.studio, 'writer': medinfo.writer, 'season': medinfo.season, 
                           'episode': medinfo.episode, 'originaltitle': medinfo.originaltitle, 'premiered': medinfo.date, 'aired': medinfo.date,
                           'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
+                
             else:
                 infpar = {'Title': medinfo.title, 'Genre': medinfo.genre, 'Year': medinfo.year, 'Rating': medinfo.rating, 'Plot': medinfo.plot, 
                           'Country': medinfo.country, 'director': medinfo.director,
                           'votes': medinfo.votes, 'mpaa': medinfo.mpaa, 'studio': medinfo.studio, 'writer': medinfo.writer, 
                           'originaltitle': medinfo.originaltitle, 'premiered': medinfo.date, 'aired': medinfo.date,
                           'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
+                
+                ## Clear playlist if movie was running ...
+                playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+                playlist.clear()
             
             listitem.setInfo('video', infpar)
+           
+        ## Emergency running ...
+        except : simplerun(strmurl); del listitem, player; return
         
-        except : simplerun(strmurl); return
+        ## PLAYBACK TYPES:
         
-        if not CLASSICPLAY:
-            splashPath = DOS.join(addon.path, *TAG_PAR_SPLASH_FILE)
-            splashLI = xbmcgui.ListItem (path=splashPath)
-            splashLI.setProperty('IsPlayable', 'true')
-            splashLI.setArt(medinfo.art)
-            splashLI.setIconImage(medinfo.img)
-            splashLI.setThumbnailImage(medinfo.img)
-            splashLI.setInfo('video', infpar)
-            splashLI.setInfo('video', {'Title':Space}) 
-            xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, splashLI)
-            GUI.FocusPayer()
-            wait(1) 
+        url_prefix = getURLPrefix(strmurl)
+        ### Predefined type ...
+        if PBMETOD == 0:
+            if url_prefix:
+                pTable = playersTable(strmurl)
+                PTYPE  = pTable.getPType()
+                if PTYPE == -1:
+                    splashPath = runsplash(medinfo, infpar)
+                    wait(1); player.stop()
+                    PTYPE = player.pbTypeSelector(strmurl, url_prefix)
+                    pTable.setPType(url_prefix, PTYPE)
+                    
+                    if   PTYPE == 1 : del listitem, player; return
+                    elif PTYPE == 2 : skipgo = True
+            
+            else : PTYPE = 1
         
+        ### Classic type ...
+        if PBMETOD == 1 or PTYPE == 1:
+            xbmcplugin.setResolvedUrl(HANDLE, True, listitem)
         
-        if CLASSICPLAY  : xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, listitem) 
-        else            : player.play(strmurl, listitem)
+        ### ISP type ...
+        if PTYPE == 2:
+            if not splashPath:
+                splashPath = runsplash(medinfo, infpar)
+                wait(1); player.stop()
+            wait(1); errorn = player.try_ISP(strmurl, keepcontainer, skipgo)
+            if errorn:
+                if errorn == 1 : GUI.dlgOk(tl(TAG_ERR_INCPBTYPE) % (prefixToName(url_prefix) if url_prefix else tl(TAG_DLG_NPDIRL)), title=medinfo.title)
+                if errorn == 2 : GUI.dlgOk(tl(TAG_ERR_DEDLINK), title=medinfo.title)
+                del listitem, player
+                return
         
-        if not player.wait_openlink(splashPath) : 
+        ### Folder type ...
+        if PTYPE == 3:
+            if not splashPath: 
+                splashPath = runsplash(medinfo, infpar)
+                wait(1); player.stop()
+            wait(1); GUI.goTarget(strmurl)
+    
+        ### Alternate type ...
+        if PBMETOD == 2 or PTYPE == 4:
+            if not splashPath:
+                splashPath = runsplash(medinfo, infpar)
+                wait(1); player.stop()
+            wait(1); player.play(strmurl, listitem)
+        
+        ## Wait link opening for classic and alternate types ...
+        if PTYPE not in [2, 3] and not player.wait_openlink(splashPath): 
             GUI.dlgOk(tl(TAG_ERR_DEDLINK), title=medinfo.title)
+            del listitem, player
             return
         
-        wait(1); GUI.FocusPayer()
+        ## Wait link opening for folder type ...
+        elif PTYPE == 3: 
+            errorn = player.wait_folder(keepcontainer)
+            if errorn:
+                if errorn == 1:
+                    #if player.isPlaying() : player.stop() 
+                    GUI.dlgOk(tl(TAG_ERR_INCPBTYPE) % (prefixToName(url_prefix) if url_prefix else tl(TAG_DLG_NPDIRL)), title=medinfo.title)
+                    if player.isPlaying() : player.stop()
+                if errorn == 2 : GUI.dlgOk(tl(TAG_ERR_DEDLINK), title=medinfo.title)
+                del listitem, player
+                return
         
+        '''
+        ## Forced closing dialogs ...
         eodgenMethod = addon.EODGENM 
-        if eodgenMethod == 'Suppression' : GUI.dlgOk(tl(TAG_DLG_SUPPRES)); wait(3); GUI.closeDlgs(); wait(3)
+        if eodgenMethod == 'Suppression' : wait(3); GUI.dlgOk(tl(TAG_DLG_SUPPRES)); wait(3); GUI.closeDlgs(); wait(3)
+        '''
+        
+        ## Set focus to player ...
+        wait(2); GUI.FocusPayer()
             
+        ## Run Playback Control ...
         wtime1 = 0
         possleep = True
         if addon.PLAYBCONT:
-        
+    
+            pnTimer = 5
+    
+            ### Resume ...
             pbSet = False
             fargs = timefromsec(medinfo.pos, TAG_PAR_TIMENUMFORMAT, TAG_PAR_TIMESEP)
             if addon.RESDLG and medinfo.pos and not addon.AUTORES:
                 pbm = GUI.dlgResume([tl(TAG_MNU_SFRBEGIN), tl(TAG_MNU_RFROM) % (fargs[0],fargs[1],fargs[2],fargs[3],fargs[4]), tl(TAG_MNU_CLOSEDLG)], title=medinfo.title)     
                 if   pbm == 0 : pbSet = True; medinfo.resetpos()
-                elif pbm == 1 : pbSet = True
+                elif pbm == 1 : pbSet = True  
                 elif pbm == 2 : pbSet = False
-            
-            #if (addon.AUTORES or pbSet) and medinfo.pos : player.seek(medinfo.pos) 
+                pnTimer = 0
+             
             if (addon.AUTORES and medinfo.pos) or pbSet : player.seek(medinfo.pos)
             
+            ### Buffering ...
             player.wait_buffering()
-              
+            
+            ### Get plaing file for control ...
+            if player.isPlaying : playing_file = player.getPlayingFile() 
+            else                : del listitem, player; return 
+            
+            if addon.USENOWPLAY:
+                PBM = [PBTYPES_LIST[0], PBTYPES_LIST[3]]
+                
+                inf = tl(TAG_DLG_NPINFO).replace('**', NewLine) % (medinfo.title, medinfo.year, tl(TAG_DLG_NPINFRAT), medinfo.rating, tl(TAG_DLG_NPINFSRC), 
+                prefixToName(url_prefix) if url_prefix else tl(TAG_DLG_NPDIRL), 
+                tl(TAG_DLG_NPINFPBT), PBTYPES_LIST[PTYPE-1] if PTYPE else PBM[PBMETOD-1])
+                
+                nowPlay(inf, medinfo.img, addon.NOWPLAYTIME, pnTimer, player.isPlaying)
+            
+            ### Keep playback control while playback ...   
             while player.isPlaying():
                 
-                if wtime1 >= addon.POSUPD and not possleep : medinfo.setpos(player.getTime(), player.getTotalTime(), addon.WPERC); wtime1 = 0
+                ### Get playback position (skip if skipping by time is ON) ...
+                if wtime1 >= addon.POSUPD and not possleep:
+                    ### Cancel if file name was changed ...
+                    if playing_file != player.getPlayingFile() : break 
+                    medinfo.setpos(player.getTime(), player.getTotalTime(), addon.WPERC); wtime1 = 0
+                
+                ### Inc. timer ...
                 wait(1); wtime1 += 1
+                
+                ### Turn off skipping by time ...
                 if wtime1 > addon.POSSLEEP : possleep = False
-             
+            
+        ## End operations ...
+        #if player.isPlaying() : player.stop()
+        wait(1)
+        del listitem, player
+        if PTYPE == 3: 
+            wait(1) 
+            if keepcontainer != LI.getCpath() : GUI.back()
+        #GUI.msg('>> END')
 
+
+def nowPlay(text, img=Empty, showtime=5, pretime=0, stopIf=None):
+    GUI.Thrd(GUI.dlgNowPlayX, text, img, showtime, pretime, stopIf)
+
+## Arguments Parsing ...
 def parseArgs():
     try    : argv1 = sys.argv[1]
     except : argv1 = Empty
     if argv1 and argv1.startswith(TAG_PAR_ACTION) : return int(argv1.replace(TAG_PAR_ACTION, Empty))
     kwargs = get_params()
-    if not kwargs : return TAG_CND_NOACTION
+    if not kwargs : return TAG_CND_NOACTION 
     callSTRM(**kwargs)
     return TAG_CND_PLAY 
     
-    
+
+## Get add-on params (as link) ...    
 def get_params():
     param=[]
     try    : paramstring=sys.argv[2]
@@ -196,6 +419,7 @@ def get_params():
     return param
 
 
+## Media info class ...
 class CMedInfo:
 
     def __init__(self, fname, fname2, stype):
@@ -236,7 +460,7 @@ class CMedInfo:
         self.cmd_tvs_eps = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "properties": ["season", "plot", "file", "rating", "votes", "episode", "showtitle", "writer", "originaltitle", "director", "firstaired", "art", "cast"], "tvshowid":%s },  "id": 1}'
         self.cmd_tvs_sea = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetSeasons", "params": { "properties": ["season", "thumbnail"], "tvshowid":%s },  "id": 1}'
         
-        self.cmd_mov_w   = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "properties": ["playcount"], "movieid":%s }, "id": 1}'
+        self.cmd_mov_w   = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "properties": ["playcount", "resume"], "movieid":%s }, "id": 1}'
         self.cmd_tvs_w   = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodeDetails", "params": { "properties": ["playcount", "resume"], "episodeid": %s }, "id": 1}'
         
         self.cmd_set_mov = '{"jsonrpc": "2.0", "method": "VideoLibrary.SetMovieDetails", "params": {"movieid":%s, "resume": {"position":%s, "total":%s} }, "id": 1}'
@@ -279,9 +503,10 @@ class CMedInfo:
             
             break
             
-            mvd = self.js(self.cmd_mov_w % self.fid, 'moviedetails')
-            self.w      = mvd['playcount']
-            self.pos    = mvd['resume']['position']
+       mvd = self.js(self.cmd_mov_w % self.fid, 'moviedetails')
+       self.w      = mvd['playcount']
+       self.pos    = mvd['resume']['position']
+            
     
     def gettvs(self):
        self.path    = LIB.tvs(self.fname) 
@@ -358,5 +583,84 @@ class CMedInfo:
     def resetpos(self):
         self.pos = 0
         self.setpos(0, 0, 0)
+
+
+class playersTable():
+
+    def __init__(self, strmurl=Empty):
+        self._SEP1 = TAG_PAR_TVSPACK_LSEP
+        self._SEP2 = TAG_PAR_TVSPACK_SSEP + NewLine
+        
+        self._file_name = TAG_PAR_PTYPETABLE_FILE
+        self._path      = addon.libpath
+    
+        self.strmurl = strmurl
+        self.pTable  = [] 
+        self.loadTable()
+    
+    def getPType(self):
+        if not self.strmurl : return -2
+        if not self.pTable  : return -1 
+        for plug, num in self.pTable:
+            if self.strmurl.startswith(plug) : return int(num)
+        return -1
+    
+    def setPType(self, plug, ptype):
+        newType = True
+        if self.pTable:
+            for idx, rec in enumerate(self.pTable): 
+                if rec[0] == plug: 
+                    self.pTable[idx][1] = str(ptype)
+                    newType = False
+                    break
+                   
+        if newType : self.pTable.append([plug, str(ptype)])
+        
+        self.saveTable()
+    
+    def removePType(self, plug):
+        if self.pTable:
+            for idx, rec in enumerate(self.pTable): 
+                if rec[0] == plug: 
+                    self.pTable.pop(idx)
+                    break
+                    
+        self.saveTable()
+    
+    def loadTable(self):
+        unpack = DOS.file(self._file_name, self._path, fType=FRead)
+        if unpack == -1 or not unpack : return
+        self.pTable = [rec.split(self._SEP1) for rec in unpack.split(self._SEP2)]  
+    
+    def saveTable(self):
+        pack = self._SEP2.join([self._SEP1.join([rec1, rec2]) for rec1, rec2 in self.pTable])
+        DOS.file(self._file_name, self._path, pack, FWrite) 
+    
+    def getall(self):
+        if self.pTable : return [rec[0] for rec in self.pTable], [rec[1] for rec in self.pTable] 
+        else           : return Empty, Empty
+
+## Get source add-on name (URL prefix) ... 
+def getURLPrefix(strmurl):
+    prefix  = Empty
+    PPREFIX = 'plugin://'
+    if strmurl.startswith(PPREFIX):
+        tmpURL = strmurl.replace(PPREFIX, Empty)
+        fidx   = tmpURL.find('/')
+        if fidx > 0 : prefix = PPREFIX + tmpURL[:fidx+1]
+    
+    return prefix   
+
+def prefixToName(url_prefix):
+    turl = url_prefix
+    turl = turl.replace('plugin://plugin.', Empty)
+    turl = turl.replace('video.', Empty)
+    turl = turl.replace('/', Empty)
+    turl = turl.replace('.', Space)
+    turl = setCapAll(turl)
+    return turl    
+        
+                 
+        
         
          
