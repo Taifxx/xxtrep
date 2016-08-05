@@ -120,6 +120,8 @@
     <string id="30124">Source:</string>
     <string id="30125">Playback type:</string>
     <string id="30126">Direct link</string>
+    <string id="30127">ISP-Transition</string>
+    <string id="30128">[COLOR ##COLOR##]ISP-Transition[/COLOR] playback type was defined. Press OK for start playback.</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
@@ -265,6 +267,7 @@
     <string id="30457">Wait timeout of playback (sec.)</string>
     <string id="30458">Use NowPlaing notification</string>
     <string id="30459">NowPlaing notification time (sec.)</string>
+    <string id="30460">Fast backup</string>
     <!-- Settings categories -->
     <string id="30480">General</string>
     <string id="30481">Main menue</string>

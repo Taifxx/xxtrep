@@ -108,6 +108,8 @@ stopPlay    = lambda      : xbmc.executebuiltin('PlayerControl(Stop)', True)
 FocusPayer  = lambda      : xbmc.executebuiltin('ActivateWindow(12005)')
 FocusPayerC = lambda      : xbmc.executebuiltin('ActivateWindow(12901)')
 
+PlayMedia   = lambda media, offset=0 : xbmc.executebuiltin('PlayMedia(%s, playoffset=%s)' % (media, offset))
+
     
 #### NEW GUI ...
 

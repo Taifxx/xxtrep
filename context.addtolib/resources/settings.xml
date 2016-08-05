@@ -75,6 +75,7 @@
         <setting id="actbackup"    type="action"    label="30438" action="RunScript(special://home/addons/context.addtolib/context.py, action=10205)" option="close"/>
         <setting id="actrestlib"   type="action"    label="30446" action="RunScript(special://home/addons/context.addtolib/context.py, action=10207)" option="close"/>
         <setting                   type="sep"       label=""/>
+        <setting id="fastbckp"     type="bool"      label="30460" default="true"/>
         <setting id="bkuppath"     type="folder"    label="30439" default="Default" option="writeable"/>
         <setting id="actresbup"    type="action"    label="30447" action="RunScript(special://home/addons/context.addtolib/context.py, action=10208)" option="close"/>
         <setting                   type="sep"       label=""/>

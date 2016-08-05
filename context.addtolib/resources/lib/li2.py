@@ -156,3 +156,14 @@ class vidItems:
     def reverse(self):
         self.vidListItems.reverse()
         self.vidListItemsRaw.reverse()
+    
+    def getOnlyNexts(self):
+        nexts = False
+        retList = []
+        for itm in self.vidListItems:
+            if itm[0] == self.vidCurr : nexts = True; continue
+            if not nexts : continue
+            retList.append(itm[1])
+        
+        return retList 
+             

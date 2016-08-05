@@ -41,14 +41,12 @@ __language__     = addon.localize
 ##### Call ...
 def Main():
 
-    # inf = '[COLOR deepskyblue][/COLOR] The Foringer (2014)\n\n[COLOR deepskyblue]Source:[/COLOR] Ex Ua Alternative\n[COLOR deepskyblue]Playback type:[/COLOR] Classic'
-    # GUI.dlgNowPlayX(inf, pretime=5)
-    # 
-    # return
+    #return
 
     arg = parseArgs()
     if   arg == TAG_CND_NOACTION : plgMain()
     elif arg != TAG_CND_PLAY     : plgMain(arg)
+    
 
 ##### Main ...
 class plgMain(GUI.CAltDTmpl):        
@@ -942,6 +940,10 @@ class plgMain(GUI.CAltDTmpl):
                 if not newPath : return rd
                 
                 self.setTVS(newPath, True)
+                
+                if DOS.exists(DOS.join(newPath, TAG_PAR_TVSRAWFILE)):
+                    self.TVS.os_getraw() 
+                    return self.mnu_advadd()         
                 
         prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty        
         errn = addTVS(self.items, self.TVS, prefix)             

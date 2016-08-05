@@ -33,7 +33,7 @@ class CZIP:
     def __del__(self):
         self.close()
         
-    def zipdir(self, path, progress, ttl=Empty):
+    def zipdir(self, path, progress, ttl=Empty, template=Empty):
         flcount = 0
         arch = [itm for itm in DOS.walk(path)] 
         substep = 100.0 / len(arch) 
@@ -43,6 +43,7 @@ class CZIP:
             else    : progress.step(ttl, substep) 
             for file in files:  
                 progress.step(ttl if ttl else file, stepv)
+                if template and not self.isTempl(file, template) : continue
                 fullpath = DOS.join(root, file)
                 base     = fullpath.replace(path, Empty)  
                 self._zipfile.write(esys(de(fullpath)), esys(de(base)))
@@ -50,6 +51,11 @@ class CZIP:
 
         del progress
         return flcount
+    
+    def isTempl(self, file, template):
+        for tmpl in template:
+            if file.find(tmpl) != -1 : return True
+        return False 
     
     def unzip(self, path):
         self._zipfile.extractall(path)

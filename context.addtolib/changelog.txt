@@ -1,4 +1,16 @@
-﻿v1.0.10
+﻿v1.0.11
+BugFix:
+    - Small fix's in playback
+    - Fixed problem with episodes renaming in advanced adding   
+New:
+    - ISP-Transition playback type 
+    - New option 'Fast backup' in settings (ignore fanart, posters, tv-tunes themes during backup)
+    - Detection 'emergency exit' (If you close Kodi and start again backup and update will not 
+      launch on startup if period between closing and starting less than defined period between 
+      runs of the process)
+
+
+v1.0.10
 BugFix:
     - Fixed problem with files crossing during playback (set position information to another file)
     - Fixed problem with resume dialog in movies   

@@ -61,9 +61,13 @@ TAG_PAR_TVSUPDNOW_FILE      = 'updnow'
 TAG_PAR_LOCKF               = 'lock'
 TAG_PAR_STRARTF             = 'start'
 TAG_PAR_STRARTAF            = 'act'
+TAG_PAR_LAACTT              = 'laactt'
 
 ### Video extensions ...
 TAG_PAR_VIDEOSEXT           = ['.avi', '.mpeg', '.wmv', 'asf', '.flv', '.mkv', '.mka', '.mp4', '.m4a', '.aac', '.ogg', '.ogm', '.ram', '.rm', '.rv', '.ra', '.rmvb', '.3gp']
+
+### Backup files template ...
+TAG_PAR_SYSFLSTMPL          = ['.strm', TAG_PAR_TVSPACK_FILE, TAG_PAR_TVSRAWFILE, TAG_PAR_STL_FILE, TAG_PAR_FSET_FILE, TAG_PAR_PTYPETABLE_FILE, TAG_PAR_TVSUPD_FILE, TAG_PAR_TVSUPDNOW_FILE, TAG_PAR_LOCKF, TAG_PAR_STRARTF, TAG_PAR_STRARTAF]
 
 ### Default tmpl ...
 TAG_PAR_TVSDEFSEASON        = '01'
@@ -290,6 +294,8 @@ TAG_DLG_NPINFRAT        = 30123
 TAG_DLG_NPINFSRC        = 30124
 TAG_DLG_NPINFPBT        = 30125
 TAG_DLG_NPDIRL          = 30126
+TAG_DLG_PBTTRAN         = 30127
+TAG_DLG_PBTTRANI        = 30128
 
 ### Titles ...
 TAG_TTL_NM              = 30150

@@ -30,7 +30,7 @@ from resources.lib.ext import *
 try    : HANDLE = int(sys.argv[1])
 except : HANDLE = -1 
 
-PBTYPES_LIST = [tl(TAG_DLG_PBTT1), tl(TAG_DLG_PBTT2), tl(TAG_DLG_PBTT3), tl(TAG_DLG_PBTT4)]
+PBTYPES_LIST = [tl(TAG_DLG_PBTT1), tl(TAG_DLG_PBTT2), tl(TAG_DLG_PBTT3), tl(TAG_DLG_PBTT4), tl(TAG_DLG_PBTTRAN)]
 
 ## Player ...
 class CPlayer(xbmc.Player):
@@ -95,7 +95,23 @@ class CPlayer(xbmc.Player):
                     if not LI.itemsCount() : return 1
             
             if self.isPlaying() : break  
-            if currentcont != LI.getCpath() : return 0
+            if currentcont != LI.getCpath() : return 2
+        return 0
+    
+    def wait_or_stay(self, currentcont):
+        wtime  = 0
+        lopen  = False
+        while True:
+            if wtime > addon.DEDLPTIME : return 1
+            wait(1); wtime += 1
+            if not lopen:
+                if currentcont == LI.getCpath() : continue 
+                else:  
+                    currentcont = LI.getCpath()
+                    lopen = True
+            
+            if self.isPlaying() : break  
+            if currentcont != LI.getCpath() : return 1
         return 0
     
     ## Get playback type (manual) ... 
@@ -108,7 +124,7 @@ class CPlayer(xbmc.Player):
         
         GUI.dlgOk(tl(TAG_DLG_PBT1), title=tName)
         result = GUI.dlgSel(PBTYPES_LIST_L, tl(TAG_DLG_PBT2))
-        if result == 4:
+        if result == 5:
             autodetect = True
             GUI.msg(tl(TAG_DLG_PBTAD1), tl(TAG_DLG_PBTAD2))
             wait(2)
@@ -145,6 +161,7 @@ class CPlayer(xbmc.Player):
             GUI.dlgOk(tl(TAG_DLG_PBTADTISP), title=tName)
         elif PTYPE == 3 : GUI.dlgOk(tl(TAG_DLG_PBTADTFOLD), title=tName)
         elif PTYPE == 4 : GUI.dlgOk(tl(TAG_DLG_PBTALT), title=tName)
+        elif PTYPE == 5 : GUI.dlgOk(tl(TAG_DLG_PBTTRANI), title=tName)       
         
         return PTYPE
             
@@ -207,6 +224,13 @@ def callSTRM(strmtype, strmurl, strmfile):
         strmfileS = DOS.getdir(strmfile)
         strmfldrS = DOS.getdir(DOS.gettail(strmfile))
         
+        ## PreInit values ...
+        listitem  = None
+        pli       = Empty
+        
+        try    : playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        except : playlist = Empty
+        
         ## Try get media info ...
         try:
          
@@ -220,6 +244,7 @@ def callSTRM(strmtype, strmurl, strmfile):
             listitem.setIconImage(medinfo.img)
             listitem.setThumbnailImage(medinfo.img)
             
+            ## PreInit values ...
             splashPath    = Empty
             skipgo        = False
             keepcontainer = LI.getCpath()
@@ -240,13 +265,15 @@ def callSTRM(strmtype, strmurl, strmfile):
                           'date': medinfo.date, 'cast': medinfo.cast, 'castandrole': medinfo.castandrole}
                 
                 ## Clear playlist if movie was running ...
-                playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-                playlist.clear()
+                if playlist : playlist.clear()
             
             listitem.setInfo('video', infpar)
            
         ## Emergency running ...
-        except : simplerun(strmurl); del listitem, player; return
+        except: 
+            simplerun(strmurl)
+            del player, listitem 
+            return
         
         ## PLAYBACK TYPES:
         
@@ -270,7 +297,8 @@ def callSTRM(strmtype, strmurl, strmfile):
         ### Classic type ...
         if PBMETOD == 1 or PTYPE == 1:
             xbmcplugin.setResolvedUrl(HANDLE, True, listitem)
-        
+            
+            
         ### ISP type ...
         if PTYPE == 2:
             if not splashPath:
@@ -297,8 +325,18 @@ def callSTRM(strmtype, strmurl, strmfile):
                 wait(1); player.stop()
             wait(1); player.play(strmurl, listitem)
         
+        ### ISPSAW
+        if PTYPE == 5:
+           pli  = getPLI(playlist)           
+           cwnd = xbmcgui.getCurrentWindowId()
+           if not splashPath:
+                splashPath = runsplash(medinfo, infpar)
+                wait(1); player.stop()
+           xbmc.executebuiltin('ActivateWindow(%s, %s)' % (cwnd, strmurl))
+        
+        
         ## Wait link opening for classic and alternate types ...
-        if PTYPE not in [2, 3] and not player.wait_openlink(splashPath): 
+        if PTYPE not in [2, 3, 5] and not player.wait_openlink(splashPath): 
             GUI.dlgOk(tl(TAG_ERR_DEDLINK), title=medinfo.title)
             del listitem, player
             return
@@ -307,19 +345,28 @@ def callSTRM(strmtype, strmurl, strmfile):
         elif PTYPE == 3: 
             errorn = player.wait_folder(keepcontainer)
             if errorn:
-                if errorn == 1:
-                    #if player.isPlaying() : player.stop() 
+                if errorn == 1: 
                     GUI.dlgOk(tl(TAG_ERR_INCPBTYPE) % (prefixToName(url_prefix) if url_prefix else tl(TAG_DLG_NPDIRL)), title=medinfo.title)
                     if player.isPlaying() : player.stop()
                 if errorn == 2 : GUI.dlgOk(tl(TAG_ERR_DEDLINK), title=medinfo.title)
                 del listitem, player
                 return
         
+        ## Auto back to video library ...
+        elif PTYPE == 5:
+           errorn = player.wait_or_stay(keepcontainer) 
+           xbmc.executebuiltin('ActivateWindow(%s, %s)' % (cwnd, keepcontainer))
+           setPLI(playlist, pli)
+           if errorn:
+               GUI.dlgOk(tl(TAG_ERR_DEDLINK), title=medinfo.title)
+               del listitem, player
+               return  
+        
         '''
         ## Forced closing dialogs ...
         eodgenMethod = addon.EODGENM 
         if eodgenMethod == 'Suppression' : wait(3); GUI.dlgOk(tl(TAG_DLG_SUPPRES)); wait(3); GUI.closeDlgs(); wait(3)
-        '''
+        '''  
         
         ## Set focus to player ...
         wait(2); GUI.FocusPayer()
@@ -347,8 +394,8 @@ def callSTRM(strmtype, strmurl, strmfile):
             player.wait_buffering()
             
             ### Get plaing file for control ...
-            if player.isPlaying : playing_file = player.getPlayingFile() 
-            else                : del listitem, player; return 
+            if player.isPlaying() : playing_file = player.getPlayingFile() 
+            else                  : del listitem, player; return 
             
             if addon.USENOWPLAY:
                 PBM = [PBTYPES_LIST[0], PBTYPES_LIST[3]]
@@ -359,14 +406,17 @@ def callSTRM(strmtype, strmurl, strmfile):
                 
                 nowPlay(inf, medinfo.img, addon.NOWPLAYTIME, pnTimer, player.isPlaying)
             
-            ### Keep playback control while playback ...   
+            ### Keep playback control while playback ...
+            cp_totime = 0; cp_time = 0   
             while player.isPlaying():
                 
                 ### Get playback position (skip if skipping by time is ON) ...
                 if wtime1 >= addon.POSUPD and not possleep:
                     ### Cancel if file name was changed ...
-                    if playing_file != player.getPlayingFile() : break 
-                    medinfo.setpos(player.getTime(), player.getTotalTime(), addon.WPERC); wtime1 = 0
+                    if playing_file != player.getPlayingFile() : break
+                    cp_time   = player.getTime()
+                    cp_totime = player.getTotalTime()
+                    medinfo.setpos(cp_time, cp_totime, addon.WPERC); wtime1 = 0
                 
                 ### Inc. timer ...
                 wait(1); wtime1 += 1
@@ -375,13 +425,28 @@ def callSTRM(strmtype, strmurl, strmfile):
                 if wtime1 > addon.POSSLEEP : possleep = False
             
         ## End operations ...
-        #if player.isPlaying() : player.stop()
-        wait(1)
-        del listitem, player
+        if PTYPE == 5 and playlist and cp_totime-cp_time < addon.POSUPD : player.play(playlist)
+        
+        wait(1); del listitem, player
+        
         if PTYPE == 3: 
             wait(1) 
             if keepcontainer != LI.getCpath() : GUI.back()
+            
         #GUI.msg('>> END')
+  
+        
+## Playlist restoring ...
+def getPLI(playlist):
+    if not playlist : return Empty
+    vidItems = LI.vidItems()
+    return vidItems.getOnlyNexts()
+
+def setPLI(playlist, pli):
+    if not pli : return
+    playlist.clear()
+    for itm in pli:
+        playlist.add(itm)      
 
 
 def nowPlay(text, img=Empty, showtime=5, pretime=0, stopIf=None):

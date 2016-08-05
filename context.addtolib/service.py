@@ -41,17 +41,59 @@ class CAction:
         if self.timer >= self.eventTime() * 6 or self.startup:
             
             if self.skip() : return
+            
+            if self.startup and emgrControl().isEmgrExit(self.actID, self.eventTime()*60): 
+                log('Emergency exit was detected. Background process %s will skipped' % (self.actID))
+                self.startup = False
+                return 
              
             self.timer   = 0
             self.startup = False
+             
             
             for arg in self.args:
                 if not arg() : return
                 
             log(self.logMsg)
             context.plgMain(self.actID)
+            
+            emgrControl().setLAACTT(self.actID)
         
         else : self.timer += 1 
+        
+
+class emgrControl:
+    def __init__(self):
+        self._sepLST = context.TAG_PAR_TVSPACK_LSEP
+        self._sepPRT = context.TAG_PAR_TVSPACK_PSEP + context.NewLine
+    
+    def _laactt_wr(self, actions):
+        jact = []
+        for akey, aval in actions.items():
+            jact.append(str(akey)+self._sepLST+str(aval))
+        laacttData = self._sepPRT.join(jact)
+        context.DOS.file(context.TAG_PAR_LAACTT, context.addon.profile, laacttData, fType=context.FWrite, fRew=True)
+    
+    def _laactt_rd(self):
+        laacttData = context.DOS.file(context.TAG_PAR_LAACTT, context.addon.profile, fType=context.FRead) 
+        if laacttData == -1: return context.Empty         
+        return {int(_actid):_acttime for rec in laacttData.split(self._sepPRT) for _actid, _acttime in [rec.split(self._sepLST)]}
+    
+    def setLAACTT(self, actId):
+        actions = self._laactt_rd()
+        aRec    = {actId:context.time.time()}
+        if not actions : actions = aRec
+        else           : actions.update(aRec)
+        self._laactt_wr(actions)
+        
+    def isEmgrExit(self, actId, period):
+        actions = self._laactt_rd()
+        if not actions : return False
+        laacttTime = actions.get(actId, context.Empty)
+        if not laacttTime : return False
+        if context.time.time() - float(laacttTime) > period : return False
+        return True
+     
 
 ### Skip functions ... 
 def skip():

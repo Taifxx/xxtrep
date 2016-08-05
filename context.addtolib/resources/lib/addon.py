@@ -153,6 +153,8 @@ class CAddon:
     def USENOWPLAY     (self) : return _sbool(self.addon.getSetting('usenowplay'))
     @property
     def NOWPLAYTIME    (self) : return int(self.addon.getSetting('nowplaytime'))
+    @property
+    def FASTBCKP       (self) : return _sbool(self.addon.getSetting('fastbckp'))
     
     
     def getlibpath(self): _libpath  = self.addon.getSetting('libpath');  return _libpath  if _libpath  != TAG_PAR_SETDEF else self.profile

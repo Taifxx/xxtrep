@@ -25,6 +25,8 @@ from resources.lib.tools    import *
 from resources.lib.const    import *
 from resources.lib.tags     import *
 
+#import resources.lib.gui     as GUI
+
 BGPROCESS = True
 
 ##### TVS Object ...
@@ -147,6 +149,9 @@ class TVS:
     
     def get_direct(self):
         return (self._episodes, self._folsources, self._sources)
+    
+    def get_eps_count(self):
+        return len(self._episodes)
     
     def get_upd(self):
         updListS = [src['src_name'] for src in self._sources if src['src_upd']]
@@ -335,11 +340,11 @@ class TVS:
         del rawepslist, lined 
         
     def os_getraw (self):
-        unpraw = DOS.file(TAG_PAR_TVSRAWFILE, self.lib_path, self.lib_path, fType=FRead)
+        unpraw = DOS.file(TAG_PAR_TVSRAWFILE, self.lib_path, fType=FRead)
         if unpraw == -1 : return 
         lined  = unpraw.split(self._sepEPS)
         self._rawlist = []
-        for itm in lined : self._rawlist.append(itm.split(self._sepLST))  
+        for itm in lined : self._rawlist.append(itm.split(self._sepLST)) 
         
     def os_rename_eps(self, link, newname, oldname, prefix):
         DOS.delf(DOS.join(self.lib_path, oldname) + STRM)

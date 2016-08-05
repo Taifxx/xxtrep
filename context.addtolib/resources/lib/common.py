@@ -98,7 +98,9 @@ def _backup(extpath, extbckpath, auto=False):
     
     steps = 140
     if extpath    : steps += 20
-    if extbckpath : steps += 15 
+    if extbckpath : steps += 15
+    
+    bckp_template = TAG_PAR_SYSFLSTMPL if addon.FASTBCKP else Empty 
     
     progress = CProgress(steps, bg=addon.BGUPD if not auto else True)
     if not addon.HIDEBCKPRGS or not auto : progress.show(tla(TAG_TTL_BACKUP))
@@ -111,7 +113,7 @@ def _backup(extpath, extbckpath, auto=False):
         DOS.mkdirs(tmp)
         libpath = tmp
         progress.step(tla(TAG_TTL_RESTATC), 10)
-        DOS.copyfls(extpath, tmp)
+        DOS.copyfls(extpath, tmp, template=bckp_template)
     
     if not extbckpath : bckpath = addon.BKUPPATH
     else:
@@ -124,7 +126,7 @@ def _backup(extpath, extbckpath, auto=False):
     
     zipfile  = ZIP.CZIP(fullname)
     #flcount  = zipfile.zipdir(libpath, progress, tla(TAG_TTL_PACK) if extpath or extbckpath else Empty)
-    flcount  = zipfile.zipdir(libpath, progress, tla(TAG_TTL_PACK))
+    flcount  = zipfile.zipdir(libpath, progress, tla(TAG_TTL_PACK), template=bckp_template)
     
     zipfile.close
     del zipfile

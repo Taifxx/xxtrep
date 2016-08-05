@@ -26,6 +26,8 @@ from resources.lib.deecode import *
 from resources.lib.const   import *  
 from resources.lib.tools   import *
 
+#import resources.lib.gui as GUI
+
 ### OS funtions ... 
 copyf   = lambda  fpSrc, fpDest: xbmcvfs.copy (fpSrc, fpDest)
 delf    = lambda  path: xbmcvfs.delete  (path)
@@ -71,14 +73,21 @@ def mkdirs (path):
     except : pass
 
 
-def copyfls (pathSrc, pathDst, move=False):
+def copyfls (pathSrc, pathDst, move=False, template=Empty):
+    
+    def isTempl(file, template):
+        for tmpl in template:
+            if file.find(tmpl) != -1 : return True
+        return False 
+
     srcDirList, srcFlsList = listdir(pathSrc)
     for drs in srcDirList :
         srcSubDir = join(pathSrc, drs)
         dstSubDir = join(pathDst, drs)
-        mkdirs(dstSubDir); copyfls(srcSubDir, dstSubDir, move)
+        mkdirs(dstSubDir); copyfls(srcSubDir, dstSubDir, move, template=template)
         
     for fls in srcFlsList:
+        if template and not isTempl(fls, template) : continue
         srcFl = join(pathSrc, fls)
         dstFl = join(pathDst, fls)
         copyf(srcFl, dstFl) 

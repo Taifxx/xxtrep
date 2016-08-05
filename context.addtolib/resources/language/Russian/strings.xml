@@ -117,6 +117,8 @@
     <string id="30124">Источник:</string>
     <string id="30125">Режим воспроизведения:</string>
     <string id="30126">Прямая ссылка</string>
+    <string id="30127">ISP-Transition</string>
+    <string id="30128">Установлен [COLOR ##COLOR##]ISP-Transition[/COLOR] режим воспроизведения. Нажмите OK для начала воспроизведения.</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Введите название сериала:</string>
@@ -262,6 +264,7 @@
     <string id="30457">Лимит ожидания воспроизведения (сек.)</string>
     <string id="30458">Всплывающее окно 'Сейчас воспроизводится'</string>
     <string id="30459">Время отображения окна (сек.)</string>
+    <string id="30460">Быстрое резервирование</string>
     <!-- Settings categories -->
     <string id="30480">Основные</string>
     <string id="30481">Меню</string>
