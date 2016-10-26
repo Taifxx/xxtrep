@@ -82,7 +82,67 @@ Classic and Alternative types – standard types to play. An alternative type ma
 
 ISP (Internal source player) allows to start playback with internal addon player. It should be noted that information about media content (title, cover, roles, etc.) are transferred to player from source addon.
 
+ISP-Transmition - extended ISP. Use it if ISP don't work correctly. 
+
 Catalog type – using ISP, but allowing choice of movie (series) in the library to open addon folder with link to a file. If You need to add a movie (TV series) to run in this mode, you need use 'forced adding' and add folder, not file itself.
+
+
+[B]Sync:[/B]
+
+Starting with version 1.0.12 ADD to Lib allows for [COLOR ##COLOR##]sync[/COLOR] video database and watched statuses with [COLOR ##COLOR##]Dropbox[/COLOR]. Thus, multiple remotely located devices unable to change video database and watched statuses without server.
+
+To sync with Dropbox, you must have [COLOR ##COLOR##]Dropbox account[/COLOR]. Then navigate to [COLOR ##COLOR##]ADD to Lib settings[/COLOR], choose [COLOR ##COLOR##]'Sync'[/COLOR], [COLOR ##COLOR##]'Connect to Dropbox'[/COLOR].
+
+After receiving message about successful connection to Dropbox in addon main menu you can see [COLOR ##COLOR##]'Sync'[/COLOR]. To enable synchronization in [COLOR ##COLOR##]automatic mode[/COLOR] or on startup you need to go to ADD to Lib settings, Synchronize.
+
+[COLOR ##COLOR##]Forced uploading:[/COLOR]:
+Allows full upload data (video data base/watched statuses) to Dropbox (deletes the current database in Dropbox).
+
+[COLOR ##COLOR##]Forced downloading:[/COLOR]:
+Allows full download data (video data base/watched statuses) from Dropbox (removes the local ADD to Lib database).
+
+[COLOR ##COLOR##]Send changes:[/COLOR]:
+Upload changes made in local database.
+
+[COLOR ##COLOR##]Automatic mode:[/COLOR]:
+Checks whether database is new, obsolete or actual in comparison with database in Dropbox and then downloads or uploads changes.
+
+[COLOR ##COLOR##]Unlock synchronization:[/COLOR]:
+Synchronization can be locked for several reason: another device synchronizing now, process of synchronizing on any device is not completed correctly. If you are sure that a lock caused by a bug, you can perform 'unlock sync'.
+
+[COLOR ##COLOR##]Lock synchronization:[/COLOR]:
+Used when you need to block synchronization for other devices.
+
+If you need stop synchronization before it starts at startup, you must use a special command [COLOR ##COLOR##]nos[/COLOR] or [COLOR ##COLOR##]bckupex[/COLOR] (see below).
+
+When synchronizing in automatic mode, used check date of synchronization signatures. If signature of local database is newer than signature database in Dropbox, addon starts uploading changes if opposite - starts downloading. Any changes in local database (with ADD to Lib) updates synchronization signature. It should be noted that Dropbox is not a server able to process requests to add/save data in a queue. Device with newer signature uploads changes to Dropbox and makes database in Dropbox is identical to its local database. Any other device during synchronization downloads this changes. In the case of use  sync only in manual mode it is necessary to trace this process to avoid losing  local changes.
+
+Sync with Dropbox can take a long time. This is due to long requests processing in Dropbox API (roughly one file (episode/movie) - 1 second). In case of errors upload/download data, you need to increase in synchronization settings number of attempts sending a request to Dropbox as well as intervals between them.
+
+Download of watched statuses, can be a long time process too. This is due to long processing JSON request. To accelerate you can reduce interval between requests but this may lead to freezing of Kodi interface.
+
+
+[B]Services:[/B]
+
+Starting with version 1.0.12 ADD to Lib is used threads separation. Threads separation was managed by 'Main service' also responsible for start of backup, sync and updates in automatically mode. If the user does not use these functions, he can disable Main service in addon settings.
+
+Also starting with version 1.0.12 is available launching addon from memory ([COLOR ##COLOR##]LFM[/COLOR] mode). This method of launching is controlled by auxiliary LFM service and allows you to speed up launch of addon to 40% on some systems. LFM-service controlled by main service and cannot be run standalone. You can turn on LFM mode is in the settings addon.
+
+
+[B]Errors handling:[/B]
+
+Threads separation prevents to catch all errors during addon runtime and write them to Kodi log. To resolve this problem created an additional file with errors '_errors_' located: Kodi \ userdata \ addon_data \ context.addtolib \ _errors_
+
+
+[B]Special commands:[/B]
+
+For using special external commands (SEC) you need to create file with command name in ..\ Kodi \ userdata \ addon_data \ context.addtolib \
+
+Services commands:
+    nos     : Block starting services (don't stop already starting services, don't delete after execution)
+    stopsrv : Stop already starting services (don't block startup services, delete after execution)
+    nocln   : Don't remove old (tmp) files on startup (delete after execution)
+    bckupex : Launch backup and stop services (delete after execution)
 
 
 [B]Other actions:[/B]

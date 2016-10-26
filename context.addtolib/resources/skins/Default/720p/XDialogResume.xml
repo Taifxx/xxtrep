@@ -124,6 +124,7 @@
                     <width>560</width>
                     <height>45</height>
                     <font>font12</font>
+                    <textcolor>white</textcolor>
                     <aligny>center</aligny>
                     <selectedcolor>green</selectedcolor>
                     <align>left</align>
@@ -157,6 +158,7 @@
                     <width>560</width>
                     <height>45</height>
                     <font>font12</font>
+                    <textcolor>white</textcolor>
                     <aligny>center</aligny>
                     <selectedcolor>green</selectedcolor>
                     <align>left</align>

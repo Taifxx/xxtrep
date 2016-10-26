@@ -79,6 +79,7 @@
             <aligny>center</aligny>
             <align>left</align>
             <scroll>True</scroll>
+            <textcolor>white</textcolor>
             <autoscroll delay="3000" time="1000" repeat="5000">True</autoscroll>
             <wrapmultiline>True</wrapmultiline>
             <scrollspeed>50</scrollspeed>

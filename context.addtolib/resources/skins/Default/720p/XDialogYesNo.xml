@@ -103,6 +103,7 @@
             <width>490</width>
             <height>100</height>
             <font>font12</font>
+            <textcolor>white</textcolor>
             <aligny>center</aligny>
             <align>center</align>
             <scroll>True</scroll>

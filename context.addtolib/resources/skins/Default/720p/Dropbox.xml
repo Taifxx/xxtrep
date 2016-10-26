@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<window>
+    <defaultcontrol>251</defaultcontrol>
+    <zorder>-1</zorder>
+    <coordinates>
+        <system>1</system>
+        <posx>340</posx>
+        <posy>220</posy>
+    </coordinates>
+    
+    <controls>
+    
+        <control type="image" id="90">
+            <description>Dim Background</description>
+            <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="700" delay="0" tween="line"/>
+            </animation>
+            <animation type="WindowClose">
+                <effect type="fade" start="100" end="0" time="1000" delay="170" tween="line"/>
+            </animation>
+            <posx>-340</posx>
+            <posy>-220</posy>
+            <width>1280</width>
+            <height>720</height>
+            <texture>dim.png</texture>
+            <visible>true</visible>
+        </control>
+    
+      <control type="group">      
+        
+        <animation type="WindowOpen">
+                <effect type="fade" start="0" end="100" time="700" delay="0" tween="circle" easing="inout"/>
+                <effect type="slide" start="0,-50" end="0,0" time="700" delay="0" tween="circle" easing="inout"/>
+        </animation>  
+        <animation type="WindowClose">
+                <effect type="fade" start="100" end="0" time="400" delay="0" tween="circle" easing="inout"/>
+                <effect type="slide" start="0,0" end="0,100" time="700" delay="0" tween="circle" easing="inout"/>
+        </animation>
+        
+        <control type="image">
+            <description>Dialog Background</description>
+            <posx>0</posx>
+            <posy>-5</posy>
+            <width>600</width>
+            <height>315</height>
+            <texture>dbx_dbg.png</texture>
+        </control>
+        
+        <control type="image">
+                <description>Dialog BackgroundTTL</description>
+                <posx>0</posx>
+                <posy>0</posy>
+                <width>600</width>
+                <height>50</height>
+                <texture>title2.png</texture>
+        </control>
+        
+        <control type="label" id="100">
+                
+                <animation type="WindowOpen">
+                        <effect type="fade" start="0" end="100" time="400" delay="400" tween="line" easing="inout"/>
+                </animation>  
+                <animation type="WindowClose">
+                        <effect type="fade" start="100" end="0" time="400" delay="400" tween="line" easing="inout"/>
+                </animation>
+                
+                <description>Caption</description>
+                <label>DROPBOX Connection</label>
+                <textcolor>deepskyblue</textcolor>
+                <posx>0</posx>
+                <posy>3</posy>
+                <width>600</width>
+                <height>45</height>
+                <font>font12</font>
+                <aligny>center</aligny>
+                <align>center</align>
+                <scroll>True</scroll>
+                <wrapmultiline>false</wrapmultiline>
+                <scrollspeed>50</scrollspeed>
+            </control>
+            
+        <control type="image" id="20">
+            <description>Info icon</description>
+            <posx>15</posx>
+            <posy>65</posy>
+            <width>65</width>
+            <height>60</height>
+            <texture>dbx_icn.png</texture>
+        </control>
+        <control type="image" id="21">
+            <description>Info icon</description>
+            <posx>15</posx>
+            <posy>65</posy>
+            <width>65</width>
+            <height>65</height>
+            <texture>dbx_suc.png</texture>
+        </control>
+        <control type="image" id="22">
+            <description>Info icon</description>
+            <posx>15</posx>
+            <posy>65</posy>
+            <width>65</width>
+            <height>65</height>
+            <texture>dbx_err.png</texture>
+        </control>
+        <control type="image" id="23">
+            <description>Info icon</description>
+            <posx>15</posx>
+            <posy>65</posy>
+            <width>65</width>
+            <height>65</height>
+            <texture>dbx_at.png</texture>
+        </control>
+        
+        <control type="textbox" id="200">
+            <description>Message</description>
+            <textcolor>dimgrey</textcolor>
+            <posx>95</posx>
+            <posy>65</posy>
+            <width>490</width>
+            <height>200</height>
+            <font>font10</font>
+            <aligny>top</aligny>
+            <align>left</align>
+            <scroll>True</scroll>
+            <autoscroll delay="3000" time="1000" repeat="5000">True</autoscroll>
+            <wrapmultiline>True</wrapmultiline>
+            <scrollspeed>50</scrollspeed>
+         </control>
+         
+         <control type="image">
+            <description>Enter bkg</description>
+            <visible>Control.IsVisible(701)</visible>
+            <posx>15</posx>
+            <posy>225</posy>
+            <width>570</width>
+            <height>35</height>
+            <texture>itmbkg.png</texture>
+        </control> 
+        <control type="textbox" id="701">
+            <description>Code</description>
+            <visible>True</visible>
+            <textcolor>grey</textcolor>
+            <posx>15</posx>
+            <posy>225</posy>
+            <width>570</width>
+            <height>35</height>
+            <font>font10</font>
+            <aligny>center</aligny>
+            <align>center</align>
+         </control>  
+         
+          <control type="group">
+                    
+             <control type="image">       
+                    <description>No button bckg</description>
+	                
+	                <left>495</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <texture>title2.png</texture>
+             </control>
+             <control type="image">
+                    <description>No button focus</description>
+	                
+	                <left>495</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <visible>Control.HasFocus(251)</visible>
+	                <texture>btn_f.png</texture>
+             </control>
+             <control type="label" id="250">
+                    <description>No button label</description>
+	                
+	                <left>495</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <label>Cancel</label>
+	                <font>font12</font>
+	                <align>center</align>
+	                <aligny>center</aligny>
+             </control>
+             <control type="button" id="251">         
+                    <description>No button</description>
+                    
+                    <onleft>Control.SetFocus(261)</onleft>
+	                <onright>Control.SetFocus(281)</onright>
+	                
+	                <left>498</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <texturenofocus>-</texturenofocus>
+	                <texturefocus>-</texturefocus>
+             </control>
+         </control>
+         
+         <control type="group">
+             
+             <control type="image">
+                    <description>B1 button bckg</description>
+	                <visible>Control.IsVisible(261)</visible>
+	                <left>394</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <texture>title2.png</texture>
+             </control>
+             <control type="image">           
+                    <description>B1 button focus</description>
+	     
+	                <left>394</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <visible>Control.HasFocus(261)</visible>
+	                <texture>btn_f.png</texture>
+             </control>
+             <control type="label" id="260">
+                    <description>B1 button label</description>
+	                
+	                <left>394</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <label>Open</label>
+	                <font>font12</font>
+	                <align>center</align>
+	                <aligny>center</aligny>
+             </control>
+             <control type="button" id="261">
+                    <description>B1 button</description>
+	                
+	                <onleft>Control.SetFocus(271)</onleft>
+	                <onright>Control.SetFocus(251)</onright>
+	                
+	                <left>394</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <texturenofocus>-</texturenofocus>
+	                <texturefocus>-</texturefocus>
+             </control>
+         </control>
+         
+         <control type="group">
+             
+             <control type="image">
+                    <description>B2 button bckg</description>
+	                <visible>Control.IsVisible(271)</visible>
+	                <left>293</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <texture>title2.png</texture>
+             </control>
+             <control type="image">           
+                    <description>B2 button focus</description>
+	                <left>293</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <visible>Control.HasFocus(271)</visible>
+	                <texture>btn_f.png</texture>
+             </control>
+             <control type="label" id="270">
+                    <description>B2 button label</description>
+	                <visible>Control.IsVisible(271)</visible>
+	                <left>293</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <label>Open</label>
+	                <font>font12</font>
+	                <align>center</align>
+	                <aligny>center</aligny>
+             </control>
+             <control type="button" id="271">
+                    <description>B2 button</description>
+	                
+	                <onleft>Control.SetFocus(281)</onleft>
+	                <onright>Control.SetFocus(261)</onright>
+	                
+	                <left>293</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <visible>True</visible>
+	                <texturenofocus>-</texturenofocus>
+	                <texturefocus>-</texturefocus>
+             </control>
+         </control>
+      
+      <control type="group">
+             
+             <control type="image">
+                    <description>B3 button bckg</description>
+	                <visible>Control.IsVisible(281)</visible>
+	                <left>192</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <texture>title2.png</texture>
+             </control>
+             <control type="image">           
+                    <description>B3 button focus</description>
+	                <left>192</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <visible>Control.HasFocus(281)</visible>
+	                <texture>btn_f.png</texture>
+             </control>
+             <control type="label" id="280">
+                    <description>B3 button label</description>
+	                <visible>Control.IsVisible(281)</visible>
+	                <left>192</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <label>Open</label>
+	                <font>font12</font>
+	                <align>center</align>
+	                <aligny>center</aligny>
+             </control>
+             <control type="button" id="281">
+                    <description>B3 button</description>
+	                
+	                <onleft>Control.SetFocus(251)</onleft>
+	                <onright>Control.SetFocus(271)</onright>
+	                
+	                <left>192</left>
+                    <top>270</top>
+	                <width>100</width>
+	                <height>35</height>
+	                <visible>True</visible>
+	                <texturenofocus>-</texturenofocus>
+	                <texturefocus>-</texturefocus>
+             </control>
+         </control>
+         
+      </control>  
+    </controls>
+</window>

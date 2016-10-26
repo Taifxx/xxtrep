@@ -1,0 +1,24 @@
+ADD TO LIB ACTIONS:
+Use built-in function RunScript(special://home/addons/context.addtolib/context.py, action=ID)
+
+     ID for actions:
+
+     30009 - Update video library
+     30027 - Clean video library
+     10200 - Reset library path to default
+     10201 - Start update
+     10202 - <system only>
+     10203 - Menu color selection
+     10204 - Start source renamer
+     10205 - Start backup
+     10206 - Remove all backups
+     10207 - Restore library
+     10208 - Reset backup path to default
+     10209 - Start backup in automatic mode
+     10210 - Skin selection
+     10211 - Dropbox connection wizard
+     10212 - Dropbox disconnect (delete access token)
+     10213 - Synchronization (video DB)
+     10214 - Synchronization (watched statuses)
+     10215 - Stop services
+     10216 - Start services

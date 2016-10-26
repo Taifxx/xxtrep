@@ -18,13 +18,9 @@
 ########## CALL:
 
 ### Import modules ...
-import sys
-import xbmc
-import xbmcgui
-import xbmcplugin
-import subprocess
+from ext import *
+import sync
 
-from resources.lib.ext import *
 
 ## Get handle ...
 try    : HANDLE = int(sys.argv[1])
@@ -209,13 +205,13 @@ def callSTRM(strmtype, strmurl, strmfile):
     PTYPE  = 0 
     player = CPlayer()
     prePath = LIB.tvsf if strmtype == str(TAG_TYP_TVS) else LIB.mov
-    
+    #print ('     @@@@@ '+prePath+' :: '+strmfile+' :: '+DOS.join(prePath, strmfile))
     ## Check playback launching from Kodi library ...
     if not DOS.exists(DOS.join(prePath, strmfile)):
     
         ## If not from library ...
         simplerun(strmurl)
-        del listitem, player
+        del player
         return
     
     else:
@@ -272,7 +268,7 @@ def callSTRM(strmtype, strmurl, strmfile):
         ## Emergency running ...
         except: 
             simplerun(strmurl)
-            del player, listitem 
+            del player  
             return
         
         ## PLAYBACK TYPES:
@@ -407,7 +403,7 @@ def callSTRM(strmtype, strmurl, strmfile):
                 nowPlay(inf, medinfo.img, addon.NOWPLAYTIME, pnTimer, player.isPlaying)
             
             ### Keep playback control while playback ...
-            cp_totime = 0; cp_time = 0   
+            cp_totime = 0; cp_time = 0; cp_watched = 0   
             while player.isPlaying():
                 
                 ### Get playback position (skip if skipping by time is ON) ...
@@ -416,7 +412,8 @@ def callSTRM(strmtype, strmurl, strmfile):
                     if playing_file != player.getPlayingFile() : break
                     cp_time   = player.getTime()
                     cp_totime = player.getTotalTime()
-                    medinfo.setpos(cp_time, cp_totime, addon.WPERC); wtime1 = 0
+                    cp_watched = medinfo.setpos(cp_time, cp_totime, addon.WPERC)
+                    wtime1 = 0
                 
                 ### Inc. timer ...
                 wait(1); wtime1 += 1
@@ -432,6 +429,13 @@ def callSTRM(strmtype, strmurl, strmfile):
         if PTYPE == 3: 
             wait(1) 
             if keepcontainer != LI.getCpath() : GUI.back()
+    
+        #if addon.USEWS and addon.ACSSTKN and cp_time : sync.dbxSync().watchSync(upload=True)
+        if addon.USEWS and addon.ACSSTKN and (cp_time or cp_watched):
+            dbx = sync.dbxSync()
+            dbx.putChangesRecord(strmfile, cp_watched, cp_time, cp_totime, True if strmtype == str(TAG_TYP_MOV) else False)
+            dbx.sendWatchedInfo()
+            del dbx 
             
         #GUI.msg('>> END')
   
@@ -456,11 +460,14 @@ def nowPlay(text, img=Empty, showtime=5, pretime=0, stopIf=None):
 def parseArgs():
     try    : argv1 = sys.argv[1]
     except : argv1 = Empty
-    if argv1 and argv1.startswith(TAG_PAR_ACTION) : return int(argv1.replace(TAG_PAR_ACTION, Empty))
+    
+    argv1 = int(argv1.replace(TAG_PAR_ACTION, Empty)) if argv1 and argv1.startswith(TAG_PAR_ACTION) else Empty  
+    if argv1 : return [argv1] 
+     
     kwargs = get_params()
-    if not kwargs : return TAG_CND_NOACTION 
+    if not kwargs : return [TAG_CND_NOACTION] 
     callSTRM(**kwargs)
-    return TAG_CND_PLAY 
+    return [TAG_CND_PLAY] 
     
 
 ## Get add-on params (as link) ...    
@@ -629,18 +636,23 @@ class CMedInfo:
                 
     def setpos(self, pos, total, wperc=0):
     
-        if self.w : return
+        if self.w : return 1
     
         if   self.type == TAG_TYP_TVS : cmd = self.cmd_set_tvs; cmd2 = self.cmd_set_tvsw 
         elif self.type == TAG_TYP_MOV : cmd = self.cmd_set_mov; cmd2 = self.cmd_set_movw
+        
+        watched = 0
         
         if addon.WCHF and wperc:
             if total > 0 and 1.0*pos/total*100 > wperc : 
                 xbmc.executeJSONRPC(cmd2 % (str(self.fid), '1'))
                 pos = total = 0
+                watched = 1
             #else : xbmc.executeJSONRPC(cmd2 % (str(self.fid), '0'))        
         
         self._setpos(cmd, pos, total)
+        
+        return watched
         
     def _setpos(self, cmd, pos, total):
         xbmc.executeJSONRPC(cmd % (str(self.fid), str(pos), str(total)))

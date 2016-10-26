@@ -151,6 +151,7 @@
                     <aligny>center</aligny>
                     <selectedcolor>green</selectedcolor>
                     <align>left</align>
+                    <textcolor>white</textcolor>
                     <info>ListItem.Label</info>
                 </control>
             </itemlayout>
@@ -184,6 +185,7 @@
                     <aligny>center</aligny>
                     <selectedcolor>green</selectedcolor>
                     <align>left</align>
+                    <textcolor>white</textcolor>
                     <info>ListItem.Label</info>
                 </control>
             </focusedlayout>

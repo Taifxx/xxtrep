@@ -18,14 +18,8 @@
 ########## CTVS:
 
 ### Import modules ...
-import resources.lib.dos  as DOS
+from ext import *
 
-from resources.lib.progress import *
-from resources.lib.tools    import *
-from resources.lib.const    import *
-from resources.lib.tags     import *
-
-#import resources.lib.gui     as GUI
 
 BGPROCESS = True
 

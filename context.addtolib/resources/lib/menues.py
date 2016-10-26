@@ -18,7 +18,7 @@
 ########## MENUES:
 
 ### Import local modules ...
-from resources.lib.ext       import *
+from ext import *
   
 
 ### Menues ... 

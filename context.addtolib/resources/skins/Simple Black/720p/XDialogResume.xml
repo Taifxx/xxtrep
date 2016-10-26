@@ -117,6 +117,7 @@
                     <font>font12</font>
                     <aligny>center</aligny>
                     <selectedcolor>green</selectedcolor>
+                    <textcolor>white</textcolor>
                     <align>left</align>
                     <info>ListItem.Label</info>
                 </control>
@@ -140,6 +141,7 @@
                     <font>font12</font>
                     <aligny>center</aligny>
                     <selectedcolor>green</selectedcolor>
+                    <textcolor>white</textcolor>
                     <align>left</align>
                     <info>ListItem.Label</info>
                 </control>

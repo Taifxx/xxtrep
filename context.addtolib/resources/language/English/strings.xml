@@ -1,6 +1,6 @@
 ﻿<strings>
     <!-- Label -->
-    <string id="29999">ADD to [COLOR deepskyblue]Lib[/COLOR]</string>
+    <string id="29999">ADD to [COLOR darkorange]Lib[/COLOR]</string>
     <!-- Language ID -->
     <string id="30000">EN</string>
     <!-- Menue Items -->
@@ -68,6 +68,9 @@
     <string id="30061">[COLOR ##COLOR##]Edit list of episodes[/COLOR]</string>
     <string id="30062">[COLOR ##COLOR##]Numbering correction[/COLOR]</string>
     <string id="30063">[COLOR ##COLOR##]Playback[/COLOR] types</string>
+    <string id="30064">[COLOR ##COLOR##]Synchronization[/COLOR]</string>
+    <string id="30065">[COLOR red]Remove[/COLOR] movie</string>
+    <string id="30066">[COLOR red]Remove[/COLOR] TV Show</string>
     <!-- Static Menue Items -->
     <string id="30090">[COLOR ##COLOR##]...[/COLOR]</string>
     <string id="30091">[COLOR ##COLOR##]&lt;[/COLOR] Back</string>
@@ -122,6 +125,23 @@
     <string id="30126">Direct link</string>
     <string id="30127">ISP-Transition</string>
     <string id="30128">[COLOR ##COLOR##]ISP-Transition[/COLOR] playback type was defined. Press OK for start playback.</string>
+    <string id="30129">1. Press "Open" for opening dropbox authorization window in webbrowser or "Copy URL" for copying Dropbox authorization request URL to clipboard.%s2. Authorize using your login and password.%s3. Copy app code and go back to Kodi.%s4. Follow the instructions.</string>
+    <string id="30130">4. Press "Paste" for pasting app code from clipboard or "Keyboard" for entering it manually.%s5. Press "OK" for confirm.</string>
+    <string id="30131">Connection was [COLOR green]successfull[/COLOR].%sSynchronization activated. Show addon settings for more options.</string>
+    <string id="30132">Error connecting to Dropdox.%sCheck correctness of entered code.</string>
+    <string id="30133">Dropbox was [COLOR red]disconnected[/COLOR].%sSynchronization disabled. Connect to Dropbox for using it again.</string>
+    <string id="30134">[COLOR red]ENTER CODE[/COLOR]</string>
+    <string id="30135">Synchronization#Connection to Dropbox ...#Disconection from Dropbox ...#Determining synchronization mode#Scanning local data#Scanning Dropbox data#Determining library changes#Sending synchronization signature#Obtaining synchronization signature#Uploading description#Downloading description#Downloading watched statuses#Uploading watched statuses#Copying data#Downloading changes#Uploading changes#Removing of unnecessary data#Uploading data#Downloading data#Applying watched statuses#Getting movies watched statuses#Getting TV Shows watched statuses</string>
+    <string id="30136">Remote database may be [COLOR red]corrupted[/COLOR] during last synchronization with this device. Sync it can cause [COLOR red]damage[/COLOR] to the local database. It is recommended start [COLOR ##COLOR##]forced uploading[/COLOR] data.</string>
+    <string id="30137">Remote database may be [COLOR red]corrupted[/COLOR]. Sync it can cause [COLOR red]damage[/COLOR] to the local database.</string>
+    <string id="30138">It is recommended to [COLOR ##COLOR##]leave it locked[/COLOR] and run [COLOR ##COLOR##]forced uploading[/COLOR] data after unlocking from the device with most current database. Continue unlocking?</string>
+    <string id="30139">Start [COLOR ##COLOR##]forced uploading[/COLOR] data?</string>
+    <string id="30140">[COLOR ##COLOR##]Unlock[/COLOR] synchronization?</string>
+    <string id="30141">Do you want to [COLOR red]remove[/COLOR] movie?</string>
+    <string id="30142">Do you want to [COLOR red]remove[/COLOR] TV Show?</string>
+    <string id="30143">[COLOR ##COLOR##]Cleaning[/COLOR] Video DB</string>
+    <string id="30144">[COLOR ##COLOR##]Removing[/COLOR] empty foldefs</string>
+    <string id="30145">Do you want [COLOR ##COLOR##]lock[/COLOR] synchonization?</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
@@ -159,6 +179,21 @@
     <string id="30183">Main menue</string>
     <string id="30184">Choose skin:</string>
     <string id="30185">Select episodes for adding</string>
+    <string id="30186">[COLOR ##COLOR##]Automatic[/COLOR] mode</string>         
+    <string id="30187">[COLOR ##COLOR##]Forced[/COLOR] uploading</string>  
+    <string id="30188">[COLOR ##COLOR##]Forced[/COLOR] downloading</string>
+    <string id="30189">[COLOR ##COLOR##]Unlock[/COLOR] synchonization</string>  
+    <string id="30190">[COLOR ##COLOR##]Send[/COLOR] changes</string>
+    <string id="30191">[B]DROPBOX[/B] connection</string>
+    <string id="30192">Ok</string>
+    <string id="30193">Cancel</string>
+    <string id="30194">Copy URL</string>
+    <string id="30195">Keyboard</string>
+    <string id="30196">Paste</string>
+    <string id="30197">Open</string>
+    <string id="30198">[COLOR ##COLOR##]Video[/COLOR] database</string>
+    <string id="30199">[COLOR ##COLOR##]Watched[/COLOR] statuses</string>
+    <string id="30200">[COLOR ##COLOR##]Lock[/COLOR] synchonization</string>
     <!-- Errors messages -->
     <string id="30201">[COLOR red]Item is not a file[/COLOR]</string>
     <string id="30202">Entered incorrect data.</string>
@@ -179,6 +214,9 @@
     <string id="30217">[COLOR red]Backup path is not available.[/COLOR] Verify correct path</string>
     <string id="30218">[COLOR red]Backup path is not available[/COLOR]</string>
     <string id="30219">[COLOR red]Incorect[/COLOR] playback type. Source: %s</string>
+    <string id="30220">[COLOR red]Can't connect[/COLOR] to Dropbox</string>
+    <string id="30221">[COLOR red]Running synchronization process was detected.[/COLOR] %sIn the event of an error run unlock operation.</string>
+    <string id="30222">[COLOR red]Dropbox operation error.[/COLOR]%sSee Kodi.log for details.</string>
     <!-- OK messages -->
     <string id="30301">Process completed [COLOR ##COLOR##]successfully[/COLOR]</string>
     <string id="30302">Movie added</string>
@@ -207,6 +245,15 @@
     <string id="30325">All backups [COLOR red]removed[/COLOR]</string>
     <string id="30326">Library [COLOR ##COLOR##]restored[/COLOR]</string>
     <string id="30327">Backups [COLOR ##COLOR##]do not exist[/COLOR]</string>
+    <string id="30328">Video database [COLOR ##COLOR##]is actual[/COLOR]</string>
+    <string id="30329">Video database was [COLOR ##COLOR##]downloaded[/COLOR]</string>
+    <string id="30330">Video database was [COLOR ##COLOR##]uploaded[/COLOR]</string>
+    <string id="30331">Watched statuses [COLOR ##COLOR##]is actual[/COLOR]</string>
+    <string id="30332">Watched statuses was [COLOR ##COLOR##]downloaded[/COLOR]</string>
+    <string id="30333">Watched statuses was [COLOR ##COLOR##]uploaded[/COLOR]</string>
+    <string id="30334">Synchronization was [COLOR ##COLOR##]unlocked[/COLOR]</string>
+    <string id="30335">%s was [COLOR ##COLOR##]removed[/COLOR]</string>
+    <string id="30336">Synchronization was [COLOR ##COLOR##]locked[/COLOR]</string>
     <!-- Settings -->
     <string id="30401">Colorize menue and messages</string>
     <string id="30402">Update (Clean) video library after action</string>
@@ -229,32 +276,32 @@
     <string id="30419">Determine the file according extension in header</string>
     <string id="30420">Add-on library path</string>
     <string id="30421">Default</string>
-    <string id="30422">> Set add-on library path as default</string>
-    <string id="30423">> Update video library</string>
-    <string id="30424">> Clean video library</string>
+    <string id="30422">>  Set add-on library path as default</string>
+    <string id="30423">>  Update video library</string>
+    <string id="30424">>  Clean video library</string>
     <string id="30425">Playback type as default</string>
     <string id="30426">Silent method to update sources</string>
     <string id="30427">Automatically update TV Show sources when check launched</string>
     <string id="30428">Automatically update all TV Shows when global check launched</string>
     <string id="30429">Not report about new seasons during background scanning</string>
     <string id="30430">Don't show progress during background scanning</string>
-    <string id="30431">Enable background scanning</string>
+    <string id="30431">Automatically background scanning</string>
     <string id="30432">Background scanning period (min.)</string>
     <string id="30433">Background scanning on startup</string>
-    <string id="30434">> Rename folders now</string>
-    <string id="30435">> Change menue color</string>
-    <string id="30436">> Automatically rename all sources</string>
+    <string id="30434">>  Rename folders now</string>
+    <string id="30435">>  Change menue color</string>
+    <string id="30436">>  Automatically rename all sources</string>
     <string id="30437">Hide forced adding during background scanning</string>
-    <string id="30438">> Library backup</string>
+    <string id="30438">>  Library backup</string>
     <string id="30439">Library backup path</string>
     <string id="30440">Remove old backups</string>
     <string id="30441">Number of stored backups</string>
-    <string id="30442">Allow automatically backup</string>
+    <string id="30442">Automatically backup</string>
     <string id="30443">Backup on startup</string>
     <string id="30444">Automatically backup period (min.)</string>
-    <string id="30445">> Remove all backups</string>
-    <string id="30446">> Restore backup</string>
-    <string id="30447">> Set backup path as default</string>
+    <string id="30445">>  Remove all backups</string>
+    <string id="30446">>  Restore backup</string>
+    <string id="30447">>  Set backup path as default</string>
     <string id="30448">Don't show progress during automatically backup</string>
     <string id="30449">Use skins</string>
     <string id="30450">Dim background</string>
@@ -268,11 +315,34 @@
     <string id="30458">Use NowPlaing notification</string>
     <string id="30459">NowPlaing notification time (sec.)</string>
     <string id="30460">Fast backup</string>
+    <string id="30461">Keep other files when restoring</string>
+    <string id="30462">>  Connect Dropbox</string>
+    <string id="30463">>  Disconnect Dropbox</string>
+    <string id="30464">Use synchronization after library changes</string>
+    <string id="30465">Synchronization on startup</string>
+    <string id="30466">Automatically synchronization</string>
+    <string id="30467">Automatically synchronization period (min.)</string>
+    <string id="30468">Interval between Dropbox requests (sec.)</string>
+    <string id="30469">Count of Dropbox request attempts</string>
+    <string id="30470">Watched stateses synchronization after playback</string>
+    <string id="30471">Watched stateses synchronization on startup</string>
+    <string id="30472">Automatically watched stateses synchronization</string>
+    <string id="30473">Automatically watched stateses synchronization period (min.)</string>
+    <string id="30474">Interval between JSON requests (mili sec.)</string>
+    <string id="30475">Launch addon from memory  (not standalone process)</string>
+    <string id="30476">>  Stop main service</string>
+    <string id="30477">>  Start main service</string>
+    <string id="30478">Main service status:</string>
+    <string id="30479">[COLOR limegreen]Running[/COLOR]</string>
+    <string id="30480">[COLOR red]Stopped[/COLOR]</string>
+    <string id="30481">Allow services</string>
     <!-- Settings categories -->
-    <string id="30480">General</string>
-    <string id="30481">Main menue</string>
-    <string id="30482">Playback</string>
-    <string id="30483">Library</string>
-    <string id="30484">Update</string>
-    <string id="30485">Backup</string>
+    <string id="30950">General</string>
+    <string id="30951">Main menue</string>
+    <string id="30952">Playback</string>
+    <string id="30953">Library</string>
+    <string id="30954">Update</string>
+    <string id="30955">Backup</string>
+    <string id="30956">Sync</string>
+    <string id="30957">Services</string>
 </strings>

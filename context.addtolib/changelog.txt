@@ -1,4 +1,31 @@
-﻿v1.0.11
+﻿v1.0.12
+BugFix:
+    - Blocked double run of addon
+    - Problem with invisible text in some skins
+    - Faster scanning of list items. Reduced chance of incorrect determination of current TV show / movie
+      on addon launching
+Remove:
+    - 'Update (Clean) video library after action' option (not needed as there is new cleaning style)     
+New:
+    - Video database synchronization with Dropbox (manually as default) (*)
+    - Watched statuses synchronization with Dropbox (manually as default) (*)
+    
+    - New option 'Launch addon from memory'. Accelerates startup of addon on some systems (use sub service) (*)
+    
+    - New settings category 'Services' for control services 
+    - New option 'Keep other files when restoring'. Allows you to keep fanart and TV Tunes themes
+      when restoring library from backup (ON as default)
+    - No need to clean video library after removing/renaming/restoring (and other) TV Show if it 
+      normally defined in video library
+    - Global update and backup (and synchronization) started manually reset the action timer
+    - 'Update video library' after actions scan Movies / TV Shows / Current TV Show folder only
+    - Update and backup 'on startup' can be started standalone (without 'automatically' update and backup modes)  
+    - Menue item: Remove movie (when addon called from video library)
+    - Menue item: Remove TV Show (when addon called from video library)
+    * See Help for details!
+    
+
+v1.0.11
 BugFix:
     - Small fix's in playback
     - Fixed problem with episodes renaming in advanced adding   

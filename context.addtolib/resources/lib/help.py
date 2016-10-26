@@ -18,9 +18,8 @@
 ########## HLP:
 
 ### Import modules ...
-import xbmcgui, xbmc
+from ext import *
 
-from resources.lib.ext       import *
 
 ##### Show help ...
 class showHelp (GUI.CAltDTmpl):
@@ -33,7 +32,7 @@ class showHelp (GUI.CAltDTmpl):
         # for line in lines:
         #     linescount += int(len(line) / 340.0) 
          
-        self.tblen    = 160
+        self.tblen    = 300
         self.tbpos    = 0  
         
         GUI.CAltDTmpl.__init__(self, xmlFile=TAG_PAG_HELPXML)

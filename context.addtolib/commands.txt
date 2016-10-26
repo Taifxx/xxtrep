@@ -1,0 +1,9 @@
+SPECIAL EXTERNAL COMMANDS FOR ADD TO LIB:
+For using special external commands (SEC) you need to create file with command name in ..\ Kodi \ userdata \ addon_data \ context.addtolib \
+
+Services commands:
+    nos     : Block starting services (don't stop already starting services, don't delete after execution)
+    stopsrv : Stop already starting services (don't block startup services, delete after execution)
+    nocln   : Don't remove old (tmp) files on startup (delete after execution)
+    bckupex : Launch backup and stop services (delete after execution)
+

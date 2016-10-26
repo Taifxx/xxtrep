@@ -1,5 +1,4 @@
-﻿#!/usr/bin/python
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -15,19 +14,29 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+########## MAIN SERVICE:
 
 ### Import modules ...
+import context_ex as context
+import lfm_service, deb  
 
-#from resources.lib.ext import *
-import context 
+### Define ...
+msgStart = 'Main service started'
+msgEnd   = 'Main service stopped'
+msgEExit = 'Emergency exit was detected. Background process %s will skipped'
+msgProcessError = 'Background process ERROR'
 
+adnname = context.tl(context.TAG_TTL_NM) % (context.addon.name) 
+
+### Log message ...
 log = lambda event : context.xbmc.log('[%s] >> %s' % (context.addon.id, event))
 
 ### Action class ...
 class CAction:
     
     def __init__(self, actID, startup, skip, eventTime, logMsg, *args):
-        self.timer     = 0
+        self.timer     = context.time.time()
         self.actID     = actID
         self.logMsg    = logMsg
         self.startup   = startup
@@ -37,103 +46,156 @@ class CAction:
     
     
     def __call__(self):
-        
-        if self.timer >= self.eventTime() * 6 or self.startup:
+
+        if context.time.time() - self.timer >= self.eventTime()*60 or self.startup:
             
             if self.skip() : return
             
-            if self.startup and emgrControl().isEmgrExit(self.actID, self.eventTime()*60): 
-                log('Emergency exit was detected. Background process %s will skipped' % (self.actID))
+            if self.startup and context.emgrControl().isEmgrExit(self.actID, self.eventTime()*60): 
+                log(msgEExit % (self.actID))
                 self.startup = False
                 return 
              
-            self.timer   = 0
-            self.startup = False
-             
-            
             for arg in self.args:
+                if arg == 999: 
+                    if self.startup : break
+                    else            : continue
                 if not arg() : return
+            
+            self.timer   = context.time.time()
+            self.startup = False
                 
             log(self.logMsg)
-            context.plgMain(self.actID)
+            try:
+                context.plgMain(self.actID)
+            #except Exception as exc:
+            except:
+                remover()
+                context.GUI.msgf(adnname, msgProcessError, context.GUI.notError)
+                deb.addraise(context.DOS.join(context.addon.profile, lfm_service.error_file))
+                raise  
             
-            emgrControl().setLAACTT(self.actID)
+            context.emgrControl().setLAACTT(self.actID)
         
-        else : self.timer += 1 
+        else : pass 
         
-
-class emgrControl:
-    def __init__(self):
-        self._sepLST = context.TAG_PAR_TVSPACK_LSEP
-        self._sepPRT = context.TAG_PAR_TVSPACK_PSEP + context.NewLine
-    
-    def _laactt_wr(self, actions):
-        jact = []
-        for akey, aval in actions.items():
-            jact.append(str(akey)+self._sepLST+str(aval))
-        laacttData = self._sepPRT.join(jact)
-        context.DOS.file(context.TAG_PAR_LAACTT, context.addon.profile, laacttData, fType=context.FWrite, fRew=True)
-    
-    def _laactt_rd(self):
-        laacttData = context.DOS.file(context.TAG_PAR_LAACTT, context.addon.profile, fType=context.FRead) 
-        if laacttData == -1: return context.Empty         
-        return {int(_actid):_acttime for rec in laacttData.split(self._sepPRT) for _actid, _acttime in [rec.split(self._sepLST)]}
-    
-    def setLAACTT(self, actId):
-        actions = self._laactt_rd()
-        aRec    = {actId:context.time.time()}
-        if not actions : actions = aRec
-        else           : actions.update(aRec)
-        self._laactt_wr(actions)
-        
-    def isEmgrExit(self, actId, period):
-        actions = self._laactt_rd()
-        if not actions : return False
-        laacttTime = actions.get(actId, context.Empty)
-        if not laacttTime : return False
-        if context.time.time() - float(laacttTime) > period : return False
-        return True
      
 
 ### Skip functions ... 
 def skip():
-    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_LOCKF))   : return True
     if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTF)) : return True
-    if context.DOS.exists(context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTAF)): return True
     return False
 
+
 def remover():
-    rFile = context.DOS.join(context.addon.profile, context.TAG_PAR_LOCKF);    context.DOS.delf(rFile)
     rFile = context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTF);  context.DOS.delf(rFile)
-    rFile = context.DOS.join(context.addon.profile, context.TAG_PAR_STRARTAF); context.DOS.delf(rFile) 
+    rFile = context.DOS.join(context.addon.profile, lfm_service.ITD_FILE); context.DOS.delf(rFile)
+    rFile = context.DOS.join(context.addon.profile, 'stopsrv'); context.DOS.delf(rFile)
+    
 
 
 ### Main ...
-def service():
+def service(report=False):
+
+    ## Check Allow services option ...
+    if not context.addon.USESRV : return    
     
-    remover()
+    ## SEC : Skip cleaning ...
+    if not context.xbmcvfs.exists(context.DOS.join(context.addon.profile, 'nocln')) : remover()
+    else : context.DOS.delf(context.DOS.join(context.addon.profile, 'nocln'))
     
+    ## SEC : Exit (don't allow services) ...
+    if context.xbmcvfs.exists(context.DOS.join(context.addon.profile, 'nos')) : return
+    
+    ## Load monitir ...
     monitor = context.xbmc.Monitor()
-    shadowupd = CAction(10201, context.addon.STARTUPSHAD, skip, context.addon.getautime, 'Background scanning started ...', context.addon.getshad, context.addon.getsilent)
-    backup    = CAction(10209, context.addon.BKUPSTARTUP, skip, context.addon.getbcktime, 'Backup creating started ...', context.addon.getabck)
     
-    log('Service started ...')
+    ## SEC : Backup and exit ...
+    _terminate = False
+    _bckupOnStartup = context.addon.BKUPSTARTUP
+    if context.xbmcvfs.exists(context.DOS.join(context.addon.profile, 'bckupex')):
+        context.DOS.delf(context.DOS.join(context.addon.profile, 'bckupex'))
+        _bckupOnStartup = True
+        _terminate      = True 
     
-    ## Start on timer ...
+    ## Create background processes (Args after 999 - ignored on sturtup) ...
+    backup    = CAction(10209, _bckupOnStartup, skip, context.addon.getbcktime, 'Backup creating started ...', 999, context.addon.getabck) 
+    shadowupd = CAction(10201, context.addon.STARTUPSHAD, skip, context.addon.getautime, 'Background scanning started ...', context.addon.getsilent, 999, context.addon.getshad)
+    sync      = CAction(10213, context.addon.STRTUPSYNC, skip, context.addon.getsynctime, 'Synchronization started ...', context.addon.getsyncatkn, 999, context.addon.getautosync)
+    watchsync = CAction(10214, context.addon.STRTUPWS, skip, context.addon.getwstime, 'Watched statuses synchronization started ...', context.addon.getsyncatkn, 999, context.addon.getautows)
+    
+    ## Define LFM, sprocess ...
+    LFM = None
+    sprocess = None
+    pool = 1
+    
+    ## Set LFM terminator ...
+    lfmstop = False
+    def isLFMStop() : return lfmstop 
+    
+    ## Log start ...
+    log(msgStart)
+    if report : context.GUI.msg(adnname, msgStart)
+    
+    ## Start service ...
     while not monitor.abortRequested():
+    
+        ## Check Allow services option ...
+        if not context.addon.USESRV : break 
+    
+        ## SEC : Service termination ...
+        if context.xbmcvfs.exists(context.DOS.join(context.addon.profile, 'stopsrv')):
+            context.DOS.delf(context.DOS.join(context.addon.profile, 'stopsrv')) 
+            break
+        
+        ## Set service 'Running' status ...
+        if not context.addon.SRVSTATUSV or context.addon.SRVSTATUS != context.tlraw(context.TAG_SET_RUN):
+            context.addon.addon.setSetting('srvstatusv', 'true')
+            context.addon.addon.setSetting('srvstatus', context.tlraw(context.TAG_SET_RUN))
+        
+        ## Start (Stop) Launching from memory (LFM) Service ...
+        if context.addon.USELFM:
+            lfmstop = False 
+            if LFM is not None and not LFM.isAlive() : del LFM; LFM = None # Start LFM if it stopped
+            if LFM is None : LFM = context.GUI.Thrd(lfm_service.service, isLFMStop, report) # Create and start LFM
+        else : lfmstop = True; report = True # Stop LFM
+        
+        ## Run background processes by timer ...
+        # backup()
+        # if _terminate : break
+        # sync()
+        # watchsync()
+        # shadowupd()
+        
+        if sprocess is None or not sprocess.isAlive(): 
+            del sprocess
+            if   pool == 1 : 
+                sprocess = context.GUI.Thrd(backup)
+                if _terminate : break
+            elif pool == 2 : sprocess = context.GUI.Thrd(sync)
+            elif pool == 3 : sprocess = context.GUI.Thrd(watchsync)
+            elif pool == 4 : sprocess = context.GUI.Thrd(shadowupd)
+            if pool == 4 : pool = 1 
+            else: pool += 1
+        
+        ## Check exit ...
         if monitor.waitForAbort(10) : break
 
-        #if context.DOS.exists(context.DOS.join(context.addon.profile, 'nos'))   : break
-        #if context.DOS.exists(context.DOS.join(context.addon.profile, 'cont'))  : continue
-        
-        backup()
-        shadowupd()
+    ## Wait LFM stopping ...
+    lfmstop = True
+    while LFM is not None and LFM.isAlive() : context.wait(1)
+    ## Wait sub process stopping ...
+    while sprocess is not None and sprocess.isAlive() : context.wait(1)
+    
+    ## End service (log end) ...    
+    del shadowupd, backup, sync, watchsync, LFM, sprocess, monitor 
+    ## Set service 'Stopped' status ...
+    context.addon.addon.setSetting('srvstatusv', 'false')
+    context.addon.addon.setSetting('srvstatus', context.tlraw(context.TAG_SET_STOP))
+    
+    log(msgEnd)
+    context.GUI.msg(adnname, msgEnd) 
 
-        
-    ## End ...    
-    del shadowupd, backup
-    log('Service stoped ...') 
 
-
-### Start main ...
+### Start service command ...
 if (__name__ == "__main__"): service()

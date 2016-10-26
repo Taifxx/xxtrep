@@ -1,5 +1,4 @@
-﻿#!/usr/bin/python
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #
 #     Copyright (C) 2016 Taifxx
 #
@@ -19,8 +18,8 @@
 ########## COMMON:
 
 ### Import modules ...
-from resources.lib.ext import *
-from resources.lib.progress import *
+from ext import *
+import ctvsobj as CTVS
 
 
 def confirm (tag, tvsName=Empty, srcName=Empty):
@@ -54,12 +53,13 @@ def errord (error, error_ok=Empty, tvsName=Empty, exten=Empty):
    
     if error == TAG_ERR_OK: GUI.msg (txtTTL, tl(error_ok)); return False
         
-    elif error == TAG_ERR_NOTFILE     : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTFILE),   nottype=GUI.notWarning)
-    elif error == TAG_ERR_NOTOJOIN    : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTOJOIN),  nottype=GUI.notWarning)
-    elif error == TAG_ERR_DEDLINK     : GUI.msgf  (txtTTL, tl(TAG_ERR_DEDLINK),   nottype=GUI.notWarning)
-    elif error == TAG_ERR_LIBACT      : GUI.msgf  (txtTTL, tl(TAG_ERR_LIBACT),    nottype=GUI.notError)
-    elif error == TAG_ERR_LOCK        : GUI.msgf  (txtTTL, tl(TAG_ERR_LOCK),      nottype=GUI.notWarning)
-    elif error == TAG_ERR_NOBCKPATHM  : GUI.msgf  (txtTTL, tl(TAG_ERR_NOBCKPATHM),nottype=GUI.notError)         
+    elif error == TAG_ERR_NOTFILE     : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTFILE),      nottype=GUI.notWarning)
+    elif error == TAG_ERR_NOTOJOIN    : GUI.msgf  (txtTTL, tl(TAG_ERR_NOTOJOIN),     nottype=GUI.notWarning)
+    elif error == TAG_ERR_DEDLINK     : GUI.msgf  (txtTTL, tl(TAG_ERR_DEDLINK),      nottype=GUI.notWarning)
+    elif error == TAG_ERR_LIBACT      : GUI.msgf  (txtTTL, tl(TAG_ERR_LIBACT),       nottype=GUI.notError)
+    elif error == TAG_ERR_LOCK        : GUI.msgf  (txtTTL, tl(TAG_ERR_LOCK),         nottype=GUI.notWarning)
+    elif error == TAG_ERR_NOBCKPATHM  : GUI.msgf  (txtTTL, tl(TAG_ERR_NOBCKPATHM),   nottype=GUI.notError) 
+    elif error == TAG_ERR_NODBXCONNECT: GUI.msgf  (txtTTL, tl(TAG_ERR_NODBXCONNECT), nottype=GUI.notError)        
                 
     elif error == TAG_ERR_INCINPUT    : GUI.dlgOk (tl(TAG_ERR_INCINPUT),  tl(TAG_ERR_ABORT),   title=tvsName)
     elif error == TAG_ERR_LISTEMPTY   : GUI.dlgOk (tl(TAG_ERR_LISTEMPTY), tl(TAG_ERR_ABORT),   title=tvsName)
@@ -70,6 +70,7 @@ def errord (error, error_ok=Empty, tvsName=Empty, exten=Empty):
     elif error == TAG_ERR_OL          : GUI.dlgOk (tl(TAG_ERR_OL))
     elif error == TAG_ERR_BADZIP      : GUI.dlgOk (tl(TAG_ERR_BADZIP))
     elif error == TAG_ERR_NOBCKPATH   : GUI.dlgOk (tl(TAG_ERR_NOBCKPATH))
+    elif error == TAG_ERR_DBXISLOCK   : GUI.dlgOk (tl(TAG_ERR_DBXISLOCK) % (NewLine))
     
     return True 
 
@@ -160,7 +161,10 @@ def restore_lib(bckname):
 def _restore_lib(bckname, extpath, extbckpath):
 
     def maskfnc(path, fls):
-        return False if fls.startswith(Dot) else True
+        for tmpl in TAG_PAR_SYSFLSTMPL:
+            if fls.find(tmpl) != -1 : return True
+        return False 
+    
     
     steps = 6
     if extpath    : steps += 2
@@ -192,8 +196,7 @@ def _restore_lib(bckname, extpath, extbckpath):
     if not zipfile.crc() : return TAG_ERR_BADZIP
 
     progress.step(tla(TAG_TTL_RESTRL))
-    DOS.remove(rlibpath, delDir=False, maskfn=maskfnc)
-    
+    DOS.remove(rlibpath, delDir=False, maskfn=maskfnc if addon.SAVEONREST else None)
     progress.step(tla(TAG_TTL_RESTUL))
     zipfile.unzip(libpath)
     
@@ -663,11 +666,23 @@ def checkfile(items, linkTable, recurse=False):
     
     fname  = TAG_PAR_TVSPACK_FILE
     
+    isOL   = False
+    
     containerPath = items.vidCPath       
     if    containerPath.startswith (TAG_CON_STARTSW_EXT) : container  = TAG_CON_EXT 
     elif  containerPath.startswith (TAG_CON_STARTSW_VID) : container  = TAG_CON_VID
     elif  containerPath.startswith (TAG_CON_STARTSW_PVD) : container  = TAG_CON_PVD
     else                                                 : container  = TAG_CON_LOCAL
+    
+    isMovie = False
+    if container in [TAG_CON_VID, TAG_CON_LOCAL]:
+        mlPath = items.vidLink
+        if mlPath and mlPath.startswith(LIB.mov):
+            isFound = False
+            isMovie = True
+            path    = mlPath
+            return (isFound, container, path, isOL, isMovie)
+    
     
     if container != TAG_CON_EXT:
         if not items.vidIsFolder: localPath = items.vidPath
@@ -729,15 +744,15 @@ def checkfile(items, linkTable, recurse=False):
         else: isFound = False; path = externalPath2 if not noTamplate else Empty
         
         del cmpFolderName
-           
-    isOL = False
+    
+    #if not path.startswith(LIB.lib) and container in [TAG_CON_VID, TAG_CON_LOCAL] : isOL = True 
     if not path.startswith(LIB.lib) and isFound:
         isFound = False 
         if container == TAG_CON_VID : isOL = True
     
     items.vidPath = path
          
-    return (isFound, container, path, isOL)
+    return (isFound, container, path, isOL, isMovie)
     
     
 def globalUpdateCheck(shadbg=False):
@@ -858,5 +873,153 @@ class CSRC:
         else     : tfrc_names, tfrc_links = self.getfrc() 
         
         return CSRC(tsrc_names, tsrc_links, tfrc_names, tfrc_links)
+  
         
+### Emegrancy exit control ...
+class emgrControl:
+    def __init__(self):
+        self._sepLST = TAG_PAR_TVSPACK_LSEP
+        self._sepPRT = TAG_PAR_TVSPACK_PSEP + NewLine
     
+    def _laactt_wr(self, actions):
+        jact = []
+        for akey, aval in actions.items():
+            jact.append(str(akey)+self._sepLST+str(aval))
+        laacttData = self._sepPRT.join(jact)
+        DOS.file(TAG_PAR_LAACTT, addon.profile, laacttData, fType=FWrite, fRew=True)
+    
+    def _laactt_rd(self):
+        laacttData = DOS.file(TAG_PAR_LAACTT, addon.profile, fType=FRead) 
+        if laacttData == -1: return Empty         
+        return {int(_actid):_acttime for rec in laacttData.split(self._sepPRT) for _actid, _acttime in [rec.split(self._sepLST)]}
+    
+    def setLAACTT(self, actId):
+        actions = self._laactt_rd()
+        aRec    = {actId:time.time()}
+        if not actions : actions = aRec
+        else           : actions.update(aRec)
+        self._laactt_wr(actions)
+        
+    def isEmgrExit(self, actId, period):
+        actions = self._laactt_rd()
+        if not actions : return False
+        laacttTime = actions.get(actId, Empty)
+        if not laacttTime : return False
+        if time.time() - float(laacttTime) > period : return False
+        return True
+
+
+### Video Library CMD's ...
+class VideoLib():
+    
+    def __init__(self):
+        self._jRemoveMovie = lambda mid   : self._jsex('{"jsonrpc": "2.0", "method": "VideoLibrary.RemoveMovie",  "params": { "movieid": %s }, "id": "1"}' % str(mid))
+        self._jGetMovies   = lambda       : self._js  ('{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies",    "params": { "properties": ["file"] }, "id": 1}', 'movies')
+        
+        self._jRemoveTVS   = lambda tvsid : self._jsex('{"jsonrpc": "2.0", "method": "VideoLibrary.RemoveTVShow", "params": { "tvshowid": %s }, "id": "1"}' % str(tvsid))
+        self._jGetTVSs     = lambda       : self._js  ('{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows",   "params": { "properties": ["file"] }, "id": 1}', 'tvshows')
+        
+        self._jRemoveEpisode = lambda epsid : self._jsex('{"jsonrpc": "2.0", "method": "VideoLibrary.RemoveEpisode", "params": { "episodeid": %s }, "id": "1"}' % str(epsid))
+        self._jGetEpisodes   = lambda tvsid : self._js  ('{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes",  "params": { "properties": ["file"], "tvshowid": %s }, "id": 1}' % str(tvsid), 'episodes')       
+        
+
+    def _js(self, cmd, key):
+        try:
+            return eval(self._jsex(cmd))['result'][key]
+        except: return []
+    
+    def _jsex(self, cmd):
+        return xbmc.executeJSONRPC(cmd)
+    
+    def _removeMovie(self, movfile, movList):
+        mid = -1
+        for mov in movList:
+            if DOS.compath(mov['file'], movfile) : mid = mov['movieid']; break   
+        if mid != -1: 
+            self._jRemoveMovie(mid)
+            return True
+        return False  
+    
+    def removeMovie(self, movfile): 
+        movList = self._jGetMovies()
+        result  = self._removeMovie(movfile, movList)
+        if result : GUI.refresh() 
+        return result
+            
+    def removeTVS(self, tvsfile): 
+        tvsid = -1
+        #tvsfile = TVS.lib_path
+        tvsList = self._jGetTVSs()
+        for tvs in tvsList:
+            if DOS.compath(tvs['file'], tvsfile) : tvsid = tvs['tvshowid']; break
+        if tvsid != -1: 
+            self._jRemoveTVS(tvsid)  
+            GUI.refresh()
+            return True
+        return False
+    
+    def removeEpisode(self, tvsfile, epsfile): 
+        tvsList = self._jGetTVSs()
+        result = self._removeEpisode(tvsfile, epsfile, tvsList)
+        if result : GUI.refresh() 
+        return result
+    
+    def eviscerateTVS(self, tvsfile):
+        tvsid = -1
+        tvsList = self._jGetTVSs()
+        for tvs in tvsList:
+            if DOS.compath(tvs['file'], tvsfile) : tvsid = tvs['tvshowid']; break
+        if tvsid == -1 : return False
+        epsList = self._jGetEpisodes(tvsid)
+        for eps in epsList:
+            epsid = eps['episodeid']
+            self._jRemoveEpisode(epsid)      
+        GUI.refresh()
+        return True
+    
+    def _removeEpisode(self, tvsfile, epsfile, tvsList):
+        tvsid = -1
+        epsid = -1
+        for tvs in tvsList:
+            if DOS.compath(tvs['file'], tvsfile) : tvsid = tvs['tvshowid']; break
+        if tvsid != -1:
+            epsList = self._jGetEpisodes(tvsid)
+            for eps in epsList:
+                if DOS.compath(eps['file'], epsfile) : epsid = eps['episodeid']; break
+            if epsid != -1:
+                self._jRemoveEpisode(epsid)  
+                return True
+        return False
+    
+    def cleanList(self, fList, bg=False):
+        progress = CProgress(len(fList), bg=addon.BGUPD if bg else True)
+        progress.show(tl(TAG_DLG_SCLNDB))
+      
+        isMov = lambda file : DOS.compathStart(file, LIB.mov)
+        isTVS = lambda file : DOS.compathStart(file, LIB.tvsf) and file.endswith(STRM)     
+         
+        movList = self._jGetMovies()
+        tvsList = self._jGetTVSs() 
+        lb = LIB.lib
+        for file in fList:
+            progress.step(file.replace(lb, Empty))
+            if isMov(file) : self._removeMovie(file, movList); continue 
+            if isTVS(file) : self._removeEpisode(DOS.gettail(file), file, tvsList)
+        del progress 
+        
+        
+    def osCleanTVS(self, bg=False):
+        dirs, f = DOS.listdir(LIB.tvsf)
+        progress = CProgress(len(dirs), bg=addon.BGUPD if bg else True)
+        progress.show(tl(TAG_DLG_SREMEF))
+        for tvsname in dirs:
+            progress.step(tvsname)
+            tvsfile  = DOS.join(LIB.tvsf, tvsname)
+            d, files = DOS.listdir(tvsfile) 
+            if not files: 
+                self.removeTVS(tvsfile)
+                DOS.remove(tvsfile)
+        del progress
+        GUI.refresh()
+        
+        
