@@ -99,13 +99,115 @@ a.WGStyle:hover
 {
    text-align: justify;
 }
+#PhotoGallery2
+{
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+   width: 100%;
+   height: 100%;
+   table-layout: fixed;
+   display: table;
+}
+#PhotoGallery2 .thumbnails
+{
+   margin: 0;
+}
+#PhotoGallery2 .thumbnail
+{
+   position: relative;
+   min-height: 1px;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+   float: left;
+   padding: 3px 3px 3px 3px;
+   width: 33.33333333%;
+   text-align: center;
+   vertical-align: top;
+}
+#PhotoGallery2 .thumbnail img
+{
+   border: 0px #000000 solid;
+   display: block;
+   width: 100%;
+   height: auto;
+   max-width: 100%;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+#PhotoGallery2 .clearfix:before,
+#PhotoGallery2 .clearfix:after,
+#PhotoGallery2 .thumbnails:before,
+#PhotoGallery2 .thumbnails:after
+{
+   display: table;
+   content: " ";
+}
+#PhotoGallery2 .clearfix:after,
+#PhotoGallery2 .thumbnails:after
+{
+   clear: both;
+}
+#PhotoGallery2 .visible-col3
+{
+   display: block;
+}
+#Image1
+{
+   border: 0px #000000 solid;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
+#Image2
+{
+   border: 0px #000000 solid;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+}
 </style>
+<script type="text/javascript" src="../jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../fancybox/jquery.easing-1.3.pack.js"></script>
+<link rel="stylesheet" href="../fancybox/jquery.fancybox-1.3.4.css" type="text/css">
+<script type="text/javascript" src="../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="../fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function()
+{
+$("a[rel^='PhotoGallery2']").fancybox({overlayShow:true,
+overlayColor:'#1E1E1E'});
+});
+</script>
 </head>
 <body>
 <div id="container">
-<div id="wb_MasterObjects1" style="position:absolute;left:0px;top:0px;width:731px;height:760px;z-index:1;">
-<div id="wb_Text1" style="position:absolute;left:26px;top:0px;width:704px;height:766px;text-align:justify;z-index:0;">
-<span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Adding episodes (season):</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br>To add the episodes&nbsp; (TV show season), you need to be in a folder containing playable links to episodes files, open context menu of any of episodes and select 'Add to Lib'. In add-on menu select 'Add to library as TV show season'. <br><br>When add-on was able to determine name of the TV show and this TV show has exists, the episodes will be added to an existing TV show. Item 'Update episodes' is used to add new episodes from source to the already added episodes.<br><br>When you add episodes of new or exists TV show automatically added 'episodes source' (a link to the folder from which you add episodes). The add-on can scan this folder (source) and report about new episodes. One TV show may include a plurality of sources. The sources are managed in 'source management' menu item.<br><br>For the TV show manually can be added 'seasons source' (a link to folder containing a list of the seasons of the TV show). In this case, the add-on will scan folder for the presence of the new season.<br><br>TV show are managed in 'TV show management' menu item.</span><span style="color:#C0C0C0;font-family:Arial;font-size:13px;"><br></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br></span><span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Update episodes (seasons) manually:</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br>To check update of the current TV show, select 'Check for new episodes'. To check all TV shows you need using 'Global check for updates' menu item. If updates are detected, the add-on will display a list of them. If you select source of proposed update, the update will take place automatically.<br><br>You can disable check for new episodes or seasons in 'update management' menu item.<br><br><br></span><span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Update episodes (seasons) automatically:</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br>To check update of the all TV shows in background mode (or during Kodi startup), you need turn-on this options in add-on settings. If add-on find new seasons in sources, add-on will show you appropriate message. Use 'Continue las update' to see it.&nbsp; <br><br>On your choise you can set semiautomatic update mode disabling some update options in add-on settings.<br><br><br></span><span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Callable URL:</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br>In this add-on is realized the possibility of obtaining full information from the library for playable .strm files (posters, fan art, progress, etc.). To use this feature is necessary to create links into .strm files that call this add-on when playing a file. In the case of playing .strm file with callable link during playback will be available to the data of the episode, TV show, a feature to store the position and 'Watched status'.<br><br><br></span><span style="color:#DCDCDC;font-family:Arial;font-size:8px;"><br><br><br></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><a href="./mp1.html" class="WGStyle">&lt; Prev</a>&nbsp;&nbsp;&nbsp;&nbsp; <a href="./mp3.html" class="WGStyle">Next &gt;</a></span></div>
+<div id="wb_MasterObjects1" style="position:absolute;left:0px;top:0px;width:731px;height:760px;z-index:4;">
+<div id="wb_Text1" style="position:absolute;left:26px;top:0px;width:704px;height:376px;text-align:justify;z-index:0;">
+<span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Playback control:</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br>In this add-on is realized the possibility of obtaining full information from the library for playable .strm files (posters, fan art, progress, etc.). For this feature when you start playback system launches ADD to Lib addon for playback control. <br><br></span><span style="color:#1E90FF;font-family:Arial;font-size:13px;"><strong>Sync:</strong></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br><br>Starting with version 1.0.12 ADD to Lib allows for sync video database and watched statuses with Dropbox. Thus, multiple remotely located devices unable to change video database and watched statuses without server.<br></span><span style="color:#DCDCDC;font-family:Arial;font-size:8px;"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></span><span style="color:#DCDCDC;font-family:Arial;font-size:13px;"><br>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="./mp1.html" class="WGStyle">&lt; Prev</a>&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color:#808080;font-family:Arial;font-size:13px;">Next &gt;</span></div>
+<div id="wb_PhotoGallery2" style="position:absolute;left:92px;top:174px;width:573px;height:110px;z-index:1;">
+<div id="PhotoGallery2">
+   <div class="thumbnails">
+      <div class="thumbnail">
+         <a href="../images/screenshot015.png" rel="PhotoGallery2"><img alt="" src="../images/screenshot015.png"></a>
+      </div>
+      <div class="thumbnail">
+         <a href="../images/screenshot014.png" rel="PhotoGallery2"><img alt="" src="../images/screenshot014.png"></a>
+      </div>
+      <div class="thumbnail">
+         <a href="../images/screenshot012.png" rel="PhotoGallery2"><img alt="" src="../images/screenshot012.png"></a>
+      </div>
+      <div class="clearfix visible-col3"></div>
+   </div>
+</div></div>
+<div id="wb_Image1" style="position:absolute;left:198px;top:147px;width:360px;height:20px;z-index:2;">
+<img src="../images/line.png" id="Image1" alt=""></div>
+<div id="wb_Image2" style="position:absolute;left:207px;top:289px;width:360px;height:20px;z-index:3;">
+<img src="../images/line.png" id="Image2" alt=""></div>
 </div>
 </div>
 </body>
