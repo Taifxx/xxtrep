@@ -2,7 +2,7 @@
 <addon
     id="context.addtolib"
     name="Add to Lib"
-    version="1.0.12"
+    version="1.0.13"
     provider-name="Taifxx"
     >
   <requires>

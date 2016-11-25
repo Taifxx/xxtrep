@@ -692,7 +692,6 @@ class playersTable():
                     break
                    
         if newType : self.pTable.append([plug, str(ptype)])
-        
         self.saveTable()
     
     def removePType(self, plug):
@@ -710,7 +709,7 @@ class playersTable():
         self.pTable = [rec.split(self._SEP1) for rec in unpack.split(self._SEP2)]  
     
     def saveTable(self):
-        pack = self._SEP2.join([self._SEP1.join([rec1, rec2]) for rec1, rec2 in self.pTable])
+        pack = self._SEP2.join([self._SEP1.join([rec1, rec2]) for rec1, rec2 in self.pTable]) 
         DOS.file(self._file_name, self._path, pack, FWrite) 
     
     def getall(self):

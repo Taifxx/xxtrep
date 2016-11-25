@@ -558,8 +558,8 @@ class dbxSync():
         newLibImg = self._addTime(self.libScan())
         synLibImg = self.loadLibImg(self.vbdLibImgSyncFile) 
         
-        if not oldLibImg : self.saveLibImg(img=newLibImg); GUI.msg('ERROR: LibImg reading')
-        if not synLibImg : self.createLibImgSync(new=False); GUI.msg('ERROR: LibImg.sync reading')  
+        if not oldLibImg : self.saveLibImg(img=newLibImg)
+        if not synLibImg : self.createLibImgSync(new=False)  
         if not oldLibImg or not synLibImg : return True 
         
         removed, added = self.cmpImgs(synLibImg, newLibImg, raw=True)

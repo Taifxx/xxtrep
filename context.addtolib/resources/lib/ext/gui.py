@@ -43,39 +43,56 @@ dlgInnum  = lambda                       title=defCaption, default=Empty : xbmcg
 
 def dlgSelNoSkin (sargs, title=defCaption) : return xbmcgui.Dialog().select(title if title else defCaption, sargs) 
 
-def dlgSel (sargs, title=defCaption, lnmsg=Empty):
+def dlgSel (sargs, title=defCaption, lnmsg=Empty, itmPos=0):
     if not title : title = defCaption
     if addon.USESKINS: 
         if lnmsg : return dlgSelX(lnmsg, title, sargs).position
-        else     : return dlgSelXSub(title, sargs).position
+        else     : return dlgSelXSub(title, sargs, setItmPos=itmPos).position
     else : return xbmcgui.Dialog().select(title, sargs)
+
 
 def dlgResume (sargs, title=defCaption): 
     return dlgSelXSub(title if title else defCaption, sargs, XML=TAG_PAR_XMLW_RESUMEDLG).position if addon.USESKINS else xbmcgui.Dialog().select(title if title else defCaption, sargs)
     
 
-def dlgSelmul (sargs, selMark, title=defCaption, selDef=None):
+def dlgSelmul (sargs, selMark, title=defCaption, selDef=None, resetItm=Empty):
     if not title : title = defCaption
-    idx       = 0
     marksList = dict()
     resList   = []
+    selAppr   = 0  
+    
+    if resetItm:
+        sargs = [resetItm] + sargs
+        selAppr = 1 
     
     if selDef:
         for idx, itm in enumerate(sargs):
-            if itm in selDef : marksList.update({idx:selMark}); resList.append(idx) 
-     
+            if itm in selDef : marksList.update({idx:selMark}); resList.append(idx-selAppr) 
+    
+    idx = 0 
+    
     while idx != -1:
         sargsList = []
         for aidx, arg in enumerate(sargs) : sargsList.append(marksList.get(aidx, Empty) + arg)
         
-        idx = dlgSel(sargsList, title)  
-        if idx == len(sargsList) - 1 : idx = -1 
+        idx = dlgSel(sargsList, title, itmPos=idx)  
+        if idx == len(sargsList) - 1 : idx = -1
+        elif idx == 0 and resetItm:
+            isUnselect = True if marksList else False 
+            marksList.clear()
+            resList = []
+            if not isUnselect:
+                for sidx, itm in enumerate(sargs[1:-1]): 
+                    marksList.update({sidx+1:selMark})
+                    resList.append(sidx)  
+         
         if idx != -1 :
+            if idx == 0 and resetItm : continue
             if  marksList.get (idx, False):
-                resList.remove(idx)
+                resList.remove(idx-selAppr)
                 marksList.pop (idx)
             else:
-                resList.append(idx)
+                resList.append(idx-selAppr)
                 marksList.update({idx:selMark})
              
     return resList
@@ -187,16 +204,18 @@ class dlgSelX (CAltDTmpl):
 
 
 class dlgSelXSub (CAltDTmpl):
-    def __init__(self, caption, sargs, XML=TAG_PAR_XMLW_SELDLGSUB):
+    def __init__(self, caption, sargs, XML=TAG_PAR_XMLW_SELDLGSUB, setItmPos=0):
         self.caption  = caption
         self.sargs    = sargs     
         self.position = -1
+        self.setItmPos = setItmPos
         CAltDTmpl.__init__(self, xmlFile=XML)
     
     def onInit(self, xml):
         xml.getControl(100).setLabel(TAG_PAR_MNUCOLORFORMAT % (addon.COLOR, self.caption) if addon.COLORIZE else self.caption)
         xml.getControl(200).addItems(self.sargs)
         if not addon.DIMBCKG : xml.getControl(90).setVisible(False)
+        xml.getControl(200).selectItem(self.setItmPos)
             
     def onClick(self, controlID, xml): 
         self.position = xml.getControl(200).getSelectedPosition()

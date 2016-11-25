@@ -59,13 +59,13 @@ def errord (error, error_ok=Empty, tvsName=Empty, exten=Empty):
     elif error == TAG_ERR_LIBACT      : GUI.msgf  (txtTTL, tl(TAG_ERR_LIBACT),       nottype=GUI.notError)
     elif error == TAG_ERR_LOCK        : GUI.msgf  (txtTTL, tl(TAG_ERR_LOCK),         nottype=GUI.notWarning)
     elif error == TAG_ERR_NOBCKPATHM  : GUI.msgf  (txtTTL, tl(TAG_ERR_NOBCKPATHM),   nottype=GUI.notError) 
-    elif error == TAG_ERR_NODBXCONNECT: GUI.msgf  (txtTTL, tl(TAG_ERR_NODBXCONNECT), nottype=GUI.notError)        
+    elif error == TAG_ERR_NODBXCONNECT: GUI.msgf  (txtTTL, tl(TAG_ERR_NODBXCONNECT), nottype=GUI.notError)
+    elif error == TAG_ERR_BROKENLINK  : GUI.msgf  (txtTTL, tl(TAG_ERR_BROKENLINK),   nottype=GUI.notError)        
                 
     elif error == TAG_ERR_INCINPUT    : GUI.dlgOk (tl(TAG_ERR_INCINPUT),  tl(TAG_ERR_ABORT),   title=tvsName)
     elif error == TAG_ERR_LISTEMPTY   : GUI.dlgOk (tl(TAG_ERR_LISTEMPTY), tl(TAG_ERR_ABORT),   title=tvsName)
     elif error == TAG_ERR_NONAME      : GUI.dlgOk (tl(TAG_ERR_NONAME),    tl(TAG_ERR_NONAME2), title=tvsName)
     
-    elif error == TAG_ERR_BROKENLINK  : GUI.dlgOk (tl(TAG_ERR_BROKENLINK), tl(TAG_ERR_BROKENLINK2) % (NewLine, exten), title=tvsName)
     elif error == TAG_ERR_LIB         : GUI.dlgOk (tl(TAG_ERR_LIB))
     elif error == TAG_ERR_OL          : GUI.dlgOk (tl(TAG_ERR_OL))
     elif error == TAG_ERR_BADZIP      : GUI.dlgOk (tl(TAG_ERR_BADZIP))
@@ -537,10 +537,14 @@ def restoreAllTVS(prefix):
     
 def rescanSRC(items, TVS, prefix):
     #if items.vidCPath in TVS.get_raw_link_list() : return TAG_MNU_RAWADD 
-    if len(TVS.get_eps_names_and_links_forsrc(items.vidCPath)[0]) > len(items.vidListItems) : return TAG_ERR_BROKENLINK  
+    if len(TVS.get_eps_names_and_links_forsrc(items.vidCPath)[0]) > len(items.vidListItems):
+        if not GUI.dlgYn (tl(TAG_ERR_BROKENLINK), tl(TAG_ERR_BROKENLINK2) % (NewLine, TVS.get_src_name_by_link(items.vidCPath)), title=normName(TVS.lib_name)): 
+            return TAG_ERR_BROKENLINK  
     
+    mode = TVS.get_scr_numb_season_mode(items.vidCPath)[2]
+    if mode : items.convertToFolderMode()
     TVS.os_exclude_src(items.vidCPath, dexport=False)
-    err = addTVS(items, TVS, prefix)
+    err = addTVS(items, TVS, prefix, folmode=mode)
     
     return err
 
@@ -591,8 +595,15 @@ def setupdSRC(fnames, snames, TVS):
     return TAG_ERR_OK
     
 
-def renEPS(TVS, reslink, newName, oldname, prefix):
-    TVS.os_rename_eps(reslink, newName, oldname, prefix)
+def renEPS(TVS, src_id, newName, oldname, prefix):
+    #TVS.os_rename_eps(reslink, newName, oldname, prefix)
+    TVS.os_rename_eps(src_id, newName, oldname, prefix)
+    
+    return TAG_ERR_OK
+
+
+def removeEPS(TVS, src_id, epsName):
+    TVS.os_remove_eps(src_id, epsName)
     
     return TAG_ERR_OK
 
@@ -608,7 +619,7 @@ def addMOV(items, newName, prefix, rawadd=False):
     return TAG_ERR_OK
     
       
-def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty, cornum=Empty): 
+def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty, cornum=Empty, folmode=False): 
 
     if not items.vidListItems : return TAG_ERR_LISTEMPTY
     
@@ -621,7 +632,7 @@ def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty, cornum=Empty):
     
     file_name = CMP.comps()
     src_name  = CMP.create_name_once (items.vidFolderNameDef, TAG_TYP_SRC, srcFolder=items.vidCName, season=defSeason) 
-    src_id    = TVS.append_source    (src_name, items.vidCPath, defSeason)
+    src_id    = TVS.append_source    (src_name, items.vidCPath, defSeason, src_folmode=folmode)
       
     CMP.create_name(file_name, TAG_TYP_PREFILE)
     maxcorn = max(cornum) if cornum else 0 
@@ -807,6 +818,7 @@ class CSRC:
          self.remnames = [tl(TAG_MNU_SRE) + itm for itm in tfrc_names] + tsrc_names
          self.idxs     = range(len(self.names))
          self._idx     = -1
+         self.fsidxs   = []
     
     def exclude(self, link):
         if link in self.links:
@@ -833,6 +845,16 @@ class CSRC:
          else: 
              self.fnames = [self.names[idx] for idx in zidx if idx <= self.frclen - 1]
              self.snames = [self.names[idx] for idx in zidx if idx >  self.frclen - 1]
+             self.fsidxs = [idx for idx in zidx]
+    
+    def filtering(self):
+        removed_links = []
+        for idx in self.idxs:
+            if idx == -1 : continue
+            if idx not in self.fsidxs : removed_links.append(self.links[idx])
+            
+        for link in removed_links:
+            self.exclude(link)         
     
     def getidxs(self, gNames): 
          return [idx for idx in self.idxs if self.names[idx] in gNames]                         

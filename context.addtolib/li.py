@@ -179,4 +179,11 @@ class vidItems:
             retList.append(itm[1])
         
         return retList 
+    
+    def convertToFolderMode(self):
+        for itm in self.vidListItems:
+            itm[1] = self.vidCPath
+            
+        for itm in self.vidListItemsRaw:
+            itm[1] = self.vidCPath
              

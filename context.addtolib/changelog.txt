@@ -1,4 +1,20 @@
-﻿v1.0.12
+﻿v1.0.13
+BugFix:
+    - Problem with removing not defined movie (tv show) from main menue 
+    - Disabled incorrect debug messages in sync module
+    - Problem with updating episodes list after using advanced adding
+    - Problems with rescanning forced added TV Shows 
+    - Problem with TV Show definition after using advanced adding
+New:
+    - 'Select / Reset all' option in some multiselect lists
+    - Multiselect lists keeps position of selected item (only when using skins)
+    - 'Add items as part of multiple seasons source' menue item (allows add several parts of same source)
+    - Choice sources for rescanning (instead Rescann all sources)
+    - Episodes removing (Sources managment > Episodes browsing)
+    - 'Folder mode' in TV Shows advanced adding (allows to use Folder playback type) 
+
+
+v1.0.12
 BugFix:
     - Blocked double run of addon
     - Problem with invisible text in some skins

@@ -151,7 +151,7 @@ class tagMenue:
 
 class simpleMenue:
 
-    def __init__(self, mnuNames, mnuVals, cancelName, cancelVal, mnuMultiSel=False, mnuSelMark=Empty, mnuTitle=Empty, mnuSelDef=None):
+    def __init__(self, mnuNames, mnuVals, cancelName, cancelVal, mnuMultiSel=False, mnuSelMark=Empty, mnuTitle=Empty, mnuSelDef=None, resetItm=Empty):
         self._cancelVal   = cancelVal
         self._cancelName  = cancelName
         self._mnuNames    = mnuNames
@@ -159,7 +159,8 @@ class simpleMenue:
         self._title       = mnuTitle
         self._mnuMultiSel = mnuMultiSel
         self._mnuSelMark  = mnuSelMark
-        self._mnuSelDef   = mnuSelDef 
+        self._mnuSelDef   = mnuSelDef
+        self._resetItm    = resetItm 
     
     
     def show(self):
@@ -177,6 +178,8 @@ class simpleMenue:
         if self._mnuSelDef : selDef = {'selDef':self._mnuSelDef}
         else               : selDef = dict()
         
+        selDef.update({'resetItm':self._resetItm})
+        
         ## Show Menue and parse result ...
         if self._mnuMultiSel:
             args += selMark + title 
@@ -189,7 +192,7 @@ class simpleMenue:
         return  result
 
 
-def subMenue (submNames, submVals=Empty, default=Empty, title=Empty, defidx=0, cancelVal=TAG_MNU_BACKMAIN, cancelName=Empty, multiSel=False, multiSelDefList=None, selMarkm=Empty):
+def subMenue (submNames, submVals=Empty, default=Empty, title=Empty, defidx=0, cancelVal=TAG_MNU_BACKMAIN, cancelName=Empty, multiSel=False, multiSelDefList=None, selMarkm=Empty, resetItm=Empty):
     if not submVals: 
         submCVals  = submNames
         submCNames = [tl(itm) for itm in submNames]
@@ -219,7 +222,8 @@ def subMenue (submNames, submVals=Empty, default=Empty, title=Empty, defidx=0, c
                         mnuTitle    = title,
                         mnuMultiSel = multiSel,
                         mnuSelMark  = selMarkm,
-                        mnuSelDef   = multiDef)
+                        mnuSelDef   = multiDef,
+                        resetItm    = resetItm)
                         
     result = Menue.show(); del Menue
     return result  

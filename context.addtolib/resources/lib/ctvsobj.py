@@ -34,6 +34,9 @@ class TVS:
         self._sepEPS = TAG_PAR_TVSPACK_ESEP + NewLine
         self._sepPRT = TAG_PAR_TVSPACK_PSEP + NewLine
         
+        self._sepVER = TAG_PAR_TVSPACK_VERSEP + NewLine
+        self._PACK_VERS = TAG_PAR_TVSPACK_VERSION
+        
         ## Define TVS ...
         self._define(def_file_name, def_file_path, Import)
         
@@ -73,14 +76,19 @@ class TVS:
         if self._append(original_name, 'original_name', self._episodes, {'original_name':original_name, 'new_name':new_name, 'link':link, 'src_id':src_id}):
             for src in self._sources:
                 if src['src_id'] == src_id : src['src_numb'] += self._sn_add; self._sn_add = 1; break
-            if self.seq : self.seq += 1  
-        
+            if self.seq : self.seq += 1
+            
+    def update_season(self, src_link, src_season):
+        for src in self._sources : 
+            if src_link == src['src_link'] : src['src_season'] = src_season 
+              
     def append_fsource(self, fsrc_name, fsrc_link, fsrc_inum, fsrc_upd=True):
         self._append(fsrc_link, 'fsrc_link', self._folsources, {'fsrc_name':getUniqname(fsrc_name, [itm['fsrc_name'] for itm in self._folsources]), 'fsrc_link':fsrc_link, 'fsrc_inum':fsrc_inum, 'fsrc_upd':fsrc_upd})
     
-    def append_source(self, src_name, src_link, src_season=Empty, src_upd=True):
+    def append_source(self, src_name, src_link, src_season=Empty, src_upd=True, src_folmode=False):
         src_id = self.get_src_id(src_link)
-        self._append(src_link, 'src_link', self._sources, {'src_name':getUniqname(src_name, [itm['src_name'] for itm in self._sources]), 'src_link':src_link, 'src_id':src_id, 'src_upd':src_upd, 'src_season':src_season, 'src_numb':0})
+        if not self._append(src_link, 'src_link', self._sources, {'src_name':getUniqname(src_name, [itm['src_name'] for itm in self._sources]), 'src_link':src_link, 'src_id':src_id, 'src_upd':src_upd, 'src_season':src_season, 'src_numb':0, 'src_folmode':src_folmode}):
+            self.update_season(src_link, src_season)
         return src_id 
     
     def incSeq(self):
@@ -107,6 +115,9 @@ class TVS:
     def exclude_folsource(self, frc_link):
         self._folsources = self._exclude(frc_link, 'fsrc_link', self._folsources)
     
+    def remove_episode(self, src_id, eps_name):
+        for eps in self._episodes:
+             if eps['src_id'] == src_id and eps['new_name'] == eps_name : self._episodes.remove(eps)  
     
     ### Get ...    
     def get_eps_names_and_links(self):
@@ -159,6 +170,11 @@ class TVS:
         for itm in self._sources:
             if itm['src_link'] == link : return itm['src_season'], itm['src_numb']
         return Empty, 0
+    
+    def get_scr_numb_season_mode(self, link):
+        for itm in self._sources:
+            if itm['src_link'] == link : return itm['src_season'], itm['src_numb'], itm['src_folmode'] 
+        return Empty, 0, False
         
     def get_raw_link_list(self):
         return [itm[0] for itm in self._rawlist]
@@ -190,9 +206,9 @@ class TVS:
         for frc in self._folsources:
             if frc['fsrc_name'] == frcOldName : frc['fsrc_name'] = frcNewName
     
-    def ren_eps(self, link, newname):
+    def ren_eps(self, src_id, oldname, newname):
         for itm in self._episodes:
-            if itm['link'] == link : itm['new_name'] = newname; break   
+            if itm['src_id'] == src_id and itm['new_name'] == oldname : itm['new_name'] = newname; break   
     
     ### Set updateble flags ...
     def set_upd(self, fcrNames, scrNames):
@@ -211,7 +227,7 @@ class TVS:
         self.packed_data = DOS.file(self._file_name, self.lib_path, fType=FRead) 
         if self.packed_data == -1: self.packed_data = Empty
         self.packed_data = self.packed_data.replace(CR, Empty)
-        self._unpack()
+        self._unpack_by_version()
     
     def dexport(self):
         self._pack()
@@ -219,7 +235,7 @@ class TVS:
     
     ### Pack and unpack TV Show data ...    
     def _pack(self):
-        lst = [self._sepLST.join([itm['src_name'], itm['src_link'], str(itm['src_id']), str(itm['src_upd']), itm['src_season'], str(itm['src_numb'])]) for itm in self._sources]
+        lst = [self._sepLST.join([itm['src_name'], itm['src_link'], str(itm['src_id']), str(itm['src_upd']), itm['src_season'], str(itm['src_numb']), str(itm['src_folmode'])]) for itm in self._sources]
         src =  self._sepSRC.join(lst)
         
         lst = [self._sepLST.join([itm['fsrc_name'], itm['fsrc_link'], str(itm['fsrc_inum']), str(itm['fsrc_upd'])]) for itm in self._folsources]
@@ -228,12 +244,31 @@ class TVS:
         lst = [self._sepLST.join([itm['original_name'], itm['new_name'], itm['link'], str(itm['src_id'])]) for itm in self._episodes]
         eps =  self._sepEPS.join(lst)
         
-        self.packed_data = self._sepPRT.join([src, frc, eps, str(self.seq)]) 
+        self.packed_data = self._sepVER.join([self._PACK_VERS, self._sepPRT.join([src, frc, eps, str(self.seq)])]) 
+    
+    ### Unpack by version ...
+    def _unpack_by_version (self):
+        try:
+            pVers, pData = (self.packed_data.split(self._sepVER))
+            if pVers == '10013' : self._unpack10013(pData) 
+        except: 
+            self._unpack()     
+
+    ### Unpacker versions ...
+    def _unpack10013(self, pData):
+        if not pData: return
+        self.packed_data = pData
+        src, frc, eps, seq       = (self.packed_data.split(self._sepPRT)) 
+        if src: self._sources    = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':sbool(itm4), 'src_season':itm5, 'src_numb':int(itm6), 'src_folmode':sbool(itm7)} for itm in src.split(self._sepSRC) for itm1, itm2, itm3, itm4, itm5, itm6, itm7 in [itm.split(self._sepLST)]]
+        if frc: self._folsources = [{'fsrc_name':itm1, 'fsrc_link':itm2, 'fsrc_inum':int(itm3), 'fsrc_upd':sbool(itm4)} for itm in frc.split(self._sepFRC) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
+        if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4)} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
+        self.seq                 = int(seq)
+        self.packed_data = Empty
         
     def _unpack(self):
         if not self.packed_data: return
         src, frc, eps, seq       = (self.packed_data.split(self._sepPRT)) 
-        if src: self._sources    = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':sbool(itm4), 'src_season':itm5, 'src_numb':int(itm6)} for itm in src.split(self._sepSRC) for itm1, itm2, itm3, itm4, itm5, itm6 in [itm.split(self._sepLST)]]
+        if src: self._sources    = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':sbool(itm4), 'src_season':itm5, 'src_numb':int(itm6), 'src_folmode':False} for itm in src.split(self._sepSRC) for itm1, itm2, itm3, itm4, itm5, itm6 in [itm.split(self._sepLST)]]
         if frc: self._folsources = [{'fsrc_name':itm1, 'fsrc_link':itm2, 'fsrc_inum':int(itm3), 'fsrc_upd':sbool(itm4)} for itm in frc.split(self._sepFRC) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
         if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4)} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
         self.seq                 = int(seq)
@@ -340,12 +375,18 @@ class TVS:
         self._rawlist = []
         for itm in lined : self._rawlist.append(itm.split(self._sepLST)) 
         
-    def os_rename_eps(self, link, newname, oldname, prefix):
-        DOS.delf(DOS.join(self.lib_path, oldname) + STRM)
-        self._os_create_strm(newname, self.lib_path, link, True, prefix)
-        self.ren_eps(link, newname)
-        self.dexport()   
-
+    def os_rename_eps(self, src_id, newname, oldname, prefix):
+        #DOS.delf(DOS.join(self.lib_path, oldname) + STRM)
+        #self._os_create_strm(newname, self.lib_path, link, True, prefix)
+        DOS.rename(DOS.join(self.lib_path, oldname) + STRM, DOS.join(self.lib_path, newname) + STRM)
+        self.ren_eps(src_id, oldname, newname)
+        self.dexport()
+        
+    def os_remove_eps(self, src_id, eps_name):
+        DOS.delf(DOS.join(self.lib_path, eps_name) + STRM)
+        self.remove_episode(src_id, eps_name)
+        self.dexport()  
+        
 
 class CLinkTable:
     

@@ -141,6 +141,9 @@ TAG_PAR_TVSPACK_FSEP        = '<**FRCSEP**>'
 TAG_PAR_TVSPACK_ESEP        = '<**EPSSEP**>'
 TAG_PAR_TVSPACK_PSEP        = '<**PRTSEP**>'
 
+TAG_PAR_TVSPACK_VERSEP      = '<**VERSIONSEP**>'
+TAG_PAR_TVSPACK_VERSION     = '10013'
+
 ### Containers starts with ...
 TAG_CON_STARTSW_EXT         =  'plugin:'
 TAG_CON_STARTSW_VID         =  'videodb:'
@@ -277,6 +280,9 @@ TAG_MNU_PBTYPES         = 30063
 TAG_MNU_DBSYNC          = 30064
 TAG_MNU_DELMOV          = 30065
 TAG_MNU_DELTVS          = 30066
+TAG_MNU_REMARKALL       = 30067
+TAG_MNU_TVSSTALN        = 30068
+TAG_MNU_FOLDMODE        = 30069
 
 ### Static mnu ...
 TAG_MNU_MORE            = 30090
@@ -351,6 +357,7 @@ TAG_DLG_TVSDEL          = 30142
 TAG_DLG_SCLNDB          = 30143
 TAG_DLG_SREMEF          = 30144
 TAG_DLG_LOCKSYQ         = 30145
+TAG_DLG_RENM            = 30146
 
 ### Titles ...
 TAG_TTL_NM              = 30150
@@ -446,6 +453,7 @@ TAG_ERR_OK_DBXWSMUP     = 30333
 TAG_ERR_OK_SYNCUNLOCK   = 30334
 TAG_ERR_OK_MTVSDEL      = 30335
 TAG_ERR_OK_SYNCLOCK     = 30336
+TAG_ERR_OK_EPSREM       = 30337
 
 ### Errors ...
 TAG_ERR_NOTFILE         = 30201

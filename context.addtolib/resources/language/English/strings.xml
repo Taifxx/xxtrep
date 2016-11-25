@@ -16,14 +16,14 @@
     <string id="30010">[COLOR ##COLOR##]Check[/COLOR] for new episodes</string>
     <string id="30011">[COLOR ##COLOR##]Merge[/COLOR] TV Shows</string>
     <string id="30012">[COLOR ##COLOR##]Rename[/COLOR] TV Show</string>
-    <string id="30013">[COLOR ##COLOR##]Rename[/COLOR] Source</string>
+    <string id="30013">[COLOR ##COLOR##]Rename[/COLOR] source</string>
     <string id="30014">[COLOR ##COLOR##]Update[/COLOR] managment</string>
     <string id="30015">Add to [COLOR ##COLOR##]existing[/COLOR] TV Show</string>
     <string id="30016">Add as [COLOR ##COLOR##]new[/COLOR] TV Show</string>
     <!--string id="30017">[COLOR ##COLOR##]&gt;&gt;[/COLOR] </string-->
     <string id="30017">[COLOR ##COLOR##](upd)[/COLOR] </string>
     <string id="30018">[COLOR ##COLOR##]Show all[/COLOR] existing TV Shows</string>
-    <string id="30019">[COLOR ##COLOR##]Source[/COLOR] managment</string>
+    <string id="30019">[COLOR ##COLOR##]Sources[/COLOR] managment</string>
     <string id="30020">[COLOR ##COLOR##]TV Shows[/COLOR] managment</string>
     <string id="30021">[ [COLOR ##COLOR##]</string>
     <string id="30022">[/COLOR] ]</string>
@@ -55,9 +55,9 @@
     <string id="30048">[COLOR ##COLOR##]Restore all[/COLOR] TV Shows</string>
     <string id="30049">[COLOR ##COLOR##](+)[/COLOR] </string>
     <string id="30050">[COLOR ##COLOR##]Forced[/COLOR] add</string>
-    <string id="30051">[COLOR ##COLOR##]Episodes[/COLOR] browsing and renaming</string>
+    <string id="30051">[COLOR ##COLOR##]Episodes[/COLOR] browsing</string>
     <string id="30052">[COLOR ##COLOR##]Continue[/COLOR] last update</string>
-    <string id="30053">[COLOR ##COLOR##]Rescann all[/COLOR] sources</string>
+    <string id="30053">[COLOR ##COLOR##]Rescann[/COLOR] sources</string>
     <string id="30054">[COLOR ##COLOR##]Global[/COLOR] rescann</string>
     <string id="30055">Yes</string>
     <string id="30056">No</string>
@@ -71,6 +71,9 @@
     <string id="30064">[COLOR ##COLOR##]Synchronization[/COLOR]</string>
     <string id="30065">[COLOR red]Remove[/COLOR] movie</string>
     <string id="30066">[COLOR red]Remove[/COLOR] TV Show</string>
+    <string id="30067">[COLOR ##COLOR##]Select / Reset all[/COLOR]</string>
+    <string id="30068">Add items as part of [COLOR ##COLOR##]multiple seasons source[/COLOR]</string>
+    <string id="30069">[COLOR ##COLOR##]Folder mode:[/COLOR]  </string>
     <!-- Static Menue Items -->
     <string id="30090">[COLOR ##COLOR##]...[/COLOR]</string>
     <string id="30091">[COLOR ##COLOR##]&lt;[/COLOR] Back</string>
@@ -89,7 +92,7 @@
     <string id="30077">Do you want to [COLOR ##COLOR##]clean[/COLOR] Video Library?</string>
     <string id="30078">Do you want to [COLOR ##COLOR##]add[/COLOR] TV Show with name: [COLOR ##COLOR##]%s[/COLOR]?</string>
     <string id="30079">Do you want to [COLOR ##COLOR##]restore all[/COLOR] TV Shows?</string>
-    <string id="30080">Do you want to [COLOR ##COLOR##]rescann all[/COLOR] TV Show sources?</string>
+    <string id="30080">Do you want to [COLOR ##COLOR##]rescann[/COLOR] selected TV Show sources?</string>
     <string id="30081">Do you want to [COLOR ##COLOR##]rescann all[/COLOR] sources in [COLOR ##COLOR##]all TV Shows[/COLOR]?</string>
     <string id="30082">Do you want to [COLOR ##COLOR##]automatically rename[/COLOR] all sources?</string>
     <string id="30083">Addon [COLOR red]locked[/COLOR] until background process running. Unlock forcibly?</string>
@@ -142,6 +145,7 @@
     <string id="30143">[COLOR ##COLOR##]Cleaning[/COLOR] Video DB</string>
     <string id="30144">[COLOR ##COLOR##]Removing[/COLOR] empty foldefs</string>
     <string id="30145">Do you want [COLOR ##COLOR##]lock[/COLOR] synchonization?</string>
+    <string id="30146">[COLOR ##COLOR##]Rename[/COLOR] episode</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
@@ -254,6 +258,7 @@
     <string id="30334">Synchronization was [COLOR ##COLOR##]unlocked[/COLOR]</string>
     <string id="30335">%s was [COLOR ##COLOR##]removed[/COLOR]</string>
     <string id="30336">Synchronization was [COLOR ##COLOR##]locked[/COLOR]</string>
+    <string id="30337">Episode [COLOR red]removed[/COLOR]</string>
     <!-- Settings -->
     <string id="30401">Colorize menue and messages</string>
     <string id="30402">Update (Clean) video library after action</string>
