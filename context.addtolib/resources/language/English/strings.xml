@@ -98,6 +98,7 @@
     <string id="30083">Addon [COLOR red]locked[/COLOR] until background process running. Unlock forcibly?</string>
     <string id="30084">Do you want to [COLOR ##COLOR##]remove[/COLOR] all backups?</string>
     <string id="30085">Do you want to restore library from backup ([COLOR ##COLOR##]%s[/COLOR])?</string>
+    <string id="30086">Do you want to exclude [COLOR red]%s[/COLOR] from updates?</string>
     <!-- Dialogs messages -->
     <string id="30100">OK</string>  
     <string id="30101">></string>
@@ -146,13 +147,15 @@
     <string id="30144">[COLOR ##COLOR##]Removing[/COLOR] empty foldefs</string>
     <string id="30145">Do you want [COLOR ##COLOR##]lock[/COLOR] synchonization?</string>
     <string id="30146">[COLOR ##COLOR##]Rename[/COLOR] episode</string>
+    <string id="30147">[COLOR ##COLOR##]Current[/COLOR] TV Show</string>
+    <string id="30148">[COLOR ##COLOR##]Exclude[/COLOR] add-on</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Enter TV Show name:</string>
     <string id="30152">Choose TV Show name:</string>
     <string id="30153">Add TV Show</string>
     <string id="30154">Found new episodes</string>
-    <string id="30155">Existing TV Shows</string>
+    <string id="30155">[COLOR ##COLOR##]Existing[/COLOR] TV Shows</string>
     <string id="30156">Checking</string>
     <string id="30157">Add movie</string>
     <string id="30158">Enter movie name:</string>
@@ -259,6 +262,7 @@
     <string id="30335">%s was [COLOR ##COLOR##]removed[/COLOR]</string>
     <string id="30336">Synchronization was [COLOR ##COLOR##]locked[/COLOR]</string>
     <string id="30337">Episode [COLOR red]removed[/COLOR]</string>
+    <string id="30338">Add-on was [COLOR red]excluded[/COLOR] from updates</string>
     <!-- Settings -->
     <string id="30401">Colorize menue and messages</string>
     <string id="30402">Update (Clean) video library after action</string>

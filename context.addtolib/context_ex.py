@@ -260,19 +260,19 @@ class plgMain(GUI.CAltDTmpl):
                                   {'pos':2, 'tag':TAG_MNU_MOV,      'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_TYP_FOLDER}},
                                   {'pos':3, 'tag':TAG_MNU_TVS,      'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY, TAG_CND_OLDSRC}},
                                   {'pos':4, 'tag':TAG_MNU_TVSSTALN, 'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY, TAG_CND_NEWSRC}},
-                                  {'pos':5,'tag':TAG_MNU_RAWADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID}},
+                                  {'pos':5, 'tag':TAG_MNU_RAWADD,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID}},
                                   {'pos':6, 'tag':TAG_MNU_TVSU,     'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_LISTEMPTY, TAG_CND_NEWSRC}},
-                                  {'pos':7, 'tag':TAG_MNU_ADDFOL,    'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_OLDFRC}},
+                                  {'pos':7, 'tag':TAG_MNU_ADDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_OLDFRC}},
                                   {'pos':8, 'tag':TAG_MNU_UPDFOL,   'hideCond':{TAG_CON_LOCAL, TAG_CON_VID, TAG_CND_NEWFRC}},
                                   {'pos':9, 'tag':TAG_MNU_CONTUPD,  'hideCond':{TAG_CND_NOUPDPRC}},
-                                  {'pos':10, 'tag':TAG_MNU_OPEN,     'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':11, 'tag':TAG_MNU_CHKNEW,   'hideCond':{TAG_CND_NOTFOUND}},
-                                  {'pos':12, 'tag':TAG_MNU_CHKNEWGL, 'hideCond':{}},
+                                  {'pos':10,'tag':TAG_MNU_OPEN,     'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':11,'tag':TAG_MNU_CHKNEW,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':12,'tag':TAG_MNU_CHKNEWGL, 'hideCond':{}},
                                   {'pos':13,'tag':TAG_MNU_CONTUPD,  'hideCond':{TAG_CND_UPDPRC, TAG_CND_NOGL}},
                                   {'pos':14,'tag':TAG_MNU_VIDLIBU,  'hideCond':{TAG_CND_NOUPD}},
                                   {'pos':15,'tag':TAG_MNU_VIDLIBCLN,'hideCond':{TAG_CND_NOUPD}},
                                   {'pos':16,'tag':TAG_MNU_SRCMAN,   'hideCond':{(TAG_CON_LOCAL, TAG_CND_NOTFOUND), (TAG_CON_VID, TAG_CND_NOTFOUND)}},
-                                  {'pos':17,'tag':TAG_MNU_UPDMAN,   'hideCond':{TAG_CND_NOTFOUND}},
+                                  {'pos':17,'tag':TAG_MNU_UPDMAN,   'hideCond':{}},
                                   {'pos':18,'tag':TAG_MNU_TVSMAN,   'hideCond':{TAG_CND_ISMOV}},
                                   {'pos':19,'tag':TAG_MNU_PBTYPES,  'hideCond':{TAG_CON_EXT}},
                                   {'pos':20,'tag':TAG_MNU_DBSYNC,   'hideCond':{TAG_CND_DBXNOAUTH}},         
@@ -650,15 +650,40 @@ class plgMain(GUI.CAltDTmpl):
     def mnu_updman(self):                  
     
         rd = TAG_MNU_BACKMAIN
-                                                
-        srcDef, frcDef = self.TVS.get_upd()
-        mdefault=self.src.getlinkidx(self.items.vidCPath)
-        mdefidx=self.src.frclen if mdefault >= self.src.frclen else 0
-        self.src(subMenue(self.src.remnames, self.src.idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, default=mdefault, selMarkm=tl(TAG_MNU_SM),
-                     multiSelDefList=self.src.getidxs(frcDef+srcDef), defidx=mdefidx, title=titName(TAG_MNU_UPDMAN, self.TVS.lib_name)))
-                        
-        if not errord(setupdSRC(self.src.fnames, self.src.snames, self.TVS), TAG_ERR_OK_SETUPD, normName(self.TVS.lib_name)):
-            self.useChanger = True                                      
+        
+        exclude_addon = True
+        
+        if self.isFound:
+            vrnts = [TAG_DLG_CURRTVS, TAG_TTL_EXITVS, TAG_DLG_EXCLADDON]
+            result = subMenue(vrnts, cancelVal=-1, cancelName=TAG_MNU_CANCEL, title=titName(TAG_MNU_UPDMAN, self.TVS.lib_name))
+            
+            if   result == -1 : return rd
+            elif result == TAG_TTL_EXITVS:
+                if self.mnu_showall() == TAG_MNU_TVSMAN : return rd 
+                result = TAG_DLG_CURRTVS
+            
+            if   result == TAG_DLG_CURRTVS:
+                exclude_addon = False            
+                srcDef, frcDef = self.TVS.get_upd()
+                mdefault=self.src.getlinkidx(self.items.vidCPath)
+                mdefidx=self.src.frclen if mdefault >= self.src.frclen else 0
+                self.src(subMenue(self.src.remnames, self.src.idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, default=mdefault, selMarkm=tl(TAG_MNU_SM),
+                             multiSelDefList=self.src.getidxs(frcDef+srcDef), defidx=mdefidx, title=titName(TAG_MNU_UPDMAN, self.TVS.lib_name)))
+                                
+                if not errord(setupdSRC(self.src.fnames, self.src.snames, self.TVS), TAG_ERR_OK_SETUPD, normName(self.TVS.lib_name)):
+                    self.useChanger = True
+        
+        if exclude_addon:
+            plugs = getTVSsPlugs()
+            plugsNemes = [prefixToName(plg) for plg in plugs]
+        
+            plugin = subMenue(plugsNemes, plugs, cancelVal=-1, title=tla(TAG_DLG_EXCLADDON))
+            
+            if plugin == -1 or not GUI.dlgYn(tl(TAG_CFR_EXCLPLUG) % (prefixToName(plugin)), title=tla(TAG_DLG_EXCLADDON)) : return rd
+            
+            if not errord(excludeUPDPlug(plugin), TAG_ERR_OK_EXCLUPLUG):
+                self.setTVS(self.TVS.lib_path, True)
+                self.useChanger = True
         
         return rd  
         
@@ -677,6 +702,7 @@ class plgMain(GUI.CAltDTmpl):
          
         self.setTVS(newPath, True)
         self.pageNum = 0
+        self.forcetvstitle = True
         
         return Empty 
         
@@ -1239,7 +1265,7 @@ class plgMain(GUI.CAltDTmpl):
                 if newPath:
                     if newPath == TAG_MNU_NEW : self.setTVS(Empty, False)
                     else                      : self.setTVS(newPath, True)            
-                    defname, aSeq, aSeqT, aNumb, aNumbT, aSeason, aTVS, aName = _getParam()
+                    defname, aSeq, aSeqT, aNumb, aNumbT, aSeason, aTVS, aName, mode = _getParam()
                 
                 
             elif result == 1: 

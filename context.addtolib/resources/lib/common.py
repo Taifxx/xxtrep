@@ -20,6 +20,7 @@
 ### Import modules ...
 from ext import *
 import ctvsobj as CTVS
+import call 
 
 
 def confirm (tag, tvsName=Empty, srcName=Empty):
@@ -288,6 +289,59 @@ def srcRenamer():
         tvs.dexport()
         del tvs
     del progress
+
+
+def getTVSsPlugs():
+
+    fname = TAG_PAR_TVSPACK_FILE
+
+    tvsNames, tvsPaths = getAllTVS()
+    
+    if not tvsNames : return []
+    
+    prefixes = []
+    
+    for path in tvsPaths:
+        tvs = CTVS.TVS(fname, path, True)
+        episodes, fsources, sources  = tvs.get_direct()
+        
+        for src in sources+fsources:
+            prefix = call.getURLPrefix(src['src_link'])
+            if prefix not in prefixes and src['src_upd'] == True : prefixes.append(prefix)
+        
+        del tvs 
+            
+    return prefixes
+
+
+def excludeUPDPlug(plugin):
+
+    fname = TAG_PAR_TVSPACK_FILE
+
+    tvsNames, tvsPaths = getAllTVS()
+    
+    if not tvsNames : return []
+    
+    for path in tvsPaths:
+        tvs = CTVS.TVS(fname, path, True)
+        episodes, fsources, sources  = tvs.get_direct()
+        
+        fsources_upd = []
+        sources_upd  = []
+        
+        for src in sources:
+            prefix = call.getURLPrefix(src['src_link'])
+            if prefix != plugin : sources_upd.append(src['src_name'])
+        
+        for frc in fsources:
+            prefix = call.getURLPrefix(frc['src_link'])
+            if prefix != plugin : fsources_upd.append(frc['src_name'])
+        
+        tvs.set_upd(fsources_upd, sources_upd)
+        tvs.dexport()
+        del tvs
+
+    return TAG_ERR_OK
               
 
 def remtmp(progress, stepv):

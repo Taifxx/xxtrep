@@ -309,6 +309,7 @@ TAG_CFR_RENAMER         = 30082
 TAG_CFR_UNLOCK          = 30083
 TAG_CFR_REMBACK         = 30084
 TAG_CFR_RESTBACK        = 30085
+TAG_CFR_EXCLPLUG        = 30086
 
 ### Dialogs messages ...
 TAG_DLG_OK              = 30100
@@ -358,6 +359,8 @@ TAG_DLG_SCLNDB          = 30143
 TAG_DLG_SREMEF          = 30144
 TAG_DLG_LOCKSYQ         = 30145
 TAG_DLG_RENM            = 30146
+TAG_DLG_CURRTVS         = 30147
+TAG_DLG_EXCLADDON       = 30148
 
 ### Titles ...
 TAG_TTL_NM              = 30150
@@ -454,6 +457,7 @@ TAG_ERR_OK_SYNCUNLOCK   = 30334
 TAG_ERR_OK_MTVSDEL      = 30335
 TAG_ERR_OK_SYNCLOCK     = 30336
 TAG_ERR_OK_EPSREM       = 30337
+TAG_ERR_OK_EXCLUPLUG    = 30338
 
 ### Errors ...
 TAG_ERR_NOTFILE         = 30201

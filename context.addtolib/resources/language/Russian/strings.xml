@@ -95,6 +95,7 @@
     <string id="30083">Дополнение [COLOR red]заблокировано[/COLOR] до окончания выполнения фонового процесса. Разблокировать принудительно?</string>
     <string id="30084">Вы хотите [COLOR ##COLOR##]удалить[/COLOR] все резервные копии библиотеки?</string>
     <string id="30085">Вы хотите восстановить библиотеку из резервной копии ([COLOR ##COLOR##]%s[/COLOR])?</string>
+    <string id="30086">Вы хотите исключить [COLOR red]%s[/COLOR] из обновлений?</string>
     <!-- Dialogs messages -->
     <string id="30100">OK</string>  
     <string id="30101">></string>
@@ -143,13 +144,15 @@
     <string id="30144">[COLOR ##COLOR##]Удаление[/COLOR] пустых сериалов</string>
     <string id="30145">Вы хотите [COLOR ##COLOR##]заблокировать[/COLOR] синхронизацию?</string>
     <string id="30146">[COLOR ##COLOR##]Переименовать[/COLOR] эпизод</string>
+    <string id="30147">[COLOR ##COLOR##]Текущий[/COLOR] сериал</string>
+    <string id="30148">[COLOR ##COLOR##]Исключить[/COLOR] аддон</string>
     <!-- Titles -->
     <string id="30150">[COLOR ##COLOR##]%s[/COLOR]</string>
     <string id="30151">Введите название сериала:</string>
     <string id="30152">Выберите название сериала:</string>
     <string id="30153">Добавление сериала</string>
     <string id="30154">Найдены новые эпизоды</string>
-    <string id="30155">Добавленные сериалы</string>
+    <string id="30155">[COLOR ##COLOR##]Добавленные[/COLOR] сериалы</string>
     <string id="30156">Проверка</string>
     <string id="30157">Добавление фильма</string>
     <string id="30158">Введите название фильма:</string>
@@ -256,6 +259,7 @@
     <string id="30335">%s [COLOR ##COLOR##]удалено[/COLOR]</string>
     <string id="30336">Синхронизация [COLOR ##COLOR##]заблокирована[/COLOR]</string>
     <string id="30337">Эпизод [COLOR red]удален[/COLOR]</string>
+    <string id="30338">Аддон был [COLOR red]исключен[/COLOR] из обновлений</string>
     <!-- Settings -->
     <string id="30401">Делать цветными элементы в меню и сообщениях</string>
     <string id="30402">Обновить (Очистить) видео библиотеку после некоторых действий</string>

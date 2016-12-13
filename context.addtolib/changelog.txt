@@ -1,4 +1,14 @@
-﻿v1.0.13
+﻿v1.0.14
+BugFix:
+    - Problem with selecting existing TV show in advanced adding
+    - Other small bugfixes
+New:
+    - Spanish translation (thx Ruorbe)
+    - Exclude add-on from updates
+    - TV Shows selection in Update management
+    
+
+v1.0.13
 BugFix:
     - Problem with removing not defined movie (tv show) from main menue 
     - Disabled incorrect debug messages in sync module
