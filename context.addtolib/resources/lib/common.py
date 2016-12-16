@@ -305,9 +305,13 @@ def getTVSsPlugs():
         tvs = CTVS.TVS(fname, path, True)
         episodes, fsources, sources  = tvs.get_direct()
         
-        for src in sources+fsources:
+        for src in sources:
             prefix = call.getURLPrefix(src['src_link'])
             if prefix not in prefixes and src['src_upd'] == True : prefixes.append(prefix)
+        
+        for frc in fsources:
+            prefix = call.getURLPrefix(frc['fsrc_link'])
+            if prefix not in prefixes and frc['fsrc_upd'] == True : prefixes.append(prefix)
         
         del tvs 
             
@@ -331,11 +335,11 @@ def excludeUPDPlug(plugin):
         
         for src in sources:
             prefix = call.getURLPrefix(src['src_link'])
-            if prefix != plugin : sources_upd.append(src['src_name'])
+            if prefix != plugin and src['src_upd'] == True : sources_upd.append(src['src_name'])
         
         for frc in fsources:
-            prefix = call.getURLPrefix(frc['src_link'])
-            if prefix != plugin : fsources_upd.append(frc['src_name'])
+            prefix = call.getURLPrefix(frc['fsrc_link'])
+            if prefix != plugin and frc['fsrc_upd'] == True : fsources_upd.append(frc['fsrc_name'])
         
         tvs.set_upd(fsources_upd, sources_upd)
         tvs.dexport()
@@ -589,17 +593,20 @@ def restoreAllTVS(prefix):
     return TAG_ERR_OK
     
     
-def rescanSRC(items, TVS, prefix):
+def rescanSRC(items, TVS, prefix, rescSeason=Empty, cornum=[]):
     #if items.vidCPath in TVS.get_raw_link_list() : return TAG_MNU_RAWADD 
-    if len(TVS.get_eps_names_and_links_forsrc(items.vidCPath)[0]) > len(items.vidListItems):
+    if len(TVS.get_eps_names_and_links_forsrc(items.vidCPath)[0]) > len(items.vidListItems) and not rescSeason:
         if not GUI.dlgYn (tl(TAG_ERR_BROKENLINK), tl(TAG_ERR_BROKENLINK2) % (NewLine, TVS.get_src_name_by_link(items.vidCPath)), title=normName(TVS.lib_name)): 
             return TAG_ERR_BROKENLINK  
     
-    mode = TVS.get_scr_numb_season_mode(items.vidCPath)[2]
+    season, numb, mode = TVS.get_scr_numb_season_mode(items.vidCPath)
+    remove_src = False
     if mode : items.convertToFolderMode()
-    TVS.os_exclude_src(items.vidCPath, dexport=False)
-    err = addTVS(items, TVS, prefix, folmode=mode)
-    
+    if rescSeason == -1 : rescSeason = season = Empty; remove_src = True
+    elif rescSeason : season = rescSeason    
+    TVS.os_exclude_src(items.vidCPath, dexport=False, season=rescSeason, remove_src=remove_src)
+    err = addTVS(items, TVS, prefix, season, 0, cornum, folmode=mode)
+       
     return err
 
 
@@ -686,7 +693,7 @@ def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty, cornum=Empty, fol
     
     file_name = CMP.comps()
     src_name  = CMP.create_name_once (items.vidFolderNameDef, TAG_TYP_SRC, srcFolder=items.vidCName, season=defSeason) 
-    src_id    = TVS.append_source    (src_name, items.vidCPath, defSeason, src_folmode=folmode)
+    src_id    = TVS.append_source    (src_name, items.vidCPath, defSeason, src_folmode=folmode, src_numb=inte(defNumb))
       
     CMP.create_name(file_name, TAG_TYP_PREFILE)
     maxcorn = max(cornum) if cornum else 0 
@@ -709,7 +716,7 @@ def addTVS(items, TVS, prefix, defSeason=Empty, defNumb=Empty, cornum=Empty, fol
             else       : TVS.incSN(); eps += 1                         
            
         CMP.create_name(file_name, TAG_TYP_FILE, Season=season, Episode=episode, Seq=seq)
-        TVS.append_episode(item[0], file_name(), item[1], src_id)
+        TVS.append_episode(item[0], file_name(), item[1], src_id, season=defSeason)
         
         eps += 1
         

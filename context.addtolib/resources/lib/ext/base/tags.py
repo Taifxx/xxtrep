@@ -142,7 +142,7 @@ TAG_PAR_TVSPACK_ESEP        = '<**EPSSEP**>'
 TAG_PAR_TVSPACK_PSEP        = '<**PRTSEP**>'
 
 TAG_PAR_TVSPACK_VERSEP      = '<**VERSIONSEP**>'
-TAG_PAR_TVSPACK_VERSION     = '10013'
+TAG_PAR_TVSPACK_VERSION     = '10015'
 
 ### Containers starts with ...
 TAG_CON_STARTSW_EXT         =  'plugin:'

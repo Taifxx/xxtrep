@@ -1,4 +1,19 @@
-﻿v1.0.14
+﻿v1.0.15
+BugFix:
+    - Error during exclude add-on from seasons source updates
+    - Incorrect numbering when add multiple seasons source
+    - Problem with rescanning multiple seasons source 
+    - Numbering correction when you rescann TV Show
+    - Advanced adding when you add season of existing TV Show
+    - Normalize focus in multiselection lists (skins only)  
+    - Other small bugfixes
+New:
+    - Select number of season during rescann multiple seasons source
+    - Left/right button (keyboard, remote) for navigate between first/last item in list 
+    
+
+
+v1.0.14
 BugFix:
     - Problem with selecting existing TV show in advanced adding
     - Other small bugfixes

@@ -63,6 +63,7 @@ class TVS:
         self._rawlist    = []
         self.seq         = 0
         self._sn_add     = 1
+        self._inc_lock   = False
     
     ### Inside append ... 
     def _append(self, template, mark, var, appdict):
@@ -72,23 +73,30 @@ class TVS:
         return False
 
     ### Append ...            
-    def append_episode(self, original_name, new_name, link, src_id):
-        if self._append(original_name, 'original_name', self._episodes, {'original_name':original_name, 'new_name':new_name, 'link':link, 'src_id':src_id}):
+    def append_episode(self, original_name, new_name, link, src_id, season=Empty):
+        if self._append(original_name, 'original_name', self._episodes, {'original_name':original_name, 'new_name':new_name, 'link':link, 'src_id':src_id, 'season':season}):
             for src in self._sources:
-                if src['src_id'] == src_id : src['src_numb'] += self._sn_add; self._sn_add = 1; break
+                if src['src_id'] == src_id and not self._inc_lock : src['src_numb'] += self._sn_add; self._sn_add = 1; break
             if self.seq : self.seq += 1
             
-    def update_season(self, src_link, src_season):
+    def update_season(self, src_link, src_season, src_numb, src_name):
         for src in self._sources : 
-            if src_link == src['src_link'] : src['src_season'] = src_season 
+            if src_link == src['src_link']: 
+                if inte(src_season) >= inte(src['src_season']):
+                    src['src_season'] = src_season   
+                    src['src_numb']   = src_numb 
+                    src['src_name']   = src_name
+                else:
+                    self._inc_lock = True
               
     def append_fsource(self, fsrc_name, fsrc_link, fsrc_inum, fsrc_upd=True):
         self._append(fsrc_link, 'fsrc_link', self._folsources, {'fsrc_name':getUniqname(fsrc_name, [itm['fsrc_name'] for itm in self._folsources]), 'fsrc_link':fsrc_link, 'fsrc_inum':fsrc_inum, 'fsrc_upd':fsrc_upd})
     
-    def append_source(self, src_name, src_link, src_season=Empty, src_upd=True, src_folmode=False):
+    def append_source(self, src_name, src_link, src_season=Empty, src_upd=True, src_folmode=False, src_numb=0):
         src_id = self.get_src_id(src_link)
-        if not self._append(src_link, 'src_link', self._sources, {'src_name':getUniqname(src_name, [itm['src_name'] for itm in self._sources]), 'src_link':src_link, 'src_id':src_id, 'src_upd':src_upd, 'src_season':src_season, 'src_numb':0, 'src_folmode':src_folmode}):
-            self.update_season(src_link, src_season)
+        if not self._append(src_link, 'src_link', self._sources, {'src_name':getUniqname(src_name, [itm['src_name'] for itm in self._sources]), 'src_link':src_link, 'src_id':src_id, 'src_upd':src_upd, 'src_season':src_season, 'src_numb':src_numb, 'src_folmode':src_folmode}):
+            #self.update_season(src_link, src_season, src_numb, getUniqname(src_name, [itm['src_name'] for itm in self._sources]))
+            self.update_season(src_link, src_season, src_numb, src_name)
         return src_id 
     
     def incSeq(self):
@@ -98,18 +106,18 @@ class TVS:
         self._sn_add += 1
     
     ### Exclude ...
-    def _exclude(self, value, mark, var):  
-        return [itm for itm in var if value != itm[mark]]
+    def _exclude(self, value, mark, var, skipvalue=Empty, skipmark=Empty):  
+        return [itm for itm in var if value != itm[mark] or (skipvalue and itm[skipmark] != skipvalue)]
     
     def exclude_source(self, src_id):
         self._sources = self._exclude(src_id, 'src_id', self._sources)
     
-    def exclude_episodes(self, src_id):
-        self._episodes = self._exclude(src_id, 'src_id', self._episodes)
+    def exclude_episodes(self, src_id, season=Empty):
+        self._episodes = self._exclude(src_id, 'src_id', self._episodes, season, 'season')
     
-    def exclude_source_data(self, src_link):
+    def exclude_source_data(self, src_link, season=Empty):
         src_id = self.get_src_id(src_link)
-        self.exclude_episodes(src_id)
+        self.exclude_episodes(src_id, season=season)
         return src_id
     
     def exclude_folsource(self, frc_link):
@@ -119,7 +127,14 @@ class TVS:
         for eps in self._episodes:
              if eps['src_id'] == src_id and eps['new_name'] == eps_name : self._episodes.remove(eps)  
     
-    ### Get ...    
+    ### Get ...  
+    def get_multiseason_list(self, src_link):
+        src_id = self.get_src_id(src_link)
+        seasons = []
+        for eps in self._episodes:
+            if eps['src_id'] == src_id and eps['season'] not in seasons : seasons.append(eps['season'])
+        return seasons    
+      
     def get_eps_names_and_links(self):
         return {eps['new_name']: eps['link'] for eps in self._episodes}
     
@@ -231,6 +246,7 @@ class TVS:
     
     def dexport(self):
         self._pack()
+        self._inc_lock = False
         DOS.file(self._file_name, self.lib_path, self.packed_data, FWrite)
     
     ### Pack and unpack TV Show data ...    
@@ -241,7 +257,7 @@ class TVS:
         lst = [self._sepLST.join([itm['fsrc_name'], itm['fsrc_link'], str(itm['fsrc_inum']), str(itm['fsrc_upd'])]) for itm in self._folsources]
         frc =  self._sepFRC.join(lst)
         
-        lst = [self._sepLST.join([itm['original_name'], itm['new_name'], itm['link'], str(itm['src_id'])]) for itm in self._episodes]
+        lst = [self._sepLST.join([itm['original_name'], itm['new_name'], itm['link'], str(itm['src_id']), str(itm['season'])]) for itm in self._episodes]
         eps =  self._sepEPS.join(lst)
         
         self.packed_data = self._sepVER.join([self._PACK_VERS, self._sepPRT.join([src, frc, eps, str(self.seq)])]) 
@@ -251,17 +267,28 @@ class TVS:
         try:
             pVers, pData = (self.packed_data.split(self._sepVER))
             if pVers == '10013' : self._unpack10013(pData) 
+            if pVers == '10015' : self._unpack10015(pData)
         except: 
             self._unpack()     
 
     ### Unpacker versions ...
+    def _unpack10015(self, pData):
+        if not pData: return
+        self.packed_data = pData
+        src, frc, eps, seq       = (self.packed_data.split(self._sepPRT)) 
+        if src: self._sources    = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':sbool(itm4), 'src_season':itm5, 'src_numb':int(itm6), 'src_folmode':sbool(itm7)} for itm in src.split(self._sepSRC) for itm1, itm2, itm3, itm4, itm5, itm6, itm7 in [itm.split(self._sepLST)]]
+        if frc: self._folsources = [{'fsrc_name':itm1, 'fsrc_link':itm2, 'fsrc_inum':int(itm3), 'fsrc_upd':sbool(itm4)} for itm in frc.split(self._sepFRC) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
+        if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4), 'season':itm5} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4, itm5 in [itm.split(self._sepLST)]]
+        self.seq                 = int(seq)
+        self.packed_data = Empty
+    
     def _unpack10013(self, pData):
         if not pData: return
         self.packed_data = pData
         src, frc, eps, seq       = (self.packed_data.split(self._sepPRT)) 
         if src: self._sources    = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':sbool(itm4), 'src_season':itm5, 'src_numb':int(itm6), 'src_folmode':sbool(itm7)} for itm in src.split(self._sepSRC) for itm1, itm2, itm3, itm4, itm5, itm6, itm7 in [itm.split(self._sepLST)]]
         if frc: self._folsources = [{'fsrc_name':itm1, 'fsrc_link':itm2, 'fsrc_inum':int(itm3), 'fsrc_upd':sbool(itm4)} for itm in frc.split(self._sepFRC) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
-        if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4)} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
+        if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4), 'season':Empty} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
         self.seq                 = int(seq)
         self.packed_data = Empty
         
@@ -270,7 +297,7 @@ class TVS:
         src, frc, eps, seq       = (self.packed_data.split(self._sepPRT)) 
         if src: self._sources    = [{'src_name':itm1, 'src_link':itm2, 'src_id':int(itm3), 'src_upd':sbool(itm4), 'src_season':itm5, 'src_numb':int(itm6), 'src_folmode':False} for itm in src.split(self._sepSRC) for itm1, itm2, itm3, itm4, itm5, itm6 in [itm.split(self._sepLST)]]
         if frc: self._folsources = [{'fsrc_name':itm1, 'fsrc_link':itm2, 'fsrc_inum':int(itm3), 'fsrc_upd':sbool(itm4)} for itm in frc.split(self._sepFRC) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
-        if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4)} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
+        if eps: self._episodes   = [{'original_name':itm1, 'new_name':itm2, 'link':itm3, 'src_id':int(itm4), 'season':Empty} for itm in eps.split(self._sepEPS) for itm1, itm2, itm3, itm4 in [itm.split(self._sepLST)]]
         self.seq                 = int(seq)
         self.packed_data = Empty
     
@@ -334,12 +361,13 @@ class TVS:
         DOS.rename(self.lib_path, newPathName)
         self.lib_path = newPathName
     
-    def os_exclude_src(self, link, dexport=True):
+    def os_exclude_src(self, link, dexport=True, season=Empty, remove_src=True):
         src_id = self.get_src_id(link)
-        for eps in self._episodes: 
+        for eps in self._episodes:
+            if season and season != eps['season'] : continue  
             if eps['src_id'] == src_id : DOS.delf(DOS.join(self.lib_path, eps['new_name']+STRM))     
-        self.exclude_source_data(link)
-        self.exclude_source(src_id)
+        self.exclude_source_data(link, season=season)
+        if remove_src : self.exclude_source(src_id)
         if dexport : self.dexport()
     
     def os_exclude_src_rest(self, src_link, prefix):

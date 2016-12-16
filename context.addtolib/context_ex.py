@@ -655,23 +655,25 @@ class plgMain(GUI.CAltDTmpl):
         
         if self.isFound:
             vrnts = [TAG_DLG_CURRTVS, TAG_TTL_EXITVS, TAG_DLG_EXCLADDON]
-            result = subMenue(vrnts, cancelVal=-1, cancelName=TAG_MNU_CANCEL, title=titName(TAG_MNU_UPDMAN, self.TVS.lib_name))
+        else:
+            vrnts = [TAG_TTL_EXITVS, TAG_DLG_EXCLADDON]    
             
-            if   result == -1 : return rd
-            elif result == TAG_TTL_EXITVS:
-                if self.mnu_showall() == TAG_MNU_TVSMAN : return rd 
-                result = TAG_DLG_CURRTVS
-            
-            if   result == TAG_DLG_CURRTVS:
-                exclude_addon = False            
-                srcDef, frcDef = self.TVS.get_upd()
-                mdefault=self.src.getlinkidx(self.items.vidCPath)
-                mdefidx=self.src.frclen if mdefault >= self.src.frclen else 0
-                self.src(subMenue(self.src.remnames, self.src.idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, default=mdefault, selMarkm=tl(TAG_MNU_SM),
-                             multiSelDefList=self.src.getidxs(frcDef+srcDef), defidx=mdefidx, title=titName(TAG_MNU_UPDMAN, self.TVS.lib_name)))
-                                
-                if not errord(setupdSRC(self.src.fnames, self.src.snames, self.TVS), TAG_ERR_OK_SETUPD, normName(self.TVS.lib_name)):
-                    self.useChanger = True
+        result = subMenue(vrnts, cancelVal=-1, cancelName=TAG_MNU_CANCEL, title=titName(TAG_MNU_UPDMAN, self.TVS.lib_name))
+        if   result == -1 : return rd
+        elif result == TAG_TTL_EXITVS:
+            if self.mnu_showall() == TAG_MNU_TVSMAN : return rd 
+            result = TAG_DLG_CURRTVS
+        
+        if   result == TAG_DLG_CURRTVS:
+            exclude_addon = False            
+            srcDef, frcDef = self.TVS.get_upd()
+            mdefault=self.src.getlinkidx(self.items.vidCPath)
+            mdefidx=self.src.frclen if mdefault >= self.src.frclen else 0
+            self.src(subMenue(self.src.remnames, self.src.idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, default=mdefault, selMarkm=tl(TAG_MNU_SM),
+                         multiSelDefList=self.src.getidxs(frcDef+srcDef), defidx=mdefidx, title=titName(TAG_MNU_UPDMAN, self.TVS.lib_name)))
+                            
+            if not errord(setupdSRC(self.src.fnames, self.src.snames, self.TVS), TAG_ERR_OK_SETUPD, normName(self.TVS.lib_name)):
+                self.useChanger = True
         
         if exclude_addon:
             plugs = getTVSsPlugs()
@@ -682,7 +684,7 @@ class plgMain(GUI.CAltDTmpl):
             if plugin == -1 or not GUI.dlgYn(tl(TAG_CFR_EXCLPLUG) % (prefixToName(plugin)), title=tla(TAG_DLG_EXCLADDON)) : return rd
             
             if not errord(excludeUPDPlug(plugin), TAG_ERR_OK_EXCLUPLUG):
-                self.setTVS(self.TVS.lib_path, True)
+                self.setTVS(self.TVS.lib_path, self.isFound)
                 self.useChanger = True
         
         return rd  
@@ -1006,7 +1008,8 @@ class plgMain(GUI.CAltDTmpl):
                 _defList = None 
         
             mdefault=srccl.getlinkidx(self.items.vidCPath)
-            srccl(subMenue(srccl.remnames, srccl.idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, default=mdefault, selMarkm=tl(TAG_MNU_SMM),
+            snames = [itm for itm in srccl.remnames]
+            srccl(subMenue(snames, srccl.idxs, cancelVal=-1, cancelName=TAG_MNU_OK, multiSel=True, default=mdefault, selMarkm=tl(TAG_MNU_SMM),
                 title=titName(TAG_MNU_RESCANALLS, self.TVS.lib_name), resetItm=_resItm, multiSelDefList=_defList))
             srccl.filtering()
             
@@ -1020,8 +1023,14 @@ class plgMain(GUI.CAltDTmpl):
             self.setLI(srccl.link, srccl.name)
             src_name = srccl.name
             srccl.exclude(srccl.link)
-            if srccl.link in self.TVS.get_raw_link_list(): 
-                err = self.mnu_rawadd(rescan=True)
+            if srccl.link in self.TVS.get_raw_link_list():
+                seasons = self.TVS.get_multiseason_list(srccl.link)
+                if len(seasons) > 1: 
+                    seasonsv = [itm for itm in seasons]
+                    seasonsn = [tl(TAG_TTL_NM) % (itm) for itm in seasons]
+                    season = subMenue(seasonsn, seasonsv, cancelVal=-1, cancelName=TAG_MNU_DEFNM, title=tla(TAG_MNU_SRE))
+                else : season = Empty
+                err = self.mnu_rawadd(rescan=True, season=season)
             else:
                 prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
                 err = rescanSRC(self.items, self.TVS, prefix)
@@ -1052,7 +1061,13 @@ class plgMain(GUI.CAltDTmpl):
         
         self.TVS.os_getraw()
         if self.items.vidCPath in self.TVS.get_raw_link_list(): 
-            err = self.mnu_rawadd(rescan=True)
+            seasons = self.TVS.get_multiseason_list(self.items.vidCPath)
+            if len(seasons) > 1: 
+                seasonsv = [itm for itm in seasons]
+                seasonsn = [tl(TAG_TTL_NM) % (itm) for itm in seasons]
+                season = subMenue(seasonsn, seasonsv, cancelVal=Empty, cancelName=TAG_MNU_DEFNM, title=tla(TAG_MNU_SRE))
+            else : season = Empty
+            err = self.mnu_rawadd(rescan=True, season=season)
         else: 
             prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
             err = rescanSRC(self.items, self.TVS, prefix)
@@ -1067,7 +1082,7 @@ class plgMain(GUI.CAltDTmpl):
         return rd
                 
                 
-    def mnu_rawadd(self, update=False, rescan=False):
+    def mnu_rawadd(self, update=False, rescan=False, season=Empty):
         
         rd = TAG_MNU_CANCEL
         
@@ -1088,7 +1103,7 @@ class plgMain(GUI.CAltDTmpl):
             if update or rescan:
                 newraw  = []
                 newrawr = []
-                tvsraw = self.TVS.get_raw_eps() 
+                tvsraw  = self.TVS.get_raw_eps() 
                 for idx, itm in enumerate(eplist):
                     if itm not in tvsraw : newraw.append(idx)
                     else : newrawr.append(idx)
@@ -1111,8 +1126,9 @@ class plgMain(GUI.CAltDTmpl):
                 # if mode : items.convertToFolderMode() 
                 # self.TVS.os_exclude_src(self.items.vidCPath)
                 # update = True
-                prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
-                ares = rescanSRC(self.items, self.TVS, prefix)
+                cornum = self.getCornum()
+                prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty                
+                ares = rescanSRC(self.items, self.TVS, prefix, season, cornum)
             else:  
                 if update : ares = self.mnu_tvsu(False)
                 else      : ares = self.mnu_tvs(raw=True)
@@ -1150,10 +1166,15 @@ class plgMain(GUI.CAltDTmpl):
     
         rd = TAG_MNU_BACKMAIN
                                                                   
-        if not self.isFound : resType = subMenue([TAG_MNU_ADDNEW, TAG_MNU_ADDEXIST, TAG_MNU_ADVADD], title=normName(self.TVS.lib_defname) if self.TVS.lib_defname else titName(TAG_TTL_ADDTVS))
-        else                : resType = TAG_MNU_ADDNEW
+        #if not self.isFound : resType = subMenue([TAG_MNU_ADDNEW, TAG_MNU_ADDEXIST, TAG_MNU_ADVADD], title=normName(self.TVS.lib_defname) if self.TVS.lib_defname else titName(TAG_TTL_ADDTVS))
+        #else                : resType = TAG_MNU_ADDNEW
+        
+        if not self.isFound : _tags = [TAG_MNU_ADDNEW, TAG_MNU_ADDEXIST, TAG_MNU_ADVADD]
+        else                : _tags = [TAG_DLG_CURRTVS, TAG_MNU_ADVADD]
+        resType = subMenue(_tags, title=normName(self.TVS.lib_defname) if self.TVS.lib_defname else titName(TAG_TTL_ADDTVS))
         
         if   resType == TAG_MNU_BACKMAIN : return rd
+        elif resType == TAG_DLG_CURRTVS  : resType = TAG_MNU_ADDNEW
         elif resType == TAG_MNU_ADVADD   : return self.mnu_advadd(raw) 
         elif resType == TAG_MNU_ADDEXIST :
         
@@ -1191,6 +1212,41 @@ class plgMain(GUI.CAltDTmpl):
         return rd
     
     
+    def getCornum(self, cornum=[]):
+        eplist  = [itm[0] for itm in self.items.vidListItems]
+        if not cornum : cornum = range(1, len(eplist)+1)    
+        
+        numList = []
+        while True: 
+          
+            numList = []
+            cidx    = 0
+            for itm in eplist:
+                while True:
+                    cidx += 1
+                    if cidx in cornum    : break
+                    if cidx > max(cornum): cornum.append(cidx); break  
+                    
+                    numList.append(str(cidx)+Space+Space+tl(TAG_DLG_NUMSKIP))
+                    
+                numList.append(str(cidx)+Colon+Space+Space+itm)
+            
+            idxs    = range(1, len(numList)+1)
+            idxsDef = [itm for itm in range(len(numList)) if itm+1 in cornum]
+            
+            selitem = subMenue(numList, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, title=tla(TAG_MNU_NUMBCORR))
+            if selitem == -1 : break
+            if selitem: 
+                if selitem in cornum: 
+                    cornum.remove(selitem)
+                    cornum.append(len(numList))
+                else: 
+                    numList.pop(selitem-1)
+                    cornum.append(selitem) 
+            
+        return cornum
+    
+    
     def mnu_advadd(self, raw=False):
         
         rd = TAG_MNU_BACKMAIN
@@ -1221,6 +1277,7 @@ class plgMain(GUI.CAltDTmpl):
         diflist = []
         cornum  = []
         skip    = 0
+        oldSeason = aSeason
         
         aMode = tl(TAG_MNU_YES) if mode else tl(TAG_MNU_NO)
         
@@ -1266,6 +1323,7 @@ class plgMain(GUI.CAltDTmpl):
                     if newPath == TAG_MNU_NEW : self.setTVS(Empty, False)
                     else                      : self.setTVS(newPath, True)            
                     defname, aSeq, aSeqT, aNumb, aNumbT, aSeason, aTVS, aName, mode = _getParam()
+                    oldSeason = aSeason
                 
                 
             elif result == 1: 
@@ -1299,36 +1357,37 @@ class plgMain(GUI.CAltDTmpl):
                     mode  = False 
                 
             elif result == 7:
-                eplist  = [itm[0] for itm in self.items.vidListItems]
-                if not cornum : cornum = range(1, len(eplist)+1)    
-        
-                numList = []
-                while True: 
-                  
-                    numList = []
-                    cidx    = 0
-                    for itm in eplist:
-                        while True:
-                            cidx += 1
-                            if cidx in cornum    : break
-                            if cidx > max(cornum): cornum.append(cidx); break  
-                            
-                            numList.append(str(cidx)+Space+Space+tl(TAG_DLG_NUMSKIP))
-                            
-                        numList.append(str(cidx)+Colon+Space+Space+itm)
-                    
-                    idxs    = range(1, len(numList)+1)
-                    idxsDef = [itm for itm in range(len(numList)) if itm+1 in cornum]
-                    
-                    selitem = subMenue(numList, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, title=tla(TAG_MNU_NUMBCORR))
-                    if selitem == -1 : break
-                    if selitem: 
-                        if selitem in cornum: 
-                            cornum.remove(selitem)
-                            cornum.append(len(numList))
-                        else: 
-                            numList.pop(selitem-1)
-                            cornum.append(selitem) 
+                cornum = self.getCornum(cornum)
+                # eplist  = [itm[0] for itm in self.items.vidListItems]
+                # if not cornum : cornum = range(1, len(eplist)+1)    
+                # 
+                # numList = []
+                # while True: 
+                #   
+                #     numList = []
+                #     cidx    = 0
+                #     for itm in eplist:
+                #         while True:
+                #             cidx += 1
+                #             if cidx in cornum    : break
+                #             if cidx > max(cornum): cornum.append(cidx); break  
+                #             
+                #             numList.append(str(cidx)+Space+Space+tl(TAG_DLG_NUMSKIP))
+                #             
+                #         numList.append(str(cidx)+Colon+Space+Space+itm)
+                #     
+                #     idxs    = range(1, len(numList)+1)
+                #     idxsDef = [itm for itm in range(len(numList)) if itm+1 in cornum]
+                #     
+                #     selitem = subMenue(numList, idxs, cancelVal=-1, cancelName=TAG_MNU_OK, title=tla(TAG_MNU_NUMBCORR))
+                #     if selitem == -1 : break
+                #     if selitem: 
+                #         if selitem in cornum: 
+                #             cornum.remove(selitem)
+                #             cornum.append(len(numList))
+                #         else: 
+                #             numList.pop(selitem-1)
+                #             cornum.append(selitem) 
                                                 
             elif result == 8:    
                 eplist    = [itm[0] for itm in self.items.vidListItemsRaw]
@@ -1372,6 +1431,9 @@ class plgMain(GUI.CAltDTmpl):
                 if newPath == TAG_MNU_NEW   : 
                     self.TVS.lib_name = aName
                     self.TVS.lib_path = LIB.tvs(aName)
+                
+                if oldSeason != aSeason     :
+                    aNumb = 0
                     
                 prefix = TAG_PAR_CALLURLTMPL % (addon.id, TAG_TYP_TVS, TAG_PAR_REPFN) if addon.CALLURL else Empty
                 errn = addTVS(self.items, self.TVS, prefix, aSeason, aNumb, cornum, folmode=mode)

@@ -182,6 +182,7 @@ class dlgSelX (CAltDTmpl):
         if not addon.DIMBCKG : xml.getControl(90).setVisible(False) 
         if self.lnmsg != Empty: 
             xml.getControl(150).setLabel(TAG_PAR_MNUCOLORFORMAT % (addon.COLOR, self.lnmsg) if addon.COLORIZE else self.lnmsg)
+        xml.setFocusId(200)
             
     
     def onClick(self, controlID, xml): 
@@ -193,9 +194,14 @@ class dlgSelX (CAltDTmpl):
     def onAction(self, action, xml):
         ## ESC, BackSpace action ...
         navBack = [10, 92]
+        ## Left, Right action ...
+        navL = 1     
+        navR = 2
         
         cId = action.getId() 
         if cId in navBack : self.position = len(self.sargs) - 1 
+        elif cId == navL : xml.getControl(200).selectItem(0) 
+        elif cId == navR : xml.getControl(200).selectItem(xml.getControl(200).size()-1)
         self.resetback(xml)
         xml.reAction(action)
     
@@ -215,7 +221,12 @@ class dlgSelXSub (CAltDTmpl):
         xml.getControl(100).setLabel(TAG_PAR_MNUCOLORFORMAT % (addon.COLOR, self.caption) if addon.COLORIZE else self.caption)
         xml.getControl(200).addItems(self.sargs)
         if not addon.DIMBCKG : xml.getControl(90).setVisible(False)
-        xml.getControl(200).selectItem(self.setItmPos)
+        size = xml.getControl(200).size()
+        selpos = self.setItmPos+5 if self.setItmPos+5 < size else size-1
+        setpos = self.setItmPos+1 if self.setItmPos+1 < size else size-1 
+        xml.getControl(200).selectItem(selpos)
+        xml.setFocusId(200)
+        xml.getControl(200).selectItem(setpos)    
             
     def onClick(self, controlID, xml): 
         self.position = xml.getControl(200).getSelectedPosition()
@@ -224,9 +235,14 @@ class dlgSelXSub (CAltDTmpl):
     def onAction(self, action, xml):
         ## ESC, BackSpace action ...
         navBack = [10, 92]
+        ## Left, Right action ...
+        navL = 1     
+        navR = 2
         
         cId = action.getId() 
         if cId in navBack : self.position = len(self.sargs) - 1
+        elif cId == navL : xml.getControl(200).selectItem(0) 
+        elif cId == navR : xml.getControl(200).selectItem(xml.getControl(200).size()-1)
         xml.reAction(action)
 
 
