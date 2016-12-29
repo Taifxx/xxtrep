@@ -188,22 +188,25 @@ def existsVFS(path):
 
 
 def exists(path):
-    path = setLower(path)
-    
-    base_path   = gettail(path)
-    element     = getdir(path)
-    list_of_dir = listdir(path)
-    elements    = list_of_dir[0] + list_of_dir[1] 
-    
-    if elements : return True
-    
-    list_of_dir = listdir(base_path)
-    elements    = list_of_dir[0] + list_of_dir[1]
+    def _getElements(tg_path):
+        list_of_dir = listdir(tg_path)
+        elements    = list_of_dir[0] + list_of_dir[1]
+        return elements
 
-    if not elements : return False
+    path_low      = setLower(path) 
+    base_path     = gettail(path)
+    base_path_low = gettail(path_low)
+    element       = getdir(path_low)
     
+    if _getElements(path) : return True
+    if _getElements(path_low) : return True
+    
+    elements = _getElements(base_path)
+    if not elements:
+         elements = _getElements(base_path_low)
+         if not elements : return False
+     
     low_elements = [setLower(itm) for itm in elements]
-      
     return True if element in low_elements else False
 
 

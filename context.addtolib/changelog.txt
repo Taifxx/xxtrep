@@ -1,4 +1,9 @@
-﻿v1.0.15
+﻿v1.0.16
+BugFix:
+    - Library error when work with Unix 
+    
+
+v1.0.15
 BugFix:
     - Error during exclude add-on from seasons source updates
     - Incorrect numbering when add multiple seasons source
